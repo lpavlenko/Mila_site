@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+			<script>
+			function myFunction()
+			{		
+				if(	document.getElementById("demo").innerHTML === "Google is  known as ... searcher.")
+					document.getElementById("demo").innerHTML="Google is  known as a searcher.";
+				else
+					document.getElementById("demo").innerHTML = "Google is  known as ... searcher.";
+			}
+			</script>
+	</head>
+		<style>
+				body
+					{
+					background-color:#b0c4de;
+					}
+				div.ex
+					{
+					width:400px;
+					padding:10px;
+					border:2px solid #3E5A93;
+					margin:0px;
+					background-color:#FFFFA3;
+					box-shadow: 20px 20px 30px 20px #3E5A93;
+					}	
+		</style>
+	<body>
+		<div class="ex">
+			<h1>Test 1</h1>
+			<p> fill in with the correct form</p>
+			<p id="demo">Google is  known as ... searcher.</p>
+			<button type="button" onclick="myFunction()">Check it</button>
+		</div>
+	</body>
+</html>

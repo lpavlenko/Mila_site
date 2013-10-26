@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+			<style>
+					span:hover {
+						background-color:#008080;
+						color: black;
+					}
+			</style>
+		<script>
+			function myFunction()
+				{
+					var markedText = document.getElementById("coloredSpan");
+					if( ! markedText )
+						return;
+					
+					if(markedText.innerHTML === "colour")
+					{
+						markedText.innerHTML = "color";
+						markedText.style.backgroundColor="#008080";
+						markedText.style.color="#FFFFFF";
+					}
+					else
+					{
+						markedText.innerHTML = "colour";
+						markedText.style.backgroundColor="#FFFFFF";
+						markedText.style.color="#000000";
+					}
+			}
+		</script>
+			<title>Dynamic-HTML</title>
+	</head>
+		<body>
+				<div>
+					<p>this text will change <span id="coloredSpan">color</span> when i click the button.</p>
+				</div>
+					<button type="button" onclick="myFunction()">Click Me!</button>
+				</div>
+				
+		</body>	
+</html> 	

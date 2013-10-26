@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+				<script>
+					function calculate()
+					{
+						var operand1, operand2, operation, result;					
+						operand1= document.getElementById ("n1").value;
+						operand2= document.getElementById ("n2").value;
+						operand1=Number(operand1);
+						operand2=Number(operand2);
+						var e = document.getElementById("operation");
+						operation = e.options[e.selectedIndex].text;
+						switch (operation) {
+							case"+":
+								result = operand1+operand2;
+								break;
+								case"-":
+								result = operand1-operand2;
+								break;
+								case"*":
+								result = operand1*operand2;
+								break;
+								case"/":
+								result = operand1/operand2;
+								break;								
+						}
+					var  resObj = document.getElementById ("result");
+					resObj.innerHTML = result; 
+					var text_result="";
+					text_result+=formatN(operand1);
+					text_result+= " ";
+					text_result+=operation;
+					text_result+=" ";
+					text_result+=formatN(operand2);
+					text_result+=" = ";
+					text_result+=formatN(result);
+					
+					document.getElementById ("result1").innerHTML=text_result;
+					}
+					function formatN (_number)
+					{
+						if (_number<0)
+							return ("("+_number+")").fontcolor("red");
+						else
+							return _number;
+					}
+				</script>	
+		</head>
+		<body>
+			<input type="number" id="n1" value="123" />
+						<select id="operation">
+				<option>+</option>
+				<option>-</option>
+				<option>/</option>
+				<option>*	</option>
+			</select>	
+			<input type="number" id="n2" value="456" />
+		<button onclick="calculate()">= </button>
+			<span id  = "result" > </span>
+		<div id="result1"></div>
+					
+			
+	</body>	
+	</html>

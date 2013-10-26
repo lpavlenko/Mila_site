@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="tests.css">
+		<script>
+			function CheckAnswer(_YesNo){
+				var AnswerText= document.getElementById("demo");
+				AnswerText.innerHTML=_YesNo;	
+			}
+		</script>
+			<style>
+			</style>
+	</head>
+		<body>
+		<div class="ex">
+			<h1>yes/no questions</h1>	
+				<p>is google a searcher?</p>
+				<input type="radio" name="answer" onclick="CheckAnswer(true)" />Yes<br>
+				<input type="radio" name="answer" onclick="CheckAnswer(false)" />No<br>
+				<input type="radio" name="answer" onclick="CheckAnswer(false)" />Maybe<br>
+				<input type="radio" name="answer" onclick="CheckAnswer(false)" />I don't know<br>
+				<p id= "demo"> Your answer is  </p>
+		</div>
+		
