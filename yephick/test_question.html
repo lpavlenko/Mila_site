@@ -1,0 +1,75 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="tests.css">
+	<style>
+	</style>
+	<script>
+		function checkAnswer(_answer, _correct, _id, _url){
+			var txt = "";
+			txt += "You answered ";
+			txt += _answer.bold();
+			txt += ". That answer is ";
+			if(_correct){
+				txt += "Correct".fontcolor("green");
+			}else{
+				txt += "INCORRECT".fontcolor("red") + ". Try again.";
+				if(_url){
+					txt += " For more information see <a href='" + _url + "'>this article</a>";
+				}
+			}
+
+			document.getElementById(_id).innerHTML = txt;
+		}
+	</script>
+</head>
+<body>
+	<div class="main">
+		<h1>Webmaster test</h1>
+		<p>
+			This is to perform a simple yes/no test and provide an immediate feedback. Please read the question below and select a proper answer by clicking on one of the provided choices below the question.
+		</p>
+		<p>
+			If answered incorrectly you will have a chance to correct your mistake.
+		</p>
+		<h2><span>Q1. Web technologies</span></h2>
+		<p class="question" id="q1">
+			Do you need to understand both CSS and JS in order to code <b>D</b>ynamic <b>HTML</b> (DHTML) content?
+		</p>
+		<p class="answer" id="a1">
+			<input id="rbYes" type="radio" name="answer" onclick="checkAnswer('YES', true, 'fb1')" />
+				<label for="rbYes" title="You need both CSS and JS to create dHTML">Yes</label>
+			<input id="rbNo" type="radio" name="answer" onclick="checkAnswer('NO', false, 'fb1')" />
+				<label for="rbNo" title="You don't need either JS nor CSS for dHTML">No</label>
+			<input id="rbEither" type="radio" name="answer" onclick="checkAnswer('EITHER ONE', false, 'fb1')" />
+				<label for="rbEither" title="Just having either JS or CSS is good enough for dHTML">Either JS or CSS will suffice</label>
+			<input id="rbDunno" type="radio" name="answer" onclick="checkAnswer('NO IDEA', false, 'fb1')" />
+				<label for="rbDunno" title="Why do you ask me that? I have absolutely no clue! Mommy...!">I don't know</label>
+		</p>
+		<p class="feedback" id="fb1"></p>
+		<hr />
+		<h2><span>Q2. JS objects</span></h2>
+		<p class="question" id="q2">
+			How do you manipulate objects in JS?
+		</p>
+		<p class="answer" id="a2">
+			<input id="rbFunc" type="radio" name="answer" onclick="checkAnswer('call function', false, 'fb2', 'http://www.w3schools.com/js/js_obj_intro.asp')" />
+				<label for="rbFunc">By calling functions on them</label>
+			<input id="rbMethod" type="radio" name="answer" onclick="checkAnswer('INVOKE METHOD', true, 'fb2')" />
+				<label for="rbMethod">By invoking their methods</label>
+		</p>
+		<p class="feedback" id="fb2"></p>
+		<hr />
+		<h2><span>Q3. Function parameters</span></h2>
+		<p class="question" id="q3">
+			How many parameters can a function have?
+		</p>
+		<p class="answer" id="a2">
+			<input id="rbNone" type="radio" name="answer" onclick="checkAnswer('None', false, 'fb3', 'http://www.w3schools.com/js/js_functions.asp')" />
+				<label for="rbNone">None</label>
+			<input id="rbAny" type="radio" name="answer" onclick="checkAnswer('Any number', true, 'fb3')" />
+				<label for="rbAny">Any number or none</label>
+		</p>
+		<p class="feedback" id="fb3"></p>
+	</div>
+</body>
+</html>

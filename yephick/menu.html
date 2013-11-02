@@ -1,0 +1,67 @@
+<html>
+<head>
+	<title>Menu navigation - step 1</title>
+	<style>
+		.hmenu li {
+			display: inline;
+		}
+		.vmenu li {
+			list-style-type: none;
+			margin: 2px 0;
+			width: 5em;
+		}
+		.menu li {
+			background-color: DarkCyan;
+			color: AliceBlue;
+			font-weight: 500;
+			padding: 0 0.3em;
+		}
+		.menu li a{
+			color: inherit;
+			background-color: inherit;
+			text-decoration: none;
+			cursor: point;
+		}
+		.menu li:hover{
+			background-color: MediumTurquoise;
+			color: black;
+			font-weight: 900;
+		}
+		#main_div{
+			width:80%;
+			margin: 0px 10%;
+			background-color: #CCDDCC;
+			padding: 0px 1em;
+		}
+	</style>
+</head>
+<body>
+	<div id="main_div">
+		<h1>This is the menu navigation</h1>
+		<div>
+			<h2>horizontal menu bar</h2>
+			<ul class="menu hmenu">
+				<li><span style="font-style:italic"><a href="#">Menu 1</a></span></li>
+				<li><a href="#">Menu 2</a></li>
+				<li><a href="#">Menu 3</a></li>
+				<li><a href="#">Menu 4</a></li>
+			</ul>
+		</div>
+		<div>
+			<h2>vertical menu bar</h2>
+			<ul class="menu vmenu">
+				<li><a href="#">Menu 1</a></li>
+				<li><a href="#">Menu 2</a></li>
+				<li><a href="#">Menu 3</a></li>
+				<li><a href="#">Menu 4</a></li>
+			</ul>
+		</div>
+		<div>
+			<ul>
+				<li><a href="#">Link 1</a></li>
+				<li><a href="#">Link 2</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

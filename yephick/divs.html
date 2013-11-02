@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title>Lesson 1</title>
+	<meta igor="yephick" />
+	<meta http-equiv="refresh" content="1" />
+	<style>
+		div
+		{
+			border: 1px solid black;
+		}
+		p
+		{
+			background-color: #BBBBBB;
+		}
+		span
+		{
+			border: 1px dashed;
+		}
+		#hello
+		{
+			font-size: 2em;
+		}
+	</style>
+	<script>
+		function startup(lang){
+			var txt = "unknown";
+			switch(lang){
+			case "en":
+				txt = "Hello, world!";
+				break;
+			case "ru":
+				txt = "Добро пожаловать!";
+				break;
+			case 'cz':
+				txt = "asdfg";
+				break;
+			}
+			document.getElementById('hello').innerHTML = txt;
+		}
+	</script>
+</head>
+<body lesya="yefimov" onload="startup('ru')">
+	<span id="hello">Default text</span><br /> Some more data here
+	<p>to show how the
+	text is formatted when it's long
+	and very very long
+	spanning multiple lines
+	And from here on even more lines (actually just plain text) to make to overflow onto next line
+	to make sure it wraps around</p>
+	<div>Div 1</div>
+	and one more ilne between divs
+	<div>Div 2</div>
+	<p>This is yet another paragraph</p>
+</body>
+</html>

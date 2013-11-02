@@ -1,0 +1,40 @@
+body{
+	background-color: #1A1A4C;/*FFD073;*/
+	color: #A66F00;
+}
+h2>span{
+	border-bottom: 1px dotted red;
+}
+.main{
+	border: 1px solid;
+	width: 65%;
+	padding: 0 1em;
+	margin: 1em auto;
+	background-color: #FFE773;
+	color: #A68900;
+	box-shadow: 5px 5px 7px 1px grey;
+}
+.question{
+	color: blue;
+	font-size: 1.5em;
+	width: 90%;
+	margin: 1em auto;
+	padding: 0.3em 1em;
+	box-shadow: 2px 2px 3px 1px grey;
+	text-align: justify;
+}
+.question:hover{
+	box-shadow: 2px 2px 3px 1px black;
+}
+.answer{
+	border: 1px dotted;
+	padding: 0.2em 0.7em;
+}
+.feedback{
+	min-height: 2em;
+}
+p{
+	padding-left: 1em;
+	padding-right: 0.5em;
+	text-align: justify;
+}

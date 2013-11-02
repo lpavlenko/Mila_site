@@ -1,0 +1,72 @@
+<html>
+<head>
+	<title>Dynamic HTML</title>
+	<script>
+	function addThem(){
+		var n1, n2, op, res, obj;
+		n1 = document.getElementById("num1").value; // n1 = $("#num1").value;
+		n2 = document.getElementById("num2").value;
+		n1 = Number(n1);
+		n2 = Number(n2);
+		obj = document.getElementById("op");
+		op = obj.options[obj.selectedIndex].text;
+		switch(op){
+			case "+":
+				res = n1 + n2;
+				break;
+			case "-":
+				res = n1 - n2;
+				break;
+			case "*":
+				res = n1 * n2;
+				break;
+			case "/":
+				res = n1 / n2;
+				break;
+		}
+		var resObj = document.getElementById("result");
+		resObj.innerHTML = res;
+		if(res < 0)
+		{
+			resObj.style.color = "red";
+			resObj.style.textDecoration = "underline";
+		}
+		else
+		{
+			resObj.style.color = "blue";
+			resObj.style.textDecoration = "overline";
+		}
+		var text_result = createResultString(n1, n2, op, res);
+		document.getElementById("result_text").innerHTML = text_result;
+	}
+	function createResultString(_n1, _n2, _op, _res){
+		var res = "";
+		res = formatNumber(_n1);
+		res += _op;
+		res += formatNumber(_n2);
+		res += "=";
+		res += formatNumber(_res);
+		return res;
+	}
+	function formatNumber(_n){
+		var res = _n;
+		if(_n < 0)
+			res = "(" + _n + ")";
+		return res;
+	}
+	</script>
+</head>
+<body>
+	<input id="num1" type="number" value="0" />
+	<select id="op">
+		<option>+</option>
+		<option>-</option>
+		<option>*</option>
+		<option>/</option>
+	</select>
+	<input id="num2" type="number" value="0" />
+	<button onclick="addThem()"> = </button>
+	<span id="result"></span>
+	<div id="result_text">The result will be here</div>
+</body>
+</html>
