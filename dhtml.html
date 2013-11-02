@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-	<html>
+<html>
 	<head>
-			<style>
-					span:hover {
-						background-color:#008080;
-						color: balck;
-					}
-			</style>
-		<body>
+		<style>
+			span:hover {
+				background-color:#008080;
+				color: black;
+			}
+		</style>
+	
 		<script>
 			function changeText(_obj){
 				if(_obj.innerHTML === "colour")
@@ -16,15 +16,16 @@
 					_obj.innerHTML = "colour";
 			}
 		</script>
-			<title>Dynamic-HTML</title>
-			</head>
-				<body>
-					<p id "demo">this text will change color when i click the button .</p>
-					<div>
-				this text will change <span onclick="changeText(this)">colour</span> when my mouse over it
-				
-				<button type="button" onclick="changeText(this)" >Click Me!</button>
-				</div>
-				
-		</body>
+	
+		<title>Dynamic-HTML</title>
+	</head>
+	<body>
+		<p id="demo">this text will change color when i click the button .</p>
+		<div>
+			this text will change <span onclick="changeText(this)">colour</span> when my mouse over it
+		
+			<button type="button" onclick="changeText(this)" >Click Me!</button>
+		</div>
+		
+	</body>
 </html> 	
