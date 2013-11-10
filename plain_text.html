@@ -6,26 +6,33 @@
 		body{
 			background-color: #AA00A2;
 		}
-		div.ex{
+		div.container{
 			width:90%;
-			height:100%
-			padding:10px;
+			margin: auto;
+			padding: 2em;
 			border:2px solid #6E0069;
-			margin:23x;
-			box-shadow: 20px 20px 30px 20px #AA00A2;
+			background-color: white;
+			text-align: justify;
 		}
-		.form {
-			display: inline;
+		h2{
+			font-style: italic;
+		}
+		div.question{
+			margin-bottom: 0.7em;
+		}
+		span.question{
+			display: inline-block;
+			width: 22%;
 		}
 	</style>	
 	</head>
 	<body>
-		<div class="ex">
+		<div class="container">
 			<h1>Karlová Univerzita</h1>
-			<h2><i>Přečtěte si následující text a označte v mřížce KŘÍŽKEM správnou variantu A, B, C nebo D.</i></h2>
+			<h2>Přečtěte si následující text a označte v mřížce KŘÍŽKEM správnou variantu A, B, C nebo D.</h2>
 			<p>
 				Good press photographers must have an ‘eye’ for news,
-			
+
 				<select>
 					<option value=""></option>
 					<option value="alike">alike</option>
@@ -73,8 +80,7 @@
 					<option value="illustration">illustration</option>
 				</select> 	
 					
-				very quickly. Indeed, speed is essential - if the photographers are not ready for the printing deadline, 
-				they are unlikely to be of any use.
+				very quickly. Indeed, speed is essential - if the photographers are not ready for the printing deadline, they are unlikely to be of any use.
 
 			</p>
 			
@@ -82,18 +88,12 @@
 			
 			
 			<p>
-				<strong>
-					Good press photographers must have an ‘eye’ for news, <strong>just as </strong>journalists must have a ‘nose’ for a good story. 
-					They must be able to interpret a story and decide rapidly how they can take <strong>benefit</strong> of the best opportunities to take pictures.
-					The most difficult part of a press photographer’s job is that he or she has to be able to <strong>sum up</strong> a complicated situation
-					with just one photograph. They rarely have second chances and must be able to take the required <strong>shot</strong> very quickly.
-					Indeed, speed is essential - if the photographers are not ready for the printing deadline, they are unlikely to be of any use.
-				</strong>
+				Good press photographers must have an ‘eye’ for news, <strong>just as </strong>journalists must have a ‘nose’ for a good story. They must be able to interpret a story and decide rapidly how they can take <strong>benefit</strong> of the best opportunities to take pictures. The most difficult part of a press photographer’s job is that he or she has to be able to <strong>sum up</strong> a complicated situation with just one photograph. They rarely have second chances and must be able to take the required <strong>shot</strong> very quickly. Indeed, speed is essential - if the photographers are not ready for the printing deadline, they are unlikely to be of any use.
 			</p>
 						
 			<h1>VŠE Angličtina verze A0</h1>
-			<h2> <i>vyberte nejvhodnější možnost </i></h2>
-			<p>1. Let’s meet again next month, ….. ?</p> 
+			<h2>vyberte nejvhodnější možnost</h2>
+			<p>1. Let’s meet again next month, ... ?</p> 
 			
 			<p>
 				<input type="checkbox" name="answer">isn’t it<br>
@@ -104,7 +104,7 @@
 			<p> Your answer is &nbsp        please click here </p>			
 			
 			
-			<p>2.If you don’t feel well, you … better go to doctor.</p>
+			<p>2.If you don’t feel well, you ... better go to doctor.</p>
 			
 			<p>
 				<input type="checkbox" name="answer" >had<br>
@@ -128,7 +128,7 @@
 			</p>
 
 			<p>
-				3. Alex didn't come to see the film last night because  he     _____ it before.
+				3. Alex didn't come to see the film last night because  he _____ it before.
 				<input type="radio" name="q3" value="saw">saw
 				<input type="radio" name="q3" value="had seen">had seen
 				<input type="radio" name="q3" value="has seen">has seen
@@ -152,6 +152,39 @@
 			</p>
 
 			<button type="button" >Show full text </button> <br>
+			<h2>Formatting with div/span combo</h2>
+			<div class="question">
+				Question 1
+				<br />
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+			</div>
+			<div class="question">
+				Question 2
+				<br />
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+				<span class="question">
+					<input type="checkbox" name="answer" >had
+				</span>
+			</div>
 		</div>
 	</body
 </html>
