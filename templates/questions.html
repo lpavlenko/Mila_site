@@ -1,89 +1,170 @@
 <html>
 <head>
-	<style>
-		body{
-		}
-		div.main{
-		}
-		div.exam{
-		}
-		div.excercise{
-		}
-		div.mock{
-		}
-		.pretext{
-		}
-		.container{
-		}
-		div.question_mc, div.question_list{
-		}
-		.answer{
-		}
-		.feedback{
-		}
-		div{
-			border: dotted 1px grey;
-		}
-		div.question_list>button{
-			display: block;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="questions.css">
 </head>
 <body>
 	<!-- header for the whole site-->
 	<div class="main">
 		<div class="pretext">
-			This is where an explanation for this particular page goes. What is it, what to do, which university is this for, etc.
+			This is where an explanation for this particular page goes. What is it, what to do, which university is this for, etc. This text could be multiline and could span multiple text lines (spilling over) so let's make sure it is formatted nicely.
 		</div>
 		<div class="exam mock">
-			<div class="container">
-				<div class="question_mc">
+			<p><span>This is a mock exam, which means it contains real questions from past years' exams</span></p>
+			<ol class="question_container">
+				<li class="question_mc">
+					Question text goes in here. This is for multiple-choice responses
+					<div class="answer">
+						<span>Answer 1<input type="checkbox" name="answer" /></span>
+						<span>Answer 2<input type="checkbox" name="answer" /></span>
+						<span>Answer 3<input type="checkbox" name="answer" /></span>
+						<span>Answer 4<input type="checkbox" name="answer" /></span>
+					</div>
+					<div class="feedback">
+						If there is additional feedback (like an incorrect answer) it will be shown in here
+					</div>
+				</li>
+				<li class="question_mc">
+					Question text goes in here. This is for multiple-choice responses
+					<div class="answer">
+						<span><input type="checkbox" name="answer" />Answer 1. This is a real long answer</span>
+						<span><input type="checkbox" name="answer" />Answer 2</span>
+						<span><input type="checkbox" name="answer" />Answer 3. This is another example of a really long answer that doesn't fit onto a single line</span>
+						<span><input type="checkbox" name="answer" />Answer 4</span>
+					</div>
+					<div class="feedback">
+						If there is additional feedback (like an incorrect answer) it will be shown in here
+					</div>
+				</li>
+				<li class="question_mc">
 					Question text goes in here. This is for multiple-choice responses
 					<div class="answer">
 						<span><input type="checkbox" name="answer" />Answer 1</span>
 						<span><input type="checkbox" name="answer" />Answer 2</span>
 						<span><input type="checkbox" name="answer" />Answer 3</span>
 						<span><input type="checkbox" name="answer" />Answer 4</span>
-					<div>
+					</div>
 					<div class="feedback">
 						If there is additional feedback (like an incorrect answer) it will be shown in here
 					</div>
-				</div>
-				<div class="question_list">
-					Question text goes in here. This is for a "choose from a list" type questions
-					<button>Full text</button>
-					<div class="feedback">
-						Full text of the correct answer
-					</div>
-				</div>
-			</div>
-		<div>
-		<div class="exam excercise">
-			<div class="container">
-				<div class="question_mc">
+				</li>
+				<li class="question_mc">
 					Question text goes in here. This is for multiple-choice responses
 					<div class="answer">
 						<span><input type="checkbox" name="answer" />Answer 1</span>
 						<span><input type="checkbox" name="answer" />Answer 2</span>
 						<span><input type="checkbox" name="answer" />Answer 3</span>
 						<span><input type="checkbox" name="answer" />Answer 4</span>
-					<div>
+					</div>
 					<div class="feedback">
 						If there is additional feedback (like an incorrect answer) it will be shown in here
 					</div>
-				</div>
-				<div class="question_list">
+				</li>
+				<li class="question_list">
+					Question text goes in here. This is for a "choose from a list" type questions. Here's an example of a list to choose an answer from: 
+					<select>
+						<option selected="selected">Choose one...</option>
+						<option>Option 1</option>
+						<option>Option 2</option>
+						<option>Option 3</option>
+						<option>Option 4</option>
+						<option>Option 5</option>
+					</select>
+					Once selected the page will check the answer and provide a feedback to use. There could be more than one select. For example you can have 
+					<select>
+						<option selected="selected">Choose one...</option>
+						<option>0</option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+					select(s) in addition to the first one
+					<button>Full text</button>
+					<div class="feedback">
+						Full text of the correct answer
+					</div>
+				</li>
+				<li class="question_list">
+					Question text goes in here. This is for a "choose from a list" type questions. Here's an example of a list to choose an answer from: 
+					<select>
+						<option selected="selected">Choose one...</option>
+						<option>Option 1</option>
+						<option>Option 2</option>
+						<option>Option 3</option>
+						<option>Option 4</option>
+						<option>Option 5</option>
+					</select>
+					Once selected the page will check the answer and provide a feedback to use.
+					<button>Full text</button>
+					<div class="feedback">
+						Full text of the correct answer
+					</div>
+				</li>
+				<li class="question_list">
+					Question text goes in here. This is for a "choose from a list" type questions. Here's an example of a list to choose an answer from: 
+					<select>
+						<option selected="selected">Choose one...</option>
+						<option>Option 1</option>
+						<option>Option 2</option>
+						<option>Option 3</option>
+						<option>Option 4</option>
+						<option>Option 5</option>
+					</select>
+					Once selected the page will check the answer and provide a feedback to use.
+					<button>Full text</button>
+					<div class="feedback">
+						Full text of the correct answer
+					</div>
+				</li>
+				<li class="question_mc">
+					Question text goes in here. This is for multiple-choice responses
+					<div class="answer">
+						<span><input type="checkbox" name="answer" />Answer 1</span>
+						<span><input type="checkbox" name="answer" />Answer 2</span>
+						<span><input type="checkbox" name="answer" />Answer 3</span>
+						<span><input type="checkbox" name="answer" />Answer 4</span>
+					</div>
+					<div class="feedback">
+						If there is additional feedback (like an incorrect answer) it will be shown in here
+					</div>
+				</li>
+				<li class="question_list">
 					Question text goes in here. This is for a "choose from a list" type questions
 					<button>Full text</button>
 					<div class="feedback">
 						Full text of the correct answer
 					</div>
-				</div>
-			</div>
+				</li>
+			</ol>
+			<p>
+				Here we would have a link to that PDF file with more details
+			</p>
+		</div>
+		<div class="exam exercise">
+			<p><span>This is an "exercise" exam which does not necessarily contain any of the questions from real exams.</span></p>
+			<ul class="question_container">
+				<li class="question_mc">
+					Question text goes in here. This is for multiple-choice responses
+					<div class="answer">
+						<span><input type="checkbox" name="answer" />Answer 1</span>
+						<span><input type="checkbox" name="answer" />Answer 2</span>
+						<span><input type="checkbox" name="answer" />Answer 3</span>
+						<span><input type="checkbox" name="answer" />Answer 4. This is an extremely lonng answer that would definitely spill over to next line even when viewed on a very wide display in a window that is wide and not narrow</span>
+					<div>
+					<div class="feedback">
+						If there is additional feedback (like an incorrect answer) it will be shown in here
+					</div>
+				</li>
+				<li class="question_list">
+					Question text goes in here. This is for a "choose from a list" type questions
+					<button>Full text</button>
+					<div class="feedback">
+						Full text of the correct answer
+					</div>
+				</li>
+			</ul>
 		<div>
-		<p>
-			Here we would have a link to that PDF file with more details
-		</p>
 	</div>
 	<!-- footer for every page-->
 </body>
