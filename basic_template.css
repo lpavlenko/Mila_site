@@ -1,0 +1,22 @@
+
+body{
+	background-color: #6D89D5;
+	color: white;
+}
+.main{
+	border: 1px solid;
+	width: 90%;
+	padding: 1em;
+	margin: 1em auto;
+	background-color: white;
+	color: black;
+	}
+
+.button{
+	font-size: 18px;
+    font-weight: bold;
+    color: #74217D;
+    padding: 10px 75px;
+    margin: 0 20px;
+    text-decoration: white;
+	}

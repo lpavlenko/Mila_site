@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <style type="text/css">
+      .hoverable {
+           background: #FFFFFF url(path/to/background.png) top left no-repeat;
+           height: 32px; /* height and width match your background.png dimensions */
+           width: 64px;
+       }
+      .hoverable:hover {
+           background-image: url(path/to/background-hover.png);
+       }
+    </style>
+  </head>
+  <body>
+    <form>
+      ...
+      <button type="submit" class="hoverable"></button>
+      <!-- or <input type="submit" class="hoverable"/> -->
+      <!-- or <button type="button" class="hoverable"></button> if you don't want submit behavior -->
+    </form>
+  </body>
+</html>
