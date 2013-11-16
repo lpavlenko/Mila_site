@@ -1,0 +1,32 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="questions.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script>
+		function addSpan(_$obj, _txt, _color){
+			_color = _color || "red";
+			_$obj.append($("<br />"));
+
+			var $span = $("<span>").append(_txt);
+			$span.click(function(){alert("There was a button click");});
+			$span.css("color", _color);
+			$span.addClass("pretext");
+
+			_$obj.append($span);
+			_$obj.append($("<br />"));
+		}
+		function startup(){
+			$(".main").html("Here comes new text");
+			
+			addSpan($(".main"), "More text for the &lt;span>", "blue");
+			addSpan($(".main"), "Txt 2", "black");
+			addSpan($(".main"), "Yet another text", "#800000");
+		}
+	</script>
+</head>
+<body onload="startup();">
+	<div class="main">
+		asdfasdfsdf<span>sadfafasdf</span>
+	</div>
+</body>
+</html>
