@@ -1,15 +1,18 @@
 body{
-	background-color: #6D89D5;
+	background-color: #7109AA;
 	color: white;
+	
 }
 div.main{
-	border: 1px solid;
-	width: 90%;
-	padding: 1em;
+	border: 2px solid;
+	width: 98%;
+	padding: 0.4em;
 	margin: 1em auto;
 	background-color: white;
 	color: black;
-}
+	font-size:90%;
+	font-family:Times New Roman;
+	}
 /* a section containing multiple questions with answers and extra info. This is one common for both mock and exercise exams */
 div.exam{
 	width: 98%;
@@ -17,7 +20,12 @@ div.exam{
 	margin: /*1em*/ auto;
 }
 div.exercise{
-	background-color: #F0F3FB;
+	background-color: #F7F0FB;
+	color: #23142B;
+	width: 98%;
+	padding: 0.8em;
+	margin: /*1em*/ auto;
+	
 }
 div.mock{
 	background-color: inherit;
@@ -30,23 +38,25 @@ div.mock{
 }
 /* description of the page - what is it for, what to expect from it, what to do while using it... */
 .pretext{
-	background-color:#062270;
+	background-color: #7109AA;
 	padding: 1em;
 	text-align: justify;
 	color: white;
-	font-weight: 800;
-	font-size: 1.5em;
+	font-weight: 600;
+	font-size: 1.3em;
 }
 /* container, one per set of questions */
 .question_container{
 	font-size: 1.3em;
+	text-align: justify;
 }
-/* one question block with a question and ansers and (optionally) "more info" */
+/* one question block with a question and answers and (optionally) "more info" */
 .question_mc, .question_list{
-	margin: 1em 0px;
+	margin: 0.1em 0px;
+	padding: 0.4em;
 }
 .answer{
-	margin: 0.5em;
+	margin: 0.6em;
 }
 .feedback{
 	display: none;
@@ -69,11 +79,23 @@ div.answer>span{
 	display: block;
 }
 button{
-	color: #062270;
+	color: #452955;
 	font-weight: 600;
 }
 .mock>p{
-	color: #062270;
+	color: #23142B;
 	font-size: 1.3em;
 	font-style: italic;
+}
+.exercise>p{
+	color: 	#452955;
+	font-size: 1.3em;
+	font-style: italic;
+}
+.footer{
+	background-color: #7109AA;
+	color: white;
+	text-align: right;
+	font-weight: 600;
+	font-size: 1.3em;
 }
