@@ -6,7 +6,7 @@ body{
 div.main{
 	border: 2px solid;
 	width: 98%;
-	padding: 0.4em;
+	padding: 0.1em 0.4em;
 	margin: 1em auto;
 	background-color: white;
 	color: black;
@@ -39,7 +39,8 @@ div.mock{
 /* description of the page - what is it for, what to expect from it, what to do while using it... */
 .pretext{
 	background-color: #7109AA;
-	padding: 1em;
+	margin: 0px 1em;
+	padding: 0px 1em 0px;
 	text-align: justify;
 	color: white;
 	font-weight: 600;

@@ -3,30 +3,134 @@
 	<link rel="stylesheet" type="text/css" href="questions.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script>
-		function addSpan(_$obj, _txt, _color){
-			_color = _color || "red";
-			_$obj.append($("<br />"));
+		var gExam1 = {
+			descr: "This is a mock exam, which means it contains real questions from past years' exams",
+			mock: true,
+			list: [1, 0, 1]
+		};
+		var gExam2 = {
+			descr: "This is a mock exam, which means it contains real questions from past years' exams",
+			mock: false, // exercise exam
+			list: [0, 1, 0, 1]
+		};
+		var gQ = [];
+		gQ[0] = {
+			txt: "Question text goes in here. This is for multiple-choice responses",
+			list: false,
+			a: [
+				"Answer 1",
+				"Answer 2",
+				"Answer 3",
+				"Answer 4"
+			],
+			correct: 2,
+			fb: "If there is additional feedback (like an incorrect answer) it will be shown in here"
+		};
+		gQ[1] = {
+			txt: "Question #2 text goes in here. This is for multiple-choice responses",
+			list: false,
+			a: [
+				"Answer 1",
+				"Answer 2",
+				"Answer 3",
+				"Answer 4"
+			],
+			correct: 1,
+			fb: "Another feedback text <a href='#'>link</a>"
+		};
 
-			var $span = $("<span>").append(_txt);
-			$span.click(function(){alert("There was a button click");});
-			$span.css("color", _color);
-			$span.addClass("pretext");
-
-			_$obj.append($span);
-			_$obj.append($("<br />"));
-		}
-		function startup(){
-			$(".main").html("Here comes new text");
+		function createExamDiv(_$obj, _exam){
+			var $div = $("<div>");
 			
-			addSpan($(".main"), "More text for the &lt;span>", "blue");
-			addSpan($(".main"), "Txt 2", "black");
-			addSpan($(".main"), "Yet another text", "#800000");
+			$div.addClass("exam");
+			$div.addClass( _exam.mock ? "mock" : "exercise" );
+			
+			$div.append(
+				$("<p>").append(
+					$("<span>").append(
+						_exam.descr
+					)
+				)
+			);
+			
+			createQList($div, _exam);
+
+			_$obj.append($div);
+		}
+		function createQList(_$obj, _exam){
+			var $ol = $("<ol>");
+			
+			$ol.addClass("question_container");
+			
+			for(var i = 0; i < _exam.list.length; ++i){
+				var /*const*/idx = _exam.list[i];
+				create1Q($ol, gQ[idx]);
+			}
+			
+			_$obj.append($ol);
+		}
+		function create1Q(_$obj, _q){
+			var $li = $("<li>");
+
+			$li.append(_q.txt);
+
+			if(_q.list){
+				$li.addClass("question_list");
+				// TODO: add more generation code here later on
+			}else{
+				$li.addClass("question_mc");
+
+				var $divA = $("<div>");	// answer
+				$divA.addClass("answer");
+
+				var /*const*/nameAttr = "answer_" + Math.random();
+
+				for(var i = 0; i < 4; ++i){
+					var $span = $("<span>");
+					var $input = $("<input>");
+					$input.attr({
+						type: "radio",
+						name: nameAttr
+					});
+					
+					$divA.append(
+						$span.append(_q.a[i]).append($input)
+					);
+				}
+
+				var $divF = $("<div>");	// feedback
+				$divF.addClass("feedback");
+				$divF.html(_q.fb);
+
+				$li.append($divA).append($divF);
+			}
+			
+			_$obj.append($li);
 		}
 	</script>
 </head>
-<body onload="startup();">
-	<div class="main">
-		asdfasdfsdf<span>sadfafasdf</span>
+<body onload="createExamDiv( $('#dynamic_div'), gExam1 );">
+	<div id="static_div" class="main">
+		<div class="exam mock">
+			<p>
+				<span>This is a mock exam, which means it contains real questions from past years' exams</span>
+			</p>
+			<ol class="question_container">
+				<li class="question_mc">
+					Question text goes in here. This is for multiple-choice responses
+					<div class="answer">
+						<span>Answer 1<input type="checkbox" name="answer" /></span>
+						<span>Answer 2<input type="checkbox" name="answer" /></span>
+						<span>Answer 3<input type="checkbox" name="answer" /></span>
+						<span>Answer 4<input type="checkbox" name="answer" /></span>
+					</div>
+					<div class="feedback">
+						If there is additional feedback (like an incorrect answer) it will be shown in here
+					</div>
+				</li>
+			</ol>
+		</div>
 	</div>
+	<div id="dynamic_div" class="main"></div>
 </body>
 </html>
