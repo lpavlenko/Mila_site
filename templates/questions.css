@@ -122,7 +122,8 @@ button: hover {
 }
 button: active{
 	position: relative;
-	top: 1px;	
+	top: 1px;
+}
 .mock>p{
 	color: #23142B;
 	font-size: 1.3em;
@@ -140,4 +141,5 @@ button: active{
 	text-align: right;
 	font-weight: 600;
 	font-size: 1.3em;
+	width: 98%;
 }
