@@ -6,7 +6,7 @@ body{
 div.main{
 	border: 2px solid;
 	width: 98%;
-	padding: 0.1em 0.4em;
+	padding: 0.4em 0.4em;
 	margin: 1em auto;
 	background-color: white;
 	color: black;
@@ -16,14 +16,14 @@ div.main{
 /* a section containing multiple questions with answers and extra info. This is one common for both mock and exercise exams */
 div.exam{
 	width: 98%;
-	padding: 1em;
+	padding: 0,9em;
 	margin: /*1em*/ auto;
 }
 div.exercise{
 	background-color: #F7F0FB;
 	color: #23142B;
 	width: 98%;
-	padding: 0.8em;
+	padding: 0.9em;
 	margin: /*1em*/ auto;
 	
 }
@@ -39,8 +39,8 @@ div.mock{
 /* description of the page - what is it for, what to expect from it, what to do while using it... */
 .pretext{
 	background-color: #7109AA;
-	margin: 0px 1em;
-	padding: 0px 1em 0px;
+	margin: 1em 1 px auto;
+	padding: 1em 1em 1em 1em;
 	text-align: justify;
 	color: white;
 	font-weight: 600;
@@ -80,8 +80,98 @@ div.answer>span{
 	display: block;
 }
 button{
-	color: #452955;
-	font-weight: 600;
+	-moz-box-shadow:inset 0px 1px 0px -5px #7109AA;
+	-webkit-box-shadow:inset 0px 1px 0px -5px #7109AA;
+	box-shadow:inset 0px 1px 0px -5px #7109AA;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #7109AA), color-stop(1, #7109AA) );
+	background:-moz-linear-gradient( center top, #7109AA 5%, #7109AA 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7109AA', endColorstr='#7109AA');
+	background-color:#7109AA;
+	-webkit-border-top-left-radius:15px;
+	-moz-border-radius-topleft:15px;
+	border-top-left-radius:15px;
+	-webkit-border-top-right-radius:15px;
+	-moz-border-radius-topright:15px;
+	border-top-right-radius:15px;
+	-webkit-border-bottom-right-radius:15px;
+	-moz-border-radius-bottomright:15px;
+	border-bottom-right-radius:15px;
+	-webkit-border-bottom-left-radius:15px;
+	-moz-border-radius-bottomleft:15px;
+	border-bottom-left-radius:15px;
+	text-indent:0px;
+	border:1px solid #220333;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Times New Roman;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:31px;
+	line-height:31px;
+	width:82px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #7109AA;
+}
+.classname:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #7109AA), color-stop(1, #7109AA) );
+	background:-moz-linear-gradient( center top, #a20dbd 5%, #c123de 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7109AA', endColorstr='#7109AA');
+	background-color:#7109AA;
+}.classname:active {
+	position:relative;
+	top:1px;
+}
+.wrapper {
+    width: 50%;
+}
+.styled-select {
+	position: relative;
+    height: 21px;
+    line-height: 21px;
+    /*overflow: hidden;*/
+    border: 1px solid #27292c;
+    border-radius: 3px;
+    background: #494849;
+    box-shadow:inset 0 0 1px #393939;
+    -moz-box-shadow:inset 0 0 1px #393939;
+    -webkit-box-shadow:inset 0 01px #393939;
+    color: #fff;
+}
+
+.selected select {
+    -webkit-appearance: none;
+    -moz-appearance: window;
+    background: transparent;
+    
+    width: 100%;
+    wid\th: 112%;   /* IE hack */
+    padding: 1px 20px 0 6px;
+    border: 0;
+    z-index: 110;
+    position: relative;
+    color: #fff;
+}
+
+.arrow {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	width: 0; 
+	height: 0; 
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 10px solid #A0A1A4;
+}
+
+.arrow:before {
+	content: '';
+    position: absolute;
+    top: -15px;
+    left: -12px;
+    height: 19px;
+    border-left: 1px solid #27292C;
 }
 .mock>p{
 	color: #23142B;
@@ -94,6 +184,7 @@ button{
 	font-style: italic;
 }
 .footer{
+	margin:auto;
 	background-color: #7109AA;
 	color: white;
 	text-align: right;
