@@ -16,7 +16,7 @@ div.main{
 /* a section containing multiple questions with answers and extra info. This is one common for both mock and exercise exams */
 div.exam{
 	width: 98%;
-	padding: 0,9em;
+	padding: 0.9em;
 	margin: /*1em*/ auto;
 }
 div.exercise{
@@ -114,65 +114,15 @@ button{
 	text-align:center;
 	text-shadow:1px 1px 0px #7109AA;
 }
-.classname:hover {
+button: hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #7109AA), color-stop(1, #7109AA) );
 	background:-moz-linear-gradient( center top, #a20dbd 5%, #c123de 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7109AA', endColorstr='#7109AA');
 	background-color:#7109AA;
-}.classname:active {
-	position:relative;
-	top:1px;
 }
-.wrapper {
-    width: 50%;
-}
-.styled-select {
+button: active{
 	position: relative;
-    height: 21px;
-    line-height: 21px;
-    /*overflow: hidden;*/
-    border: 1px solid #27292c;
-    border-radius: 3px;
-    background: #494849;
-    box-shadow:inset 0 0 1px #393939;
-    -moz-box-shadow:inset 0 0 1px #393939;
-    -webkit-box-shadow:inset 0 01px #393939;
-    color: #fff;
-}
-
-.selected select {
-    -webkit-appearance: none;
-    -moz-appearance: window;
-    background: transparent;
-    
-    width: 100%;
-    wid\th: 112%;   /* IE hack */
-    padding: 1px 20px 0 6px;
-    border: 0;
-    z-index: 110;
-    position: relative;
-    color: #fff;
-}
-
-.arrow {
-	position: absolute;
-	top: 6px;
-	right: 6px;
-	width: 0; 
-	height: 0; 
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 10px solid #A0A1A4;
-}
-
-.arrow:before {
-	content: '';
-    position: absolute;
-    top: -15px;
-    left: -12px;
-    height: 19px;
-    border-left: 1px solid #27292C;
-}
+	top: 1px;	
 .mock>p{
 	color: #23142B;
 	font-size: 1.3em;
