@@ -2,8 +2,27 @@
 	<html>
 		<head>
 				<script>
+					var hexMode = false;
+					function formatN (_number, _color)
+					{
+						if( ! _color )
+							_color = "red";
+						if (_number < 0){
+							var txt = "";
+							txt += "(";
+							if(hexMode)
+								txt += _number.toString(16);
+							else
+								txt += _number.toString(10);
+							txt += ")";
+							return txt.fontcolor(_color);
+						}
+						else
+							return _number;
+					}
 					function calculate()
 					{
+						hexMode = true;
 						var operand1, operand2, operation, result;					
 						operand1= document.getElementById ("n1").value;
 						operand2= document.getElementById ("n2").value;
@@ -15,13 +34,13 @@
 							case"+":
 								result = operand1+operand2;
 								break;
-								case"-":
+							case"-":
 								result = operand1-operand2;
 								break;
-								case"*":
+							case"*":
 								result = operand1*operand2;
 								break;
-								case"/":
+							case"/":
 								result = operand1/operand2;
 								break;								
 						}
@@ -32,34 +51,25 @@
 					text_result+= " ";
 					text_result+=operation;
 					text_result+=" ";
-					text_result+=formatN(operand2);
+					text_result+=formatN(operand2, "blue");
 					text_result+=" = ";
-					text_result+=formatN(result);
+					text_result+=formatN(result, "brown");
 					
 					document.getElementById ("result1").innerHTML=text_result;
-					}
-					function formatN (_number)
-					{
-						if (_number<0)
-							return ("("+_number+")").fontcolor("red");
-						else
-							return _number;
 					}
 				</script>	
 		</head>
 		<body>
 			<input type="number" id="n1" value="123" />
-						<select id="operation">
+			<select id="operation">
 				<option>+</option>
 				<option>-</option>
 				<option>/</option>
-				<option>*	</option>
+				<option>*</option>
 			</select>	
 			<input type="number" id="n2" value="456" />
-		<button onclick="calculate()">= </button>
+		<button onclick="calculate()">=</button>
 			<span id  = "result" > </span>
 		<div id="result1"></div>
-					
-			
 	</body>	
 	</html>
