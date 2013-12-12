@@ -6,6 +6,8 @@
 function validateE(_exam){
 	var eIsCorrect = true;
 	
+/*the function is figure out if the exam is mock or there is an exercise or plain text*/
+
 	if(_exam.mock === undefined){
 		eIsCorrect = false;
 		console.log("No field `mock` defined for exam!!!");
@@ -22,11 +24,14 @@ function validateE(_exam){
 			}
 	}
 	
+	
+/* the functions shows that no question text, no list of answers set up for Mock Exam or Exercise */
+
 	if(_exam.questions === undefined || _exam.list === undefined || _exam.list.length < 1){
 		eIsCorrect = false;
 		console.log("No list of questions set for exam!!!");
 	}else{
-		for(var i = 0; i < _exam.list.length; ++i){
+		for(var i = 0; i < _exam.list.length; ++i){ 		 /* loop for with variables*/
 			var /*const*/ idx = _exam.list[i];
 			var /*const*/ q = _exam.questions[idx];
 			if(q === undefined){
@@ -38,7 +43,7 @@ function validateE(_exam){
 				}
 			}
 		}
-		if(validateNonDuplicateQuestions(_exam.list)){
+		if(validateNonDuplicateQuestions(_exam.list)){   /* identify the duplicates */ 
 //			console.log("There are duplicate questions in the list");
 			eIsCorrect = false;
 		}
@@ -65,9 +70,9 @@ function validateNonDuplicateQuestions(_list){
 		return true;
 	}
 	
-	var isCorrect = true;
+	var isCorrect = true;    /* explain once again */
 	var all = [];
-	var idx;
+	var idx; 
 	for(idx = 0; idx < _list.length; ++idx){
 		var listidx = _list[idx];
 		if(all[listidx] === undefined)
@@ -86,7 +91,7 @@ function validateNonDuplicateQuestions(_list){
 }
 
 /*
-	Block of functions to validate questions
+	Block of functions to validate questions from the previous consultation
 */
 function validateQ(_q){
 	var /*const*/numAnswers = _q.a.length;
