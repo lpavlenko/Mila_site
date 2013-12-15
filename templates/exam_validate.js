@@ -98,7 +98,7 @@ function validateQ(_q){
 	var qIsCorrect = true;
 	
 	if(_q.list === undefined){
-		console.log("No field `list` defined for answer for questopm [%s]!", _q.txt);
+		console.log("No field `list` defined for answer for question [%s]!", _q.txt);
 		qIsCorrect = false;
 	}
 	if(numAnswers <= 0 || numAnswers > 4){

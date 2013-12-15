@@ -5,34 +5,37 @@
 		function calc_charaters (_in, _out)
 		{ 
 			var text = document.getElementById(_in).value;
-			var result = document.getElementById(_out).value;
+			var div_text = document.getElementById(_out);
 			var map = {};
-			
 			
 			/* count occurrences of characters*/
 			
-			for (i=0; i< text.lenth; ++i){
+			for (i=0; i< text.length; ++i){
 				var c = text.charAt(i);
+				c = c.toUpperCase();
 				
-				if (map[c] === undefined);
-					map [c] = 1;
-				
-				else map[c] ++;
-			}
-			
-			for (i=0; i< c.lenth; ++i);	
-			if	([c] > 1);
-				{
-				else 
-					return [c];
+				if (map[c] === undefined){
+				   map[c] = 1;
 				}
-		document.getElementById ("result").innerHTML= map[c];	
+				else 
+				{
+					map[c] = map[c] + 1;
+				}
+			}
+			var msg = "";
+			
+			for (var ch in map){
+				msg += "'" + ch + "'";
+				msg += ":" + map[ch] + "<br />";
+				}
+	
+		div_text.innerHTML= msg;	
 		}
 	</script>
 </head>
 <body>
 	
-	<textarea id="text" rows="8" cols="120"> </textarea>
+	<textarea id="text" rows="8" cols="120"> abracadabra </textarea>
 	
 	<br>
 	<button onclick="calc_charaters('text','result')">calculate</button>
