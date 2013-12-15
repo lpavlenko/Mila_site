@@ -1,0 +1,42 @@
+<!DOCTYPE HTML SYSTEM>
+<html>
+<head>
+	<script>
+		function calc_charaters (_in, _out)
+		{ 
+			var text = document.getElementById(_in).value;
+			var result = document.getElementById(_out).value;
+			var map = {};
+			
+			
+			/* count occurrences of characters*/
+			
+			for (i=0; i< text.lenth; ++i){
+				var c = text.charAt(i);
+				
+				if (map[c] === undefined);
+					map [c] = 1;
+				
+				else map[c] ++;
+			}
+			
+			for (i=0; i< c.lenth; ++i);	
+			if	([c] > 1);
+				{
+				else 
+					return [c];
+				}
+		document.getElementById ("result").innerHTML= map[c];	
+		}
+	</script>
+</head>
+<body>
+	
+	<textarea id="text" rows="8" cols="120"> </textarea>
+	
+	<br>
+	<button onclick="calc_charaters('text','result')">calculate</button>
+	
+	<div id="result"> </div>
+</body>
+</html>
