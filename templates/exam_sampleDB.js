@@ -12,15 +12,21 @@ var gExam1 = {
 };
 var gExam2 = {
 	questions: gQ,
-	descr: "This is a mock exam, which means it contains real questions from past years' exams",
+	descr: "This is a exercise exam with some questions",
 	mock: false, // exercise exam
 	list: [0, 1, 0, 1, 23]
 };
 var gExam3 = {
 	questions: gQ,
-	descr: "This is a mock exam, which means it contains real questions from past years' exams",
+	descr: "This is a exercise exam, which means it contains real questions from past years' exams",
 	mock: false, // exercise exam
 	list: [0, 5, 6]
+};
+var gExam4 = {
+	questions: gQ,
+	descr: "This is a mock exam",
+	mock: true,
+	list: [1, 4, 5, 2]
 };
 
 gQ[0] = {
