@@ -5,8 +5,15 @@
 	<script src="exam_sampleDB.js"></script>
 	<script src="exam_generate.js"></script>
 	<script src="exam_validate.js"></script>
+	<script>
+		function startup(){
+			createExamDiv( $('#dynamic_div1'), gExam1);
+			createExamDiv( $('#dynamic_div2'), gExam2);
+			createExamDiv( $('#dynamic_div3'), gExam3);
+		}
+	</script>
 </head>
-<body onload="createExamDiv( $('#dynamic_div'), gExam1);">
+<body onload="startup();">
 	<div id="static_div" class="main">
 		<div class="exam mock">
 			<p>
@@ -28,7 +35,9 @@
 			</ol>
 		</div>
 	</div>
-	<div id="dynamic_div" class="main"></div>
+	<div id="dynamic_div1" class="main"></div>
+	<div id="dynamic_div2" class="main"></div>
+	<div id="dynamic_div3" class="main"></div>
 	<fieldset style="width: 20%"><legend>Validate exams</legend>
 		<button onclick="validateE(gExam1)">exam 1</button>
 		<button onclick="validateE(gExam2)">exam 2</button>

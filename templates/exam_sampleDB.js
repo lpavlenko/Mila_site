@@ -1,4 +1,4 @@
-/*
+﻿/*
 	Sample DB to express the structure of the exam and questions and to
 	provide sample data for testing purposes
 */
@@ -20,12 +20,11 @@ var gExam3 = {
 	questions: gQ,
 	descr: "This is a mock exam, which means it contains real questions from past years' exams",
 	mock: false, // exercise exam
-	list: [5, 6]
+	list: [0, 5, 6]
 };
 
 gQ[0] = {
 	txt: "Question text goes in here. This is for multiple-choice responses",
-	listType: false,
 	a: [
 		"Answer 1",
 		"Answer 2",
@@ -37,7 +36,6 @@ gQ[0] = {
 };
 gQ[1] = {
 	txt: "Question #2 text goes in here. This is for multiple-choice responses",
-	listType: false,
 	a: [
 		"Answer 1",
 		"Answer 2",
@@ -49,7 +47,6 @@ gQ[1] = {
 };
 gQ[2] = {
 	txt: "Question #3 (short list of answers)",
-	listType: false,
 	a: [
 		"Answer 1", //#0
 		"Answer 2" //#1
@@ -59,7 +56,6 @@ gQ[2] = {
 };
 gQ[3] = {
 	txt: "Question #4 (too many answers)",
-	listType: false,
 	a: [
 		"Answer 1",
 		"Answer 2",
@@ -78,9 +74,8 @@ gQ[4] = {
 };
 gQ[5] = {
 	txt: "Question text goes in here. This is for a \"choose from a list\" type questions. Here's an example of a list to choose an answer from:{вариант1} Once selected the page will check the answer and provide a feedback to use. There could be more than one select. For example you can have {select2} select(s) in addition to the first one. Кстати, а вот и русский текст",
-	listType: true,
 	dropDowns: {
-		"вариант1":{
+		"вариант1": {
 			list: [
 				"Answer 1",
 				"Answer 2",
@@ -90,7 +85,7 @@ gQ[5] = {
 			],
 			correct: 2
 		},
-		"select2":{
+		"select2": {
 			list: [
 				"Answer 1",
 				"Answer 2",
@@ -103,7 +98,6 @@ gQ[5] = {
 };
 gQ[6] = {
 	txt: "Question text goes in here. This is for a \"choose from a list\" type questions. Here's an example of a list to choose an answer from:{0}Once selected the page will check the answer and provide a feedback to use.",
-	listType: true,
 	dropDowns: {
 		"0":{
 			list: [

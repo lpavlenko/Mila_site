@@ -71,29 +71,90 @@ function create1Q_MC(_$li, _q){
 }
 
 function create1Q_LIST(_$li, _q){
+/*
+	1. tokenize question's text
+	2. create a list of pieces, each one being either a plain text or a select
+	3. combine the pieces together to produce a final HTML markup
+*/
 	_$li.addClass("question_list");
-	// TODO: add more generation code here later on
-	var fullText = _q.txt;
-	while(fullText.length > 0){
-		// get plain text, everything before the next "{"
-		var plain = ""; // TODO: implement the above comment
-		// TODO: cut out the portion of the text that is already appended as a text node
-		_$li.append(plain);
-		// TODO: if we stopped because we found the next substitution token...
-		{
-			// substitute token with a <select> tag
-			var $select = $("<select>");
-			// TODO: implement creation of the <select> tag and its elements
-			_$li.append($select);
-			// TODO: cut out the substituion text
+	/*
+		3 types of objects are stored in pieces:
+		1. type: 't' - this is a plain text that doesn't need any further processing
+		2. type: 'i' - an "id" of a select element that will be substituted by a big <select> markup
+		3. type: 's' - an actual <select> object to be put into the final HTML markup
+	*/
+	// accumulate bits of original text into here
+	var pieces = [];
+
+	pieces = tokenize(_q.txt);
+	substitute(_q, pieces);
+	for(var i = 0; i < pieces.length; ++i){
+		_$li.append(pieces[i].data);
+	}
+}
+
+// split the given text into tokens and return it as an array of objects
+function tokenize(_txt){
+	var rez = [];
+	var state = 'text';
+	var arrIdx = 0;
+	var currText = '';
+	for(var i = 0; i < _txt.length; ++i){
+		switch(_txt[i]){
+			case '{':
+				if(state === 'text'){
+					state = 'token';
+					if(currText.length > 0){
+						rez[arrIdx] = {type: 't', data: currText};
+						arrIdx++;
+					}
+					currText = '';
+				}
+				break;
+			case '}':
+				if(state === 'token'){
+					state = 'text';
+					if(currText.length > 0){
+						rez[arrIdx] = {type: 'i', data: currText};
+						arrIdx++;
+					}
+					currText = '';
+				}
+			break;
+			default:
+				currText += _txt[i];
+			break;
+		}
+	}
+	if(state === 'text'){
+		rez[arrIdx] = {type: 't', data: currText};
+	}
+	return rez;
+}
+
+// substitute 'id' type objects with full-fledged <select> object in a given array
+function substitute(_q, _arr){
+	for(var i = 0; i < _arr.length; ++i){
+		if(_arr[i].type === 'i'){
+			var options = _q.dropDowns[_arr[i].data].list;
+			var $sel = $("<select>");
+			$sel.append( $("<option>").append("Select one...").attr("selected", "selected") );
+			for(var j = 0; j < options.length; ++j){
+				$sel.append( $("<option>").append(options[j]));
+			}
+			_arr[i].type = 's';
+			_arr[i].data = $sel;
 		}
 	}
 }
 
 function create1Q(_$obj, _q){
+	if( ! _q )
+		return;
+
 	var $li = $("<li>");
 
-	if(_q.listType){
+	if(_q.dropDowns){
 		create1Q_LIST($li, _q);
 	}else{
 		create1Q_MC($li, _q);
