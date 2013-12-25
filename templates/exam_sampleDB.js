@@ -43,7 +43,7 @@ gQ[0] = {
 gQ[1] = {
 	txt: "Question #2 text goes in here. This is for multiple-choice responses",
 	a: [
-		"Answer 1",
+		"away",
 		"Answer 2",
 		"Answer 3",
 		"Answer 4"
