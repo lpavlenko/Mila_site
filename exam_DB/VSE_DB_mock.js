@@ -1,4 +1,4 @@
-/*
+﻿/*
 	DB with questions for mock exam for VSE
 */
 
@@ -8,7 +8,13 @@ var vseExam1 = {
 	questions: qSet1,
 	descr: "VSE mock exam #1",
 	mock: true,
-	list: [0]
+	list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+		 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+		 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+		 30, 31, 22, 33, 34, 35, 36, 37, 38, 39,
+		 40, 41, 32, 43, 44, 45, 46, 47, 48, 49,
+		 50
+	]
 };
 var vseExam2 = {
 	questions: qSet1,
@@ -21,15 +27,14 @@ var vseExam2 = {
 	question set for exam #1
 */
 qSet1[0] = {
-	txt: "I am afraid I can’t come to dinner on Wednesday. Could we put it … until next week?  
-",
+	txt: "I am afraid I can’t come to dinner on Wednesday. Could we put it … until next week?",
 	a: [
 		"A) off",
 		"B) on",
 		"C) up",
 		"d) away"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[1] = {
@@ -40,7 +45,7 @@ qSet1[1] = {
 		"C) have",
 		"D) will"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[2] = {
@@ -51,7 +56,7 @@ qSet1[2] = {
 		"C) seeing",
 		"D) to see"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[3] = {
@@ -62,7 +67,7 @@ qSet1[3] = {
 		"C) at a loss",
 		"D) in doubt"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[4] = {
@@ -73,8 +78,8 @@ qSet1[4] = {
 		"C) too wine",
 		"D) too many wine"
 	],
-	correct: B,
-	fb: ""
+	correct: 1,
+	fb: "please click the link to practise a grammar rule"
 };
 qSet1[5] = {
 	txt: "Frank lives alone. He doesn’t mind. He … alone.",
@@ -84,7 +89,7 @@ qSet1[5] = {
 		"C) used to living",
 		"D) is used to live"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[6] = {
@@ -95,7 +100,7 @@ qSet1[6] = {
 		"C) clue",
 		"D) receipt"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[7] = {
@@ -106,7 +111,7 @@ qSet1[7] = {
 		"C) that",
 		"D) so as"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[8] = {
@@ -117,7 +122,7 @@ qSet1[8] = {
 		"C) being",
 		"D) to be"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[9] = {
@@ -128,7 +133,7 @@ qSet1[9] = {
 		"C) happen the accident",
 		"D) has happened the accident"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[10] = {
@@ -139,7 +144,7 @@ qSet1[10] = {
 		"C) kindly",
 		"D) please"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[11] = {
@@ -150,7 +155,7 @@ qSet1[11] = {
 		"C) told",
 		"D) was telling"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[12] = {
@@ -161,7 +166,7 @@ qSet1[12] = {
 		"C) lived",
 		"D) has been living"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[13] = {
@@ -172,7 +177,7 @@ qSet1[13] = {
 		"C) despite",
 		"D) in spite"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[14] = {
@@ -183,7 +188,7 @@ qSet1[14] = {
 		"C) to stop",
 		"D) not to"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[15] = {
@@ -194,7 +199,7 @@ qSet1[15] = {
 		"C) such that",
 		"D) in order to"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[16] = {
@@ -205,7 +210,7 @@ qSet1[16] = {
 		"C) to won't be anything",
 		"D) it is something"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[17] = {
@@ -216,7 +221,7 @@ qSet1[17] = {
 		"C) are you typeing",
 		"D) do you type"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[18] = {
@@ -227,7 +232,7 @@ qSet1[18] = {
 		"C) - ",
 		"D) a"
 	],
-	correct: D,
+	correct: 4,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[19] = {
@@ -238,7 +243,7 @@ qSet1[19] = {
 		"C) to publish",
 		"D) to publishing"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[20] = {
@@ -249,7 +254,7 @@ qSet1[20] = {
 		"C) more",
 		"D) different"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[21] = {
@@ -260,7 +265,7 @@ qSet1[21] = {
 		"C) more",
 		"D) different"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[22] = {
@@ -271,7 +276,7 @@ qSet1[22] = {
 		"C) hers",
 		"D) herself"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[23] = {
@@ -282,7 +287,7 @@ qSet1[23] = {
 		"C) in order",
 		"D) so that"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[24] = {
@@ -293,7 +298,7 @@ qSet1[24] = {
 		"C) being thanked",
 		"D) thank"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[25] = {
@@ -304,7 +309,7 @@ qSet1[25] = {
 		"C) so that",
 		"D) such"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[26] = {
@@ -315,7 +320,7 @@ qSet1[26] = {
 		"C) wreckage",
 		"D) breakage"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[27] = {
@@ -326,7 +331,7 @@ qSet1[27] = {
 		"C) will ring",
 		"D) ring"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[28] = {
@@ -337,7 +342,7 @@ qSet1[28] = {
 		"C) protected",
 		"D) preserved"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[29] = {
@@ -348,7 +353,7 @@ qSet1[29] = {
 		"C) by",
 		"D) in"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[30] = {
@@ -359,7 +364,7 @@ qSet1[30] = {
 		"C) had better",
 		"D) need wear"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[31] = {
@@ -370,7 +375,7 @@ qSet1[31] = {
 		"C) a few",
 		"D) another"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[32] = {
@@ -381,7 +386,7 @@ qSet1[32] = {
 		"C) seems",
 		"D) ought"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[33] = {
@@ -392,7 +397,7 @@ qSet1[33] = {
 		"C) how",
 		"D) what"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[34] = {
@@ -403,7 +408,7 @@ qSet1[34] = {
 		"C) have set",
 		"D) were sitting"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[35] = {
@@ -414,7 +419,7 @@ qSet1[35] = {
 		"C) many",
 		"D) some"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[36] = {
@@ -425,7 +430,7 @@ qSet1[36] = {
 		"C) I am stopping",
 		"D) I stop"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[37] = {
@@ -436,7 +441,7 @@ qSet1[37] = {
 		"C) another every",
 		"D) other every"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[38] = {
@@ -447,7 +452,7 @@ qSet1[38] = {
 		"C) will we",
 		"D) won't we"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[39] = {
@@ -458,7 +463,7 @@ qSet1[39] = {
 		"C) would help",
 		"D) had helped"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[40] = {
@@ -469,7 +474,7 @@ qSet1[40] = {
 		"C) blew",
 		"D) blown"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[41] = {
@@ -480,7 +485,7 @@ qSet1[41] = {
 		"C) see",
 		"D) were seeing"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[42] = {
@@ -491,7 +496,7 @@ qSet1[42] = {
 		"C) at a cost",
 		"D) at the limit"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 
@@ -503,7 +508,7 @@ qSet1[43] = {
 		"C) when you were young",
 		"D) a long time ago"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 
@@ -515,7 +520,7 @@ qSet1[44] = {
 		"C) up",
 		"D) off"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[45] = {
@@ -526,7 +531,7 @@ qSet1[45] = {
 		"C) more",
 		"D) another"
 	],
-	correct: D,
+	correct: 3,
 	fb: "please click the link to practise a grammar rule"
 };
 
@@ -538,7 +543,7 @@ qSet1[46] = {
 		"C) told",
 		"D) would have told"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[47] = {
@@ -549,7 +554,7 @@ qSet1[47] = {
 		"C) with",
 		"D) in"
 	],
-	correct: B,
+	correct: 1,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[48] = {
@@ -560,7 +565,7 @@ qSet1[48] = {
 		"C) would tell",
 		"D) have told"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[49] = {
@@ -571,7 +576,7 @@ qSet1[49] = {
 		"C) to keeping",
 		"D) keeping"
 	],
-	correct: A,
+	correct: 0,
 	fb: "please click the link to practise a grammar rule"
 };
 qSet1[50] = {
@@ -582,7 +587,7 @@ qSet1[50] = {
 		"C) much quieter",
 		"D) more quite"
 	],
-	correct: C,
+	correct: 2,
 	fb: "please click the link to practise a grammar rule"
 };
 /*
