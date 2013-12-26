@@ -94,13 +94,34 @@ function validateNonDuplicateQuestions(_list){
 	Block of functions to validate questions from the previous consultation
 */
 function validateQ(_q){
-	var /*const*/numAnswers = _q.a.length;
+	var qIsCorrect = true;
+	
+	// TODO: check the validity of common fields, like question's text
+
+	if(_q.dropDowns){
+		qIsCorrect = validateQ_LIST(_q);
+	}else{
+		qIsCorrect = validateQ_MC(_q);
+	}
+
+	return qIsCorrect;
+}
+
+function validateQ_LIST(_q){
 	var qIsCorrect = true;
 	
 	if(_q.list === undefined){
 		console.log("No field `list` defined for answer for question [%s]!", _q.txt);
 		qIsCorrect = false;
 	}
+
+	return qIsCorrect;
+}
+
+function validateQ_MC(_q){
+	var /*const*/numAnswers = _q.a.length;
+	var qIsCorrect = true;
+	
 	if(numAnswers <= 0 || numAnswers > 4){
 		console.log("%cNumber of answers for question [%s] is [%i], which is not between 1 and 4. Ignoring the rest of answers choices", "color:red;", _q.txt, numAnswers);
 		qIsCorrect = false;
@@ -109,6 +130,7 @@ function validateQ(_q){
 		console.log("%cIndex of the correct answer is [%i] but the total number of answers is [%i] for answer [%s]", "color:red;", _q.correct, numAnswers, _q.txt);
 		qIsCorrect = false;
 	}
-	
+
 	return qIsCorrect;
 }
+
