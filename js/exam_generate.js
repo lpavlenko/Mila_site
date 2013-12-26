@@ -29,7 +29,7 @@ function createQList(_$obj, _exam){
 	
 	for(var i = 0; i < _exam.list.length; ++i){
 		var /*const*/idx = _exam.list[i];
-		create1Q($ol, gQ[idx]);
+		create1Q($ol, _exam.questions[idx]);
 	}
 	
 	_$obj.append($ol);
