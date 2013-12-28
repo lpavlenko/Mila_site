@@ -28,6 +28,18 @@ var gExam4 = {
 	mock: true,
 	list: [1, 4, 5, 2]
 };
+var gExam5 = {
+	questions: gQ,
+	descr: "This is a mock exam to develop feedback system",
+	mock: true,
+	list: [1, 3, 5, 2]
+};
+var gExam6 = {
+	questions: gQ,
+	descr: "This is an exercise exam to develop feedback system",
+	mock: false,
+	list: [1, 3, 5, 2]
+};
 
 gQ[0] = {
 	txt: "Question text goes in here. This is for multiple-choice responses",

@@ -18,6 +18,11 @@ function createExamDiv(_$obj, _exam){
 	);
 	
 	createQList($div, _exam);
+	
+	var $feedback = $("<button>");
+	$feedback.text("Check");
+	$feedback.click(function(){check_exam(_$obj, _exam);});
+	$div.append($feedback);
 
 	_$obj.append($div);
 }
@@ -53,13 +58,19 @@ function create1Q_MC(_$li, _q){
 	for(var i = 0; i < numAnswers; ++i){
 		var $span = $("<span>");
 		var $input = $("<input>");
+		var id = nameAttr + i;
 		$input.attr({
 			type: "radio",
-			name: nameAttr
+			name: nameAttr,
+			id: id,
+			idx: i
 		});
+		var $label = $("<label>");
+		$label.attr({for: id});
+		$label.text(_q.a[i]);
 		
 		$divA.append(
-			$span.append(_q.a[i]).append($input)
+			$span.append($input).append($label)
 		);
 	}
 
