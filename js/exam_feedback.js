@@ -1,4 +1,4 @@
-
+﻿
 function check_exam(_$jar, _exam){
 	_$jar.find("div>ol>li").each(function(_idx, _el){check_question(_idx, _el, _exam);});
 }

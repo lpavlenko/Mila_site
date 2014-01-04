@@ -31,7 +31,7 @@ function validateE(_exam){
 		eIsCorrect = false;
 		console.log("No list of questions set for exam!!!");
 	}else{
-		for(var i = 0; i < _exam.list.length; ++i){ 		 /* loop for with variables*/
+		for(var i = 0; i < _exam.list.length; ++i){ 		
 			var /*const*/ idx = _exam.list[i];
 			var /*const*/ q = _exam.questions[idx];
 			if(q === undefined){
@@ -70,7 +70,7 @@ function validateNonDuplicateQuestions(_list){
 		return true;
 	}
 	
-	var isCorrect = true;    /* explain once again */
+	var isCorrect = true;   
 	var all = [];
 	var idx; 
 	for(idx = 0; idx < _list.length; ++idx){

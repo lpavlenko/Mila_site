@@ -1,0 +1,36 @@
+*{
+	margin: 0; padding: 0;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.grid {
+	width: 50%;
+	float: left;
+	padding: 30px 50px;
+	-webkit-box-sizing: border-box;
+}
+
+.container {
+	background: #e3e3e3;
+	boder-right:1px solid white;
+}
+
+.output {
+	boder-left:1px solid;
+}
+
+text area {
+	width: 100%;
+	height: 200px;
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+
+iframe{
+	border: none;
+	width: 100%;
+	
+}
