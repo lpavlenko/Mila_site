@@ -1,0 +1,40 @@
+<html>
+<head>
+	<script>
+	function countlength (_text, _div){
+		document.getElementById(_div).innerHTML=_text.length + " chars " + countdigits(_text);
+	}
+	
+	function countdigits (_text){
+		var digits = 0;
+		
+			
+		for (i=0; i< _text.length; ++i){
+			var c = _text.charAt(i);
+			if ( isdigit(c) ){
+				digits++;
+			}
+		}
+		return digits;
+	}
+	
+	function isdigit (_char){
+		if( "0" >= _char && _char<="9")
+		{
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	</script>
+</head>
+<body>
+	<textarea id="text" rows="8" cols="120" onkeyup="countlength(this.value,'result')"> abracadabra  </textarea>
+	
+	
+	<br>
+	
+	<div id="result"> </div>
+</body>
+</html>
