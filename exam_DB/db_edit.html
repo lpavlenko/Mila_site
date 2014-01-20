@@ -55,6 +55,12 @@
 			display: inline-block;
 			float: left;
 		}
+		.alert{
+			box-shadow: 0px 0px 8px 2px red;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+		}
 
 		.exam_section{
 			display: block;
@@ -100,13 +106,16 @@
 		}
 
 		#exam_title{
-			width: 30em;
+			width: 20em;
 		}
 		#exam_misc{
-			width: 25em;
+			width: 30em;
 		}
 		#questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
 			width: 100%;
+		}
+		textarea.tall{
+			height: 8em;
 		}
 		#exams_list>div{
 			float: left;
@@ -141,6 +150,25 @@
 
 	<script>
 		var exams = {};
+		function getCurrExam(){
+			var fname = $("#exams_list input[type=radio]:checked").attr("id").match(/(.*?)_radio/)[1];
+			var exam = exams[fname];
+			if( ! exam ){
+				console.log("No exam found with file name [" + fname + "] assocciated with it!");
+				throw "No exam found with file name [" + fname + "] assocciated with it!";
+			}
+			return exam;
+		}
+		function getCurrSection(){
+			var exam = getCurrExam();
+			var i = $("#exam_sections .selected")[0].idx;
+			var es = exam.getSections()[i];
+			return {section: es, idx: i};
+		}
+
+		function extractFname(_path){
+			return (_path.split("\\").pop() || _path.split("/").pop()).split(".")[0];
+		}
 		$(document).ready(function(){
 			var i;
 			var examList = listExams()
@@ -148,70 +176,202 @@
 				loadExam(examList[i]);
 			}
 			renderExamList();
-			$("input, select, textarea, button").on("blur", saveExam);
-			$("#exams_list .left-right").focusin(function(){
-				$(this).find("input[type=radio]").click();
-			});
 			$("#exams_list input[type=radio]:first").click();
+			renderExam();
+
+			$("body").delegate("input, select, textarea, button", "blur", saveExam);
+			$("#exams_list").delegate(".left-right", "focusin", function(){
+				$(this).find("input[type=radio]").prop("checked", true);
+				renderExam();
+			});
+			$("#exams_list").delegate("button", "click", function(){
+				//$(this).find("input[type=file]")[0].click();
+				this.querySelector("input[type=file]").click();
+			});
+			$("#exams_list").delegate("input[type=file]", "change", function(){
+				var new_fname = extractFname(this.value);
+				updateCurrExamFname(new_fname.trim());
+			});
+			$("#exams_list").delegate("input[type=text]", "change", function(){
+				this.value = this.value.trim();
+				updateCurrExamFname(this.value);
+			});
+			$("#exam_type_mock, #exam_type_exe").click(function(){
+				var exam = getCurrExam();
+				switch(this.id){
+					case "exam_type_mock":
+						exam.setMock(true);
+						break;
+					case "exam_type_exe":
+						exam.setMock(false);
+						break;
+				}
+			});
+			$("#exam_title").change(function(){getCurrExam().setTitle(this.value);});
+			$("#exam_misc") .change(function(){getCurrExam().setMisc (this.value);});
+			$("#exam_descr").change(function(){getCurrExam().setDescr(this.value);});
+			$("#exam_sections").delegate("input, textarea", "change", function(){
+				var es = getCurrSection();
+				if(this.id.match(/title/)){
+					es.section.setTitle(this.value);
+				}else if(this.id.match(/descr/)){
+					es.section.setDescr(this.value);
+				}else if(this.id.match(/list/)){
+					// TODO: implement ticking of selected questions in the general pool
+				}
+				addSectionIfNeeded();
+			})
+			.delegate(".exam_section", "focusin", function(){
+				$("#exam_sections .exam_section").removeClass("selected");
+				$(this).addClass("selected");
+			});
 		});
 
+		function updateCurrExamFname(_new_fname){
+			var exam = getCurrExam();
+			var old_fname = exam.getFname();
+			if(exams[_new_fname]){
+				alert("That file name already exists, can't use it twice");
+				$("#" + old_fname + "_radio").siblings("input[type=text]").val(old_fname);
+				return;
+			}
+			exam.changeFname(_new_fname);
+			$("#" + old_fname + "_radio")
+				.attr("id", _new_fname + "_radio")
+				.siblings("input[type=text]").val(_new_fname);
+			exams[_new_fname] = exam;
+			delete exams[old_fname];
+			addExamIfNeeded();
+		}
+		function addExamIfNeeded(){
+			var $list = $("#exams_list input[type=text]");
+			for(var i = 0; i < $list.length; ++i){
+				if( $list.get(i).value.length < 1 )
+					return;
+			}
+			// if we are here then that means there are no empty slots left - need to create a new one
+			var exam = new Exam();
+			var fname = exam.getFname();
+			exams[fname] = exam;
+			$("#exams_list").append(genExamFileEntry(fname));
+		}
+		function addSectionIfNeeded(){
+			var exam = getCurrExam();
+			var idx = getCurrSection().idx;
+			if(idx < exam.getSections().length - 1){
+				return;
+			}
+			var es = exam.addSection();
+			var $es = genSection(es, idx + 1);
+			$("#exam_sections").append($es);
+		}
 		function listExams(){
-			return ["sample1.edb", "sample2.edb", ""];	// one extra for new (blank) exam
+			// TODO: implement an actual read from disk (current dir only)
+			return [""];	// one extra for new (blank) exam
 		}
 
 		function loadExam(_fname){
 			var exam = new Exam(_fname);
 			exams[exam.getFname()] = exam;
-			renderExam();
 		}
 
 		function saveExam(){
 			//alert("saving exam [fake]");
 		}
 
+		function genExamFileEntry(_fname){
+			return $("<div>")
+					.addClass("left-right")
+					.append(
+						$("<input>")
+							.attr({
+								"id": _fname + "_radio",
+								"type": "radio",
+								"name": "exam_list"
+							})
+					)
+					.append(
+						$("<input>")
+							.attr({
+								"type": "text",
+								"value": _fname
+							})
+					)
+					.append(
+						$("<button>")
+							.text("...")
+						.append(
+							$("<input>")
+								.attr({
+									"id": _fname + "_chose_file",
+									"type": "file"
+								})
+						)
+					);
+		}
 		function renderExamList(){
-			var i;
-			var $jar = $("#exams_list");
-			for(i in exams){
-				$jar.append(
-					$("<div>").addClass("left-right")
-						.append(
-							$("<input>")
-								.attr({
-									"id": i + "_radio",
-									"type": "radio",
-									"name": "exam_list"
-								})
-						)
-						.append(
-							$("<input>")
-								.attr({
-									"id": i + "_fname",
-									"type": "text",
-									"value": i
-								})
-						)
-						.append(
-							$("<button>")
-								.on("click", function(){
-								//$(this).find("input[type=file]")[0].click();
-								this.querySelector("input[type=file]").click();
-								})
-								.text("...")
-							.append(
-								$("<input>")
-									.attr({
-										"id": i + "_chose_file",
-										"type": "file"
-									})
-							)
-						)
-				);
+			for(var i in exams){
+				$("#exams_list").append( genExamFileEntry( extractFname(i) ) );
 			}
 		}
 
 		function renderExam(){
-			//$
+			var exam = getCurrExam();
+			$("#exam_type_mock, #exam_type_exe").prop("checked", false);
+			$("#exam_type_" + exam.getType()).click();
+			$("#exam_title").val(exam.getTitle());
+			$("#exam_misc").val(exam.getMisc());
+			$("#exam_descr").val(exam.getDescr());
+			
+			renderSections();
+		}
+		function renderSections(){
+			$("#exam_sections>div").remove();
+			var exam = getCurrExam();
+			for(var i = 0; i < exam.getSections().length; ++i){
+				var $es = genSection(exam.getSections()[i], i);
+				if(i === 0)
+					$es.addClass("selected");
+				$("#exam_sections").append($es);
+			}
+		}
+		function genSection(_s, _idx){
+			var es_id = "section_" + _idx;
+			var t_id = es_id + "_title";
+			var d_id = es_id + "_descr";
+			var l_id = es_id + "_list";
+			var $jar = $("<div>").addClass("exam_section left-right")
+				.append(
+					$("<div>")
+						.append(
+							$("<label>").attr("for", t_id).text("Title:")
+							.append(
+								$("<input>").attr({
+									"id": t_id,
+									"type": "text"
+								}).val(_s.getTitle())
+							)
+						)
+				)
+				.append(
+					$("<div>")
+						.append(
+							$("<label>").attr("for", d_id).text("Descr.:")
+							.append($("<textarea>").attr("id", d_id).addClass("tall").text(_s.getDescr()))
+						)
+				)
+				.append(
+					$("<div>")
+						.append(
+							$("<label>").attr("for", l_id).text("List:")
+							.append($("<textarea>").attr("id", l_id).text(_s.getList().join(", ")))
+						)
+				)
+				.append(
+					$("<button>").text("Delete section").addClass("alert")
+				);
+			$jar[0].idx = _idx;
+			return $jar;
 		}
 	</script>
 </head>
@@ -240,48 +400,6 @@
 			</div>
 		</fieldset>
 		<fieldset id="exam_sections"><legend>Exam sections</legend>
-			<div class="exam_section left-right">
-				<div>
-					<label for="exam1_title">Title:</label>
-						<input id="exam1_title" type="text" />
-				</div>
-				<div>
-					<label for="exam1_desc">Descr.:</label>
-						<textarea id="exam1_desc" type="text"></textarea>
-				</div>
-				<div>
-					<label for="exam1_qlist">List:</label>
-						<textarea id="exam1_qlist"></textarea>
-				</div>
-			</div>
-			<div class="exam_section left-right selected">
-				<div>
-					<label for="exam2_title">Title:</label>
-						<input id="exam2_title" type="text" />
-				</div>
-				<div>
-					<label for="exam2_desc">Descr.:</label>
-						<textarea id="exam2_desc" type="text"></textarea>
-				</div>
-				<div>
-					<label for="exam2_qlist">List:</label>
-						<textarea id="exam2_qlist"></textarea>
-				</div>
-			</div>
-			<div class="exam_section left-right">
-				<div>
-					<label for="exam3_title">Title:</label>
-						<input id="exam3_title" type="text" />
-				</div>
-				<div>
-					<label for="exam1_desc">Descr.:</label>
-						<textarea id="exam3_desc" type="text"></textarea>
-				</div>
-				<div>
-					<label for="exam3_qlist">List:</label>
-						<textarea id="exam3_qlist"></textarea>
-				</div>
-			</div>
 		</fieldset>
 		<fieldset id="questions"><legend>Pool of questions</legend>
 			<div class="question">
