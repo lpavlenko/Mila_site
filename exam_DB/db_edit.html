@@ -1,0 +1,325 @@
+<html>
+<head>
+	<!--meta http-equiv="refresh" content="1"-->
+	<script src="jquery-2.0.3.min.js"></script>
+	<script src="../js/exam_2.0.js"></script>
+	<!--script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script-->
+
+	<style>
+		*{
+			position: relative;
+			transition: 0.3s;
+		}
+		body{
+			/*background: linear-gradient(to bottom right, #2266FF, #3322AA, #2266FF);*/
+			background: radial-gradient(#224499, #221188, #224499);
+		}
+		label{
+			color: #FF9900;
+		}
+		div.jar_main{
+			/*width: 100%;*/
+			margin: 0px auto;
+			padding: 4px;
+		}
+		fieldset{
+			border-radius: 12px;
+			margin: 2px;
+		}
+		legend{
+			font-size: 1.3em;
+			color: #EEDDFF;
+			margin-left: 1em;
+		}
+		label{
+			vertical-align: top;
+		}
+		input, textarea{
+			background: rgba(255, 255, 255, 0.8);
+		}
+		textarea{
+			min-height: 4em;
+		}
+		input[type=file]{
+			display: none;
+		}
+		
+		input, textarea, .grouped, .answers>div, #exams_list>div{
+			border-radius: 5px;
+		}
+
+		.grouped{
+			margin: 1px 1px;
+			padding: 0px 4px 1px;
+			line-height: 1.7em;
+			display: inline-block;
+			float: left;
+		}
+
+		.exam_section{
+			display: block;
+			min-height: 5em;
+			border-radius: 20px;
+			padding: 8px;
+		}
+		.exam_section.selected{
+			border-style: double;
+			border-width: 3px;
+			border-color: rgba(0, 127, 127, 0.8);
+			margin-top: 8px;
+			margin-bottom: 12px;
+		}
+		.selected, input:checked{
+			box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);
+		}
+		:focus{
+			box-shadow: 0px 0px 8px 1px rgba(0, 180, 180, 1);
+		}
+		.exam_section>div{
+			width: 100%;
+			text-align: right;
+			padding-right: 1em;
+		}
+		.exam_section label{
+			width: 20%;
+		}
+		.exam_section input, .exam_section textarea{
+			width: 80%;
+		}
+		.answers>div{
+			float: left;
+			width: 25%;
+			border: none;
+			padding: 8px 0;
+		}
+		.left-right{
+			background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.2));
+		}
+		.answers textarea{
+			width: 100%;
+		}
+
+		#exam_title{
+			width: 30em;
+		}
+		#exam_misc{
+			width: 25em;
+		}
+		#questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
+			width: 100%;
+		}
+		#exams_list>div{
+			float: left;
+			min-width: 14em;
+			margin: 1px 2px 1px;
+		}
+		#exams_list>div input[type=text]{
+			width: 14em;
+		}
+		#exam_sections, #questions{
+			margin: 0px;
+		}
+		#exam_sections{
+			float: left;
+			width: 23%;
+			min-height: 5em;
+		}
+		#questions{
+			float: right;
+			width: 70%;
+			min-height: 5em;
+			background: radial-gradient(rgba(0, 255, 255, 0.1), rgba(155, 155, 200, 0.2));
+		}
+		.question{
+			padding: 4px;
+			margin-top: 4px;
+			margin-bottom: 4px;
+			background: rgba(255, 255, 255, 0.05);
+			border-radius: 12px;
+		}
+	</style>
+
+	<script>
+		var exams = {};
+		$(document).ready(function(){
+			var i;
+			var examList = listExams()
+			for(var i in examList){
+				loadExam(examList[i]);
+			}
+			renderExamList();
+			$("input, select, textarea, button").on("blur", saveExam);
+			$("#exams_list .left-right").focusin(function(){
+				$(this).find("input[type=radio]").click();
+			});
+			$("#exams_list input[type=radio]:first").click();
+		});
+
+		function listExams(){
+			return ["sample1.edb", "sample2.edb", ""];	// one extra for new (blank) exam
+		}
+
+		function loadExam(_fname){
+			var exam = new Exam(_fname);
+			exams[exam.getFname()] = exam;
+			renderExam();
+		}
+
+		function saveExam(){
+			//alert("saving exam [fake]");
+		}
+
+		function renderExamList(){
+			var i;
+			var $jar = $("#exams_list");
+			for(i in exams){
+				$jar.append(
+					$("<div>").addClass("left-right")
+						.append(
+							$("<input>")
+								.attr({
+									"id": i + "_radio",
+									"type": "radio",
+									"name": "exam_list"
+								})
+						)
+						.append(
+							$("<input>")
+								.attr({
+									"id": i + "_fname",
+									"type": "text",
+									"value": i
+								})
+						)
+						.append(
+							$("<button>")
+								.on("click", function(){
+								//$(this).find("input[type=file]")[0].click();
+								this.querySelector("input[type=file]").click();
+								})
+								.text("...")
+							.append(
+								$("<input>")
+									.attr({
+										"id": i + "_chose_file",
+										"type": "file"
+									})
+							)
+						)
+				);
+			}
+		}
+
+		function renderExam(){
+			//$
+		}
+	</script>
+</head>
+<body>
+	<div class="jar_main">
+		<fieldset id="exams_list"><legend>List of exams</legend>
+		</fieldset>
+		<fieldset><legend>Exam attributes</legend>
+			<span class="grouped left-right">
+				<input id="exam_type_mock" type="radio" name="exam_type" />
+					<label for="exam_type_mock">Mock</label>
+				<input id="exam_type_exe" type="radio" name="exam_type" />
+					<label for="exam_type_exe">Exercise</label>
+			</span>
+			<span class="grouped left-right">
+				<label for="exam_title">Title:</label>
+					<input id="exam_title" type="text" />
+			</span>
+			<span class="grouped left-right">
+				<label for="exam_misc">Misc. info:</label>
+					<input id="exam_misc" type="text" />
+			</span>
+			<div class="grouped left-right wide">
+				<label for="exam_descr">Full description:</label>
+					<textarea id="exam_descr"></textarea>
+			</div>
+		</fieldset>
+		<fieldset id="exam_sections"><legend>Exam sections</legend>
+			<div class="exam_section left-right">
+				<div>
+					<label for="exam1_title">Title:</label>
+						<input id="exam1_title" type="text" />
+				</div>
+				<div>
+					<label for="exam1_desc">Descr.:</label>
+						<textarea id="exam1_desc" type="text"></textarea>
+				</div>
+				<div>
+					<label for="exam1_qlist">List:</label>
+						<textarea id="exam1_qlist"></textarea>
+				</div>
+			</div>
+			<div class="exam_section left-right selected">
+				<div>
+					<label for="exam2_title">Title:</label>
+						<input id="exam2_title" type="text" />
+				</div>
+				<div>
+					<label for="exam2_desc">Descr.:</label>
+						<textarea id="exam2_desc" type="text"></textarea>
+				</div>
+				<div>
+					<label for="exam2_qlist">List:</label>
+						<textarea id="exam2_qlist"></textarea>
+				</div>
+			</div>
+			<div class="exam_section left-right">
+				<div>
+					<label for="exam3_title">Title:</label>
+						<input id="exam3_title" type="text" />
+				</div>
+				<div>
+					<label for="exam1_desc">Descr.:</label>
+						<textarea id="exam3_desc" type="text"></textarea>
+				</div>
+				<div>
+					<label for="exam3_qlist">List:</label>
+						<textarea id="exam3_qlist"></textarea>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset id="questions"><legend>Pool of questions</legend>
+			<div class="question">
+				<span class="grouped left-right">
+					<input id="question1" type="checkbox" />
+						<label for="question1">Include in this exam section</label>
+				</span>
+				<span class="grouped left-right">
+					<input id="q1_type_mc" type="radio" name="q1_type" />
+						<label for="q1_type_mc">Multi-choice</label>
+					<input id="q1_type_txt" type="radio" name="q1_type" />
+						<label for="q1_type_txt">Text</label>
+				</span>
+				<textarea id="q1_text">question full text</textarea>
+				<fieldset class="answers"><legend>Lists of answers, one per line</legend>
+					<div class="left-right">
+						<label for="q1_a1_choices">A)</label>
+						<textarea id="q1_a1_choices"></textarea>
+					</div>
+					<div class="left-right">
+						<label for="q1_a2_choices">B)</label>
+						<textarea id="q1_a1_choices"></textarea>
+					</div>
+					<div class="left-right">
+						<label for="q1_a3_choices">C)</label>
+						<textarea id="q1_a1_choices"></textarea>
+					</div>
+					<div class="left-right">
+						<label for="q1_a4_choices">D)</label>
+						<textarea id="q1_a1_choices"></textarea>
+					</div>
+					<div class="left-right">
+						<label for="q1_a5_choices">E)</label>
+						<textarea id="q1_a1_choices"></textarea>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
