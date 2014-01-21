@@ -18,30 +18,33 @@
 	<div class="jar_main">
 		<fieldset id="db_list"><legend>List of DBs</legend>
 		</fieldset>
-		<fieldset id="exams_list"><legend>List of exams in selected DB</legend>
+		<fieldset id="exams_list"><legend>Exams in selected DB</legend>
 		</fieldset>
-		<fieldset><legend>Exam attributes</legend>
+		<fieldset id="exam_attributes"><legend>Exam attributes</legend>
 			<span class="grouped left-right">
 				<input id="exam_type_mock" type="radio" name="exam_type" />
 					<label for="exam_type_mock">Mock</label>
 				<input id="exam_type_exe" type="radio" name="exam_type" />
 					<label for="exam_type_exe">Exercise</label>
 			</span>
-			<span class="grouped left-right">
-				<label for="exam_title">Title:</label>
-					<input id="exam_title" type="text" />
-			</span>
-			<span class="grouped left-right">
-				<label for="exam_misc">Misc. info:</label>
-					<input id="exam_misc" type="text" />
-			</span>
+			<div style="display: inline-block;">
+				<span class="grouped left-right">
+					<label for="exam_title">Title:</label>
+						<input id="exam_title" type="text" />
+				</span>
+				<span class="grouped left-right">
+					<label for="exam_misc">Misc. info:</label>
+						<input id="exam_misc" type="text" />
+				</span>
+			</div>
 			<div class="grouped left-right wide">
 				<label for="exam_descr">Full description:</label>
 					<textarea id="exam_descr"></textarea>
 			</div>
 		</fieldset>
-		<fieldset id="exam_sections"><legend>Exam sections</legend>
-			<!--div id="exam_sections"></div-->
+		<div style="clear: both;"></div>
+		<fieldset id="jar_exam_sections"><legend>Exam sections</legend>
+			<fieldset id="exam_sections"></fieldset>
 		</fieldset>
 		<fieldset id="questions"><legend>Pool of questions</legend>
 			<div class="question">

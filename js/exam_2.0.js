@@ -7,11 +7,13 @@
 ***************************************************************/
 function ExamDB(_fname){
 	this.fname = _fname || "";	// the ".edb" suffix is NOT part of this field!
-	this.list = [];
-	this.questions = [];		// a pool of all the questions for this exam
+	this.list = [];				// list of exams in this DB
+	this.questions = [];		// a pool of all the questions for this set of exams
 	
 	this.addExam();
 	this.addQuestion();
+	
+	return this;
 }
 
 ExamDB.suffix = ".ebd";
@@ -65,6 +67,8 @@ function Exam(_db){
 	this.sections = [];
 
 	this.addSection();
+	
+	return this;
 }
 
 Exam.prototype.getTitle = function(){
@@ -124,7 +128,9 @@ Exam.prototype.setDescr = function(_str){
 function ExamSection(){
 	this.title = "";
 	this.descr = "";
-	this.list = [];
+	this.list = [];	// list of questions for this exam section
+	
+	return this;
 }
 
 ExamSection.prototype.getTitle = function(){
@@ -153,9 +159,11 @@ ExamSection.prototype.setDescr = function(_str){
 	Exam Questions could be used more than in one exam
 ***************************************************************/
 function ExamQuestion(){
-	this.mc = undefined;	// multi-choice (if true) or plain text (if false)
+	this.mc = false;	// multi-choice (if true) or plain text (if false)
 	this.text = "";
 	this.answers = [];
+	
+	return this;
 }
 
 ExamQuestion.prototype.addAnswer = function(){
@@ -163,7 +171,32 @@ ExamQuestion.prototype.addAnswer = function(){
 	this.answers.push(eqa);
 	return eqa;
 }
+ExamQuestion.prototype.getType = function(){
+	return this.mc ? "mc" : "text";
+}
+ExamQuestion.prototype.setMC = function(_b){
+	this.mc = _b;
+	if(this.mc && this.answers.length < 1){
+		this.addAnswer();
+	}
+	return this;
+}
+ExamQuestion.prototype.getAnswers = function(){
+	return this.answers;
+}
 
+/**************************************************************
+	List of possible answers to a question
+***************************************************************/
 function ExamQuestionAnswer(){
 	this.list = [];
+	
+	return this;
+}
+
+ExamQuestionAnswer.prototype.getList = function(){
+	return this.list;
+}
+ExamQuestionAnswer.prototype.setList = function(_str, _delim){
+	return this.list = _str.split(_delim);
 }

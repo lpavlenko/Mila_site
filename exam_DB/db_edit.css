@@ -16,7 +16,7 @@ div.jar_main{
 }
 fieldset{
 	border-radius: 12px;
-	margin: 2px;
+	margin: 2px 0px;
 }
 legend{
 	font-size: 1.3em;
@@ -68,12 +68,9 @@ input, textarea, div, .grouped{
 	margin-top: 8px;
 	margin-bottom: 12px;
 }
-.selected, input:checked{
-	box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);
-}
-:focus{
-	box-shadow: 0px 0px 8px 1px rgba(0, 180, 180, 1);
-}
+.selected,
+input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
+:focus		{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
 .exam_section>div{
 	width: 100%;
 	text-align: right;
@@ -92,7 +89,7 @@ input, textarea, div, .grouped{
 	padding: 8px 0;
 }
 .left-right{
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.2));
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));
 }
 div.left-right{
 	margin: 1px 0px;
@@ -105,13 +102,26 @@ div.left-right{
 	width: 20em;
 }
 #exam_misc{
-	width: 30em;
+	width: 26em;
 }
 #questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
 	width: 100%;
 }
 textarea.tall{
 	height: 8em;
+}
+#db_list, #exam_attributes{
+	float: left;
+	width: 72%;
+}
+#db_list{
+	max-height: 4em;
+}
+#exams_list{
+	float: right;
+	width: 22%;
+	min-height: 12em;
+	max-height: 14em;
 }
 #db_list>div, #exams_list>div{
 	float: left;
@@ -124,12 +134,19 @@ textarea.tall{
 #exam_sections, #questions{
 	margin: 0px;
 }
-#exam_sections{
+#jar_exam_sections{
 	float: left;
-	width: 23%;
+	width: 26%;
+	padding: 0px;
+	margin: 0px;
 	min-height: 5em;
-/*	max-height: 32em;
-	overflow-y: auto;*/
+	max-height: 37em;
+}
+#exam_sections{
+	border: none;
+	overflow-y: auto;
+	max-height: 30em;
+	margin: 0px 0px 10px;
 }
 #questions{
 	float: right;
