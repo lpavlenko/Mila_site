@@ -2,28 +2,69 @@
 	Exam object (version 2.0 of the exam rendering and logic code)
 */
 
-function Exam(_fname){
+/**************************************************************
+	ExamDB is a file with all the exams for one DB
+***************************************************************/
+function ExamDB(_fname){
 	this.fname = _fname || "";	// the ".edb" suffix is NOT part of this field!
-	this.title = "Enter new title";
-	this.misc = "Additional info (like date or version). Not shown to end user";
-	this.mock = undefined;	// either mock or excercise
-	this.descr = "Full description of this exam. You can use HTML tags in here";
-
-	this.questions = [];	// a pool of all the questions for this exam
-	this.sections = [];
-
-	this.addSection();
+	this.list = [];
+	this.questions = [];		// a pool of all the questions for this exam
+	
+	this.addExam();
 	this.addQuestion();
 }
 
-Exam.suffix = ".ebd";
+ExamDB.suffix = ".ebd";
 
-Exam.prototype.valid = function(){
-	return this.fname.length > 0;
+ExamDB.prototype.getFname = function(){
+	return this.fname;
 }
 
-Exam.prototype.getFname = function(){
-	return this.fname;
+ExamDB.prototype.getQuestions = function(){
+	return this.questions;
+}
+
+ExamDB.prototype.addExam = function(){
+	var exam = new Exam(this);
+	this.list.push(exam);
+	return exam;
+}
+
+ExamDB.prototype.getExams = function(){
+	return this.list;
+}
+ExamDB.prototype.addQuestion = function(){
+	var eq = new ExamQuestion;
+	this.questions.push(eq);
+	return eq;
+}
+
+ExamDB.prototype.changeFname = function(_fname){
+	var oldName = this.fname;
+	this.fname = _fname;
+	// TODO: save under new file name
+	// TODO: remove old file from disk
+	return this;
+}
+
+ExamDB.prototype.getExams = function(){
+	return this.list;
+}
+
+/**************************************************************
+	One exam of a specific type with a list of questions in it
+***************************************************************/
+function Exam(_db){
+	this.db = _db;	// so we can get to the list of questions
+
+	this.title = "";
+	this.misc = "";
+	this.mock = undefined;	// either mock or excercise
+	this.descr = "";
+
+	this.sections = [];
+
+	this.addSection();
 }
 
 Exam.prototype.getTitle = function(){
@@ -49,24 +90,10 @@ Exam.prototype.getDescr = function(){
 	return this.descr;
 }
 
-Exam.prototype.changeFname = function(_fname){
-	var oldName = this.fname;
-	this.fname = _fname;
-	// TODO: save under new file name
-	// TODO: remove old file from disk
-	return this;
-}
-
 Exam.prototype.addSection = function(){
 	var es = new ExamSection;
 	this.sections.push(es);
 	return es;
-}
-
-Exam.prototype.addQuestion = function(){
-	var eq = new ExamQuestion;
-	this.questions.push(eq);
-	return eq;
 }
 
 Exam.prototype.getSections = function(){
@@ -89,9 +116,14 @@ Exam.prototype.setDescr = function(_str){
 	return this.descr = _str;
 }
 
+/**************************************************************
+	One exam can have multiple sections, each with it's
+	title/description and a lsit of questions (from general
+	DB pool)
+***************************************************************/
 function ExamSection(){
-	this.title = "Section's title";
-	this.descr = "Section's description. You can use HTML tags in here";
+	this.title = "";
+	this.descr = "";
 	this.list = [];
 }
 
@@ -117,9 +149,12 @@ ExamSection.prototype.setDescr = function(_str){
 	return this;
 }
 
+/**************************************************************
+	Exam Questions could be used more than in one exam
+***************************************************************/
 function ExamQuestion(){
 	this.mc = undefined;	// multi-choice (if true) or plain text (if false)
-	this.text = "Question's text. You can use HTML here";
+	this.text = "";
 	this.answers = [];
 }
 

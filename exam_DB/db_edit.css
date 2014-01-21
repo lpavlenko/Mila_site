@@ -1,0 +1,146 @@
+*{
+	position: relative;
+	transition: 0.3s;
+}
+body{
+	/*background: linear-gradient(to bottom right, #2266FF, #3322AA, #2266FF);*/
+	background: radial-gradient(#224499, #221188, #224499);
+}
+label{
+	color: #FF9900;
+}
+div.jar_main{
+	/*width: 100%;*/
+	margin: 0px auto;
+	padding: 4px;
+}
+fieldset{
+	border-radius: 12px;
+	margin: 2px;
+}
+legend{
+	font-size: 1.3em;
+	color: #EEDDFF;
+	margin-left: 1em;
+}
+label{
+	vertical-align: top;
+}
+input, textarea{
+	background: rgba(255, 255, 255, 0.8);
+}
+textarea{
+	min-height: 4em;
+}
+input[type=file]{
+	display: none;
+}
+
+input, textarea, div, .grouped{
+	border-radius: 5px;
+}
+
+.grouped{
+	margin: 1px 1px;
+	padding: 0px 4px 1px;
+	line-height: 1.7em;
+	display: inline-block;
+	float: left;
+}
+.alert{
+	box-shadow: 0px 0px 8px 2px red;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	font-weight: bold;
+}
+
+.exam_section{
+	display: block;
+	min-height: 5em;
+	border-radius: 20px;
+	padding: 8px;
+}
+.exam_section.selected{
+	border-style: double;
+	border-width: 3px;
+	border-color: rgba(0, 127, 127, 0.8);
+	margin-top: 8px;
+	margin-bottom: 12px;
+}
+.selected, input:checked{
+	box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);
+}
+:focus{
+	box-shadow: 0px 0px 8px 1px rgba(0, 180, 180, 1);
+}
+.exam_section>div{
+	width: 100%;
+	text-align: right;
+	padding-right: 1em;
+}
+.exam_section label{
+	width: 20%;
+}
+.exam_section input, .exam_section textarea{
+	width: 80%;
+}
+.answers>div{
+	float: left;
+	width: 25%;
+	border: none;
+	padding: 8px 0;
+}
+.left-right{
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.2));
+}
+div.left-right{
+	margin: 1px 0px;
+}
+.answers textarea{
+	width: 100%;
+}
+
+#exam_title{
+	width: 20em;
+}
+#exam_misc{
+	width: 30em;
+}
+#questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
+	width: 100%;
+}
+textarea.tall{
+	height: 8em;
+}
+#db_list>div, #exams_list>div{
+	float: left;
+	min-width: 14em;
+	margin: 1px 2px 1px;
+}
+#db_list>div input[type=text], #exams_list>div input[type=text]{
+	width: 14em;
+}
+#exam_sections, #questions{
+	margin: 0px;
+}
+#exam_sections{
+	float: left;
+	width: 23%;
+	min-height: 5em;
+/*	max-height: 32em;
+	overflow-y: auto;*/
+}
+#questions{
+	float: right;
+	width: 70%;
+	min-height: 5em;
+	background: radial-gradient(rgba(0, 255, 255, 0.1), rgba(155, 155, 200, 0.2));
+}
+.question{
+	padding: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12px;
+}
