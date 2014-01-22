@@ -2,6 +2,12 @@
 	Exam object (version 2.0 of the exam rendering and logic code)
 */
 
+function numericArray(_arr){
+	for(var i = 0; i < _arr.length; ++i){
+		_arr[i] = +_arr[i];
+	}
+}
+
 /**************************************************************
 	ExamDB is a file with all the exams for one DB
 ***************************************************************/
@@ -100,6 +106,11 @@ Exam.prototype.addSection = function(){
 	return es;
 }
 
+Exam.prototype.removeSection = function(_s){
+	this.sections.splice( this.sections.indexOf(_s), 1 );
+	return this;
+}
+
 Exam.prototype.getSections = function(){
 	return this.sections;
 }
@@ -145,6 +156,22 @@ ExamSection.prototype.getList = function(){
 	return this.list;
 }
 
+ExamSection.prototype.setList = function(_str, _delim){
+	this.list = _str.split(_delim);
+	numericArray(this.list);
+	return this;
+}
+
+ExamSection.prototype.appendToList = function(_idx){
+	this.list.push(_idx);
+	return this;
+}
+
+ExamSection.prototype.removeFromList = function(_i){
+	this.list.splice( this.list.indexOf(_i), 1 );
+	return this;
+}
+
 ExamSection.prototype.setTitle = function(_str){
 	this.title = _str;
 	return this;
@@ -166,8 +193,15 @@ function ExamQuestion(){
 	return this;
 }
 
+ExamQuestion.prototype.getText = function(_str){
+	return this.text;
+}
+ExamQuestion.prototype.setText = function(_str){
+	this.text = _str;
+	return this;
+}
 ExamQuestion.prototype.addAnswer = function(){
-	var eqa = new ExamQuestionAnswer;
+	var eqa = new ExamQuestionAnswerSet;
 	this.answers.push(eqa);
 	return eqa;
 }
@@ -176,9 +210,12 @@ ExamQuestion.prototype.getType = function(){
 }
 ExamQuestion.prototype.setMC = function(_b){
 	this.mc = _b;
+	// this causes TWO answers to be added when switching from TEXT to MC
+	/*
 	if(this.mc && this.answers.length < 1){
 		this.addAnswer();
 	}
+	*/
 	return this;
 }
 ExamQuestion.prototype.getAnswers = function(){
@@ -188,15 +225,25 @@ ExamQuestion.prototype.getAnswers = function(){
 /**************************************************************
 	List of possible answers to a question
 ***************************************************************/
-function ExamQuestionAnswer(){
+function ExamQuestionAnswerSet(){
 	this.list = [];
+	this.correct = "";	// index to the correct asnwer
 	
 	return this;
 }
 
-ExamQuestionAnswer.prototype.getList = function(){
+ExamQuestionAnswerSet.prototype.getList = function(){
 	return this.list;
 }
-ExamQuestionAnswer.prototype.setList = function(_str, _delim){
-	return this.list = _str.split(_delim);
+ExamQuestionAnswerSet.prototype.setList = function(_str, _delim){
+	this.list = _str.split(_delim);
+	numericArray(this.list);
+	return this;
+}
+ExamQuestionAnswerSet.prototype.getCorrectAnswer = function(_idx){
+	return this.correct;
+}
+ExamQuestionAnswerSet.prototype.setCorrectAnswer = function(_idx){
+	this.correct = _idx;
+	return this;
 }

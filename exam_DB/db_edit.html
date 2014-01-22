@@ -1,25 +1,15 @@
 <html>
 <head>
-	<!--meta http-equiv="refresh" content="1"-->
 	<script src="jquery-2.0.3.min.js"></script>
 	<script src="db_edit.js"></script>
 	<script src="../js/exam_2.0.js"></script>
-	<!--script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script-->
 
 	<link rel="stylesheet" type="text/css" href="db_edit.css">
-
-	<style>
-	</style>
-
-	<script>
-	</script>
 </head>
 <body>
 	<div class="jar_main">
-		<fieldset id="db_list"><legend>List of DBs</legend>
-		</fieldset>
-		<fieldset id="exams_list"><legend>Exams in selected DB</legend>
-		</fieldset>
+		<fieldset id="db_list"><legend>List of DBs</legend></fieldset>
+		<fieldset id="exams_list"><legend>Exams in selected DB</legend></fieldset>
 		<fieldset id="exam_attributes"><legend>Exam attributes</legend>
 			<span class="grouped left-right">
 				<input id="exam_type_mock" type="radio" name="exam_type" />
@@ -46,42 +36,8 @@
 		<fieldset id="jar_exam_sections"><legend>Exam sections</legend>
 			<fieldset id="exam_sections"></fieldset>
 		</fieldset>
-		<fieldset id="questions"><legend>Pool of questions</legend>
-			<div class="question">
-				<span class="grouped left-right">
-					<input id="question1" type="checkbox" />
-						<label for="question1">Include in this exam section</label>
-				</span>
-				<span class="grouped left-right">
-					<input id="q1_type_mc" type="radio" name="q1_type" />
-						<label for="q1_type_mc">Multi-choice</label>
-					<input id="q1_type_txt" type="radio" name="q1_type" />
-						<label for="q1_type_txt">Text</label>
-				</span>
-				<textarea id="q1_text">question full text</textarea>
-				<fieldset class="answers"><legend>Lists of answers, one per line</legend>
-					<div class="left-right">
-						<label for="q1_a1_choices">A)</label>
-						<textarea id="q1_a1_choices"></textarea>
-					</div>
-					<div class="left-right">
-						<label for="q1_a2_choices">B)</label>
-						<textarea id="q1_a1_choices"></textarea>
-					</div>
-					<div class="left-right">
-						<label for="q1_a3_choices">C)</label>
-						<textarea id="q1_a1_choices"></textarea>
-					</div>
-					<div class="left-right">
-						<label for="q1_a4_choices">D)</label>
-						<textarea id="q1_a1_choices"></textarea>
-					</div>
-					<div class="left-right">
-						<label for="q1_a5_choices">E)</label>
-						<textarea id="q1_a1_choices"></textarea>
-					</div>
-				</fieldset>
-			</div>
+		<fieldset id="jar_questions"><legend>Pool of questions</legend>
+			<fieldset id="questions"></fieldset>
 		</div>
 	</div>
 </body>

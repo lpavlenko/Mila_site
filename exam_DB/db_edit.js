@@ -18,13 +18,6 @@ function TRACE(_fn){
 	//console.log(_fn.name);
 }
 
-function locateQuestionUpTheChain(_curr){
-	if( ! _curr || _curr === document )
-		return document;
-	if( _curr.question !== undefined )
-		return _curr;
-	return locateQuestionUpTheChain(_curr.parentNode);
-}
 function extractFname(_path){
 	TRACE("extractFname");
 	return (_path.split("\\").pop() || _path.split("/").pop()).split(".")[0];
@@ -42,8 +35,29 @@ function saveExam(){
 }
 
 /**************************************************************
+	Input data cleansing
+***************************************************************/
+function correctAnswer2Idx(_str){
+	var c = _str.charCodeAt(_str.length - 1);
+	if( c > 0x60 )
+		return c - 0x61;
+	else if( c > 0x40 )
+		return c - 0x41;
+	else
+		return c - 0x30;
+}
+/**************************************************************
 	Locate currently selected objects on our page
 ***************************************************************/
+// go up the hierarchy chain and find the element that has the
+// provided property name
+function locateJarUpTheChain(_curr, _prop_name){
+	if( ! _curr || _curr === document )
+		return null;
+	if( _curr[_prop_name] !== undefined )
+		return _curr;
+	return locateJarUpTheChain(_curr.parentNode, _prop_name);
+}
 // get the DB that is currently selected with a radio button (via it's ID in a form of "<fname>_db")
 function getCurrDB(){
 	TRACE("getCurrDB");
@@ -52,15 +66,11 @@ function getCurrDB(){
 // get currently selected Exam (via radio button's ID in a form of "exam_title_<idx>")
 // and it's index in DB's list
 function getCurrExam(){
-	TRACE("getCurrExam");
-	var idx = $("#exams_list input[type=radio]:checked").attr("id").match(/exam_title_(.*?)$/)[1];
-	return {exam: getCurrDB().getExams()[idx], idx: idx};
+	return locateJarUpTheChain( $("#exams_list input[type=radio]:checked")[0], "exam").exam;
 }
 // get currentl yselected Exam Section via "selected" CSS class and DOM's property "idx"
 function getCurrSection(){
-	TRACE("getCurrSection");
-	var i = $("#exam_sections .selected")[0].idx;
-	return {section: getCurrExam().exam.getSections()[i], idx: i};
+	return $("#exam_sections .selected")[0].examSection;
 }
 
 /**************************************************************
@@ -68,7 +78,6 @@ function getCurrSection(){
 ***************************************************************/
 // add new (created) DB to list if no more empty slots are available in the list
 function addDBIfNeeded(){
-	TRACE(this);
 	var $list = $("#db_list input[type=text]");
 	for(var i = 0; i < $list.length; ++i){
 		if( $list.get(i).value.length < 1 )
@@ -81,7 +90,6 @@ function addDBIfNeeded(){
 	$("#db_list").append( genDomDB(fname) );
 }
 function addExamIfNeeded(){
-	TRACE(this);
 	var $list = $("#exams_list input[type=text]");
 	if( getCurrDB().getExams()[ $list.length - 1 ].title.length < 1 )
 		return;
@@ -89,19 +97,13 @@ function addExamIfNeeded(){
 	// if we are here that means there are no empty slots left - need to create a new one
 	$("#exams_list").append( genDomExam( getCurrDB().addExam(), $list.length ) );
 }
-function addSectionIfNeeded(){
-	TRACE(this);
-	var exam = getCurrExam().exam;
-	var idx = getCurrSection().idx;
-	if(idx < exam.getSections().length - 1){
-		return;
+function addSectionIfNeeded(_jar){
+	if( _jar === $("#exam_sections>div.exam_section:last")[0] ){
+		var $es = genDomSection( getCurrExam().addSection() );
+		$("#exam_sections").append($es);
 	}
-	var es = exam.addSection();
-	var $es = genDomSection(es, idx + 1);
-	$("#exam_sections").append($es);
 }
 function addQuestionIfNeeded(_jar){
-	TRACE(this);
 	var db = getCurrDB();
 	if( _jar === $("#questions>div.question:last")[0] ){
 		var $q = genDomQuestion(db.addQuestion(), $("#questions>div.question").length );
@@ -109,11 +111,10 @@ function addQuestionIfNeeded(_jar){
 	}
 }
 function addAnswerIfNeeded(_jar){
-	TRACE(this);
 	var $list = $(_jar).find(".answers div textarea");
 	if( $list.length < 1 || $list.last().val().length > 0 ){
 		var q = _jar.question;
-		$(_jar).find(".answers").append( genDomOneAnswer(q.getAnswers().length, $list.length, q.addAnswer()) );
+		$(_jar).find(".answers").append( genDomOneAnswerSet( $list.length, q.addAnswer()) );
 	}
 }
 
@@ -138,10 +139,10 @@ function updateCurrDBFname(_new_fname){
 	addDBIfNeeded();
 }
 function updateCurrExamTitle(_new_title){
-	TRACE("updateCurrExamTitle");
-	getCurrExam().exam.setTitle(_new_title);
+	getCurrExam().setTitle(_new_title);
 	$("#exams_list input[type=radio]:checked").siblings("input[type=text]").val(_new_title);
 	$("#exam_title").val(_new_title);
+	addExamIfNeeded();
 }
 
 /**************************************************************
@@ -163,10 +164,18 @@ $(document).ready(function(){
 		.delegate("input, select, textarea, button", "blur", saveExam);
 
 	$("#db_list")
+		.delegate("input[type=radio]", "change", function(){
+			if(this.checked){
+				var firstExam = locateJarUpTheChain( $("#exams_list input[type=radio]:first")[0], "exam").exam;
+				var db = getCurrDB();
+				if(firstExam !== db.getExams()[0]){
+					renderDB( db );
+				}
+			}
+		})
 		.delegate(".left-right", "focusin", function(){
-			$(this).find("input[type=radio]").prop("checked", true);
-			renderDB( getCurrDB() );
-			$("#exams_list input[type=radio]:first").click();
+			if( $(this).find("input[type=radio]").prop("checked") !== true )
+				$(this).find("input[type=radio]").prop("checked", true).change();
 		})
 		.delegate("button", "click", function(){
 			$(this).find("input[type=file]")[0].click();
@@ -183,76 +192,104 @@ $(document).ready(function(){
 	$("#exams_list")
 		.delegate(".left-right", "focusin", function(){
 			$(this).find("input[type=radio]").prop("checked", true);
-			renderExam( getCurrExam().exam );
+			renderExam( getCurrExam() );
 		})
 		.delegate("input[type=text]", "change", function(){
 			updateCurrExamTitle(this.value);
 			addExamIfNeeded();
 		});
 
-	$("#exam_misc") .change(function(){getCurrExam().exam.setMisc (this.value);});
-	$("#exam_descr").change(function(){getCurrExam().exam.setDescr(this.value);});
+	$("#exam_misc") .change(function(){getCurrExam().setMisc (this.value);});
+	$("#exam_descr").change(function(){getCurrExam().setDescr(this.value);});
 	$("#exam_title").change(function(){updateCurrExamTitle(this.value);});
 	$("#exam_type_mock, #exam_type_exe").click(function(){
 		switch(this.id){
 			case "exam_type_mock":
-				getCurrExam().exam.setMock(true);
+				getCurrExam().setMock(true);
 				break;
 			case "exam_type_exe":
-				getCurrExam().exam.setMock(false);
+				getCurrExam().setMock(false);
 				break;
 		}
 	});
 
 	$("#exam_sections")
 		.delegate("input, textarea", "change", function(){
-			var es = getCurrSection();
+			var jar = locateJarUpTheChain(this, "examSection");
+			var es = jar.examSection;
 			if(this.id.match(/title/)){
-				es.section.setTitle(this.value);
+				es.setTitle(this.value);
 			}else if(this.id.match(/descr/)){
-				es.section.setDescr(this.value);
+				es.setDescr(this.value);
 			}else if(this.id.match(/list/)){
-				// TODO: implement ticking of selected questions in the general pool
+				getCurrSection().setList(this.value, ",");
+				markQuestions( getCurrDB() );
 			}
-			addSectionIfNeeded();
+			addSectionIfNeeded(jar);
 		})
 		.delegate(".exam_section", "focusin", function(){
 			$("#exam_sections .exam_section").removeClass("selected");
 			$(this).addClass("selected");
+			markQuestions( getCurrDB() );
+		})
+		.delegate(".exam_section button", "click", function(){
+			// TODO: implement deletion of a section
+		})
+		.delegate("button.alert", "click", function(){
+			var jar = locateJarUpTheChain(this, "examSection");
+			getCurrExam().removeSection( jar.examSection );
+			$(jar).prev().trigger("focusin");
+			$(jar).remove();
 		});
 
 	$("#questions")
+		.delegate("input[type=checkbox]", "change", function(){
+			var es = getCurrSection();
+			var idx = getCurrDB().getQuestions().indexOf( locateJarUpTheChain(this, "question").question );
+			if(this.checked)
+				es.appendToList(idx);
+			else
+				es.removeFromList(idx);
+			$("#exam_sections .selected").find("textarea:last").val( es.getList().join(",") );
+		})
 		.delegate("input[type=radio]", "change", function(){
-			var $q = $(this).parent(/*span*/).parent(/*div.question*/);
-			var mc = this.id.match(/_mc/);
-			$q[0].question.setMC( !! mc );
+			var qJar = locateJarUpTheChain(this, "question");
+			var mc = !! this.id.match(/_mc/);
+			qJar.question.setMC( mc );
 			if(mc){
-				$q.find("fieldset.answers").css( {"display": ""} );
-				addAnswerIfNeeded($q[0]);
+				$(qJar).find("fieldset.answers").css( {"display": ""} );
+				addAnswerIfNeeded(qJar);
 			}else{
-				$q.find("fieldset.answers").css( {"display": "none"} );
+				$(qJar).find("fieldset.answers").css( {"display": "none"} );
 			}
 		})
 		.delegate("input, textarea", "change", function(){
-			addQuestionIfNeeded( locateQuestionUpTheChain(this) );
+			addQuestionIfNeeded( locateJarUpTheChain(this, "question") );
+		})
+		.delegate(".question textarea", "change", function(){
+			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
 		.delegate(".answers textarea", "keyup", function(){
-			// q0_a0_set
-			//var $q = $(this).parent(/*div*/).parent(/*fieldset.answers*/).parent(/*div.question*/);
-			var qJar = locateQuestionUpTheChain(this);
-			var info = this.id.match(/q(.*?)_a(.*?)_set/);
-			var q_idx = info[1];
-			var a_idx = info[2];
-			if( getCurrDB().getQuestions()[0] !== qJar.question ){
-				console.log("Corruption in DB. Question at index [" + q_idx + "] doesn't match the one DOM!");
-			}
-			qJar.question.getAnswers()[a_idx].setList(this.value, "\n");
-			addAnswerIfNeeded(qJar);
+			locateJarUpTheChain(this, "answerSet").answerSet.setList(this.value, "\n");
+			addAnswerIfNeeded(locateJarUpTheChain(this, "question"));
+		})
+		.delegate(".correct-answer input[type=text]", "keyup", function(){
+			var correct = correctAnswer2Idx(this.value);
+			locateJarUpTheChain(this, "answerSet").answerSet.setCorrectAnswer(correct);
+			this.value = String.fromCharCode(0x40 + correct);
 		});
 });
 
-function markQuestions(_db, _es){
-	TRACE(this);
+function markQuestions(_db){
+	var list = getCurrSection().getList();
+	$("#questions .question input[type=checkbox]").each(function(_idx, _el){
+		var q_idx = _db.getQuestions().indexOf( locateJarUpTheChain(_el, "question").question );
+		if( list.indexOf(q_idx) !== -1){
+			$(_el).prop("checked", true);
+		}else{
+			$(_el).prop("checked", false);
+		}
+	});
 	// TODO: implement
 }
 
@@ -260,7 +297,6 @@ function markQuestions(_db, _es){
 	render various blocks onto the page
 ***************************************************************/
 function renderDB(_db){
-	TRACE(this);
 	var exams = _db.getExams();
 	$("#exams_list>div").remove();
 	for(var i = 0; i < exams.length; ++i){
@@ -277,10 +313,9 @@ function renderDB(_db){
 
 	renderExam(exams[0]);
 	
-	markQuestions(_db, getCurrSection().section);
+	markQuestions(_db);
 }
 function renderExam(_exam){
-	TRACE(this);
 	$("#exam_type_mock, #exam_type_exe").prop("checked", false);
 	$("#exam_type_" + _exam.getType()).prop("checked", true);
 	$("#exam_title").val( _exam.getTitle() || strings.exam.title );
@@ -290,10 +325,9 @@ function renderExam(_exam){
 	renderSections(_exam);
 }
 function renderSections(_exam){
-	TRACE(this);
 	$("#exam_sections>div").remove();
 	for(var i = 0; i < _exam.getSections().length; ++i){
-		var $es = genDomSection( _exam.getSections()[i], i );
+		var $es = genDomSection( _exam.getSections()[i], (i === 0) );
 		if(i === 0)
 			$es.addClass("selected");
 		$("#exam_sections").append($es);
@@ -304,21 +338,22 @@ function renderSections(_exam){
 	generators of DOM structures that represent data
 ***************************************************************/
 function genDomDB(_fname){
-	TRACE(this);
 	return $("<div>")
 			.addClass("left-right")
 			.appendRadioWithTextInput(_fname + "_db", "db_list", _fname)
 			.append( $("<button>").text("...").append( $("<input>").attr( {"type": "file" } ) ) );
 }
 function genDomExam(_exam, _idx){
-	TRACE(this);
-	return $("<div>")
+	var $jar = $("<div>")
 			.addClass("left-right")
 			.appendRadioWithTextInput("exam_title_" + _idx, "exam_list", _exam.getTitle() || strings.exam.title);
+
+	$jar[0].exam = _exam;
+
+	return $jar;
 }
-function genDomSection(_s, _idx){
-	TRACE(this);
-	var es_id = "section_" + _idx;
+function genDomSection(_s, _no_delete_button){
+	var es_id = "section_" + Math.random();
 	var $jar = $("<div>").addClass("exam_section left-right")
 		.append(
 			$("<div>")
@@ -346,19 +381,13 @@ function genDomSection(_s, _idx){
 					""
 				)
 		);
-	if(_idx > 0){
+	if( ! _no_delete_button ){
 		$jar.append( $("<button>").text("Delete this exam section").addClass("alert") );
 	}
-	$jar[0].idx = _idx;
+	$jar[0].examSection = _s;
 	return $jar;
 }
 function genDomQuestion(_q, _idx){
-	TRACE(this);
-	function randomize(){
-		var mc = Math.random() > 0.5;
-		_q.setMC(mc);
-	}
-	randomize();
 	var b_id = "q_" + _idx;
 	var r_name = b_id + "_type";
 	var $jar = $("<div>").addClass("question")
@@ -372,36 +401,52 @@ function genDomQuestion(_q, _idx){
 				.appendRadioWithLabel(b_id + "_type_text", r_name, "Text")
 		)
 		.append(
-			$("<textarea>").attr( {"id": b_id + "_full_text"} )
+			$("<span>").addClass("question_info").text("Question#: " + (_idx + 1))
 		)
-		.append( genDomAnswers(_q, _idx) );
+		.append(
+			$("<textarea>").val(_q.getText())/*.attr( {"id": b_id + "_full_text"} )*/
+		)
+		.append( genDomAnswers(_q) );
 
 	$jar[0].question = _q;
 	$jar.find("#" + b_id + "_type_" + _q.getType()).prop("checked", true);
 
 	return $jar;
 }
-function genDomAnswers(_q, _idx){
+function genDomAnswers(_q){
 	var $jar = $("<fieldset>").addClass("answers")
-		.append(
-			$("<legend>").text("Lists of answers, one per line")
-		);
+		/*.append( $("<legend>").text("Lists of answers, one per line") )*/;
 	var list = _q.getAnswers();
 	for(var i = 0; i < list.length; ++i){
-		$jar.append( genDomOneAnswer(_idx, i, list[i]) );
+		$jar.append( genDomOneAnswerSet( i, list[i]) );
 	}
 	if( _q.getType() === "text" )
 		$jar.css( {"display": "none"} );
 	return $jar;
 }
-function genDomOneAnswer(_q_idx, _a_idx, _list){
-	return $answer = $("<div>")
+function genDomOneAnswerSet(_a_idx, _as){
+	//var b_id = "q" + _q_idx + "_a" + _a_idx;
+	var $inset = $("<span>")
+		.addClass("grouped left-right correct-answer")
+		.appendTextInputWithLabel(
+			"",//b_id + "_correct",
+			"Correct answer:",
+			_as.getCorrectAnswer()
+		);
+
+	var $answer = $("<div>")
 		.addClass("left-right")
 		.appendLabelWithTextarea(
-			"q" + _q_idx + "_a" + _a_idx + "_set",
+			"",//b_id + "_set",
 			String.fromCharCode(65 + _a_idx) + ")",
-			_list.getList().join("\n")
+			_as.getList().join("\n"),
+			"",
+			$inset
 		);
+
+	$answer[0].answerSet = _as;
+
+	return $answer;
 }
 
 /**************************************************************
@@ -433,9 +478,10 @@ $.prototype.appendTextInputWithLabel = function(_id, _label, _value){
 		.append( $("<input>").attr( {"id": _id, "type": "text"} ).val(_value) );
 	return this;
 }
-$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _class){
+$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _class, _$inset){
 	this
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
+		.append( _$inset )
 		.append( $("<textarea>").attr( {"id": _id} ).addClass(_class || "").text(_value) );
 	return this;
 }

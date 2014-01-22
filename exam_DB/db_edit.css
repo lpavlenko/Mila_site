@@ -23,8 +23,9 @@ legend{
 	color: #EEDDFF;
 	margin-left: 1em;
 }
-label{
+div>label{
 	vertical-align: top;
+	line-height: 1.7em;
 }
 input, textarea{
 	background: rgba(255, 255, 255, 0.8);
@@ -43,9 +44,7 @@ input, textarea, div, .grouped{
 .grouped{
 	margin: 1px 1px;
 	padding: 0px 4px 1px;
-	line-height: 1.7em;
 	display: inline-block;
-	float: left;
 }
 .alert{
 	box-shadow: 0px 0px 8px 2px red;
@@ -53,6 +52,22 @@ input, textarea, div, .grouped{
 	margin-right: auto;
 	display: block;
 	font-weight: bold;
+	border-radius: 16px;
+	padding: auto 8px;
+}
+
+div.grouped{
+	float: left;
+}
+.selected,
+input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
+:focus		{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
+
+.left-right{
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));
+}
+div.left-right{
+	margin: 1px 0px;
 }
 
 .exam_section{
@@ -68,9 +83,6 @@ input, textarea, div, .grouped{
 	margin-top: 8px;
 	margin-bottom: 12px;
 }
-.selected,
-input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
-:focus		{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
 .exam_section>div{
 	width: 100%;
 	text-align: right;
@@ -82,17 +94,16 @@ input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
 .exam_section input, .exam_section textarea{
 	width: 80%;
 }
+fieldset.answers{
+	border-top: none;
+	border-left: none;
+	/*border-right: none;*/
+}
 .answers>div{
 	float: left;
 	width: 25%;
 	border: none;
-	padding: 8px 0;
-}
-.left-right{
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));
-}
-div.left-right{
-	margin: 1px 0px;
+	padding: 1px 0;
 }
 .answers textarea{
 	width: 100%;
@@ -110,6 +121,10 @@ div.left-right{
 textarea.tall{
 	height: 8em;
 }
+#db_list, #exam_attributes, #exams_list{
+	margin-left: 0px;
+	margin-right: 0px;
+}
 #db_list, #exam_attributes{
 	float: left;
 	width: 72%;
@@ -119,7 +134,7 @@ textarea.tall{
 }
 #exams_list{
 	float: right;
-	width: 22%;
+	width: 23%;
 	min-height: 12em;
 	max-height: 14em;
 }
@@ -131,33 +146,48 @@ textarea.tall{
 #db_list>div input[type=text], #exams_list>div input[type=text]{
 	width: 14em;
 }
-#exam_sections, #questions{
-	margin: 0px;
-}
-#jar_exam_sections{
-	float: left;
-	width: 26%;
+#jar_exam_sections, #jar_questions{
 	padding: 0px;
 	margin: 0px;
 	min-height: 5em;
-	max-height: 37em;
+	max-height: 42em;
 }
-#exam_sections{
+#jar_exam_sections{
+	float: left;
+	width: 25%;
+}
+#jar_questions{
+	float: right;
+	width: 73%;
+	/*background: radial-gradient(rgba(0, 255, 255, 0.1), rgba(155, 155, 200, 0.2));*/
+}
+#exam_sections, #questions{
 	border: none;
 	overflow-y: auto;
-	max-height: 30em;
+	max-height: 35em;
 	margin: 0px 0px 10px;
-}
-#questions{
-	float: right;
-	width: 70%;
-	min-height: 5em;
-	background: radial-gradient(rgba(0, 255, 255, 0.1), rgba(155, 155, 200, 0.2));
 }
 .question{
 	padding: 4px;
 	margin-top: 4px;
-	margin-bottom: 4px;
-	background: rgba(255, 255, 255, 0.05);
+	margin-bottom: 14px;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(115, 115, 115, 0.2));
 	border-radius: 12px;
+	/*box-shadow: 3px 0px 1px -1px rgba(0, 255, 255, 0.3);*/
+}
+.question>span>input[type=checkbox]{
+	margin-left: 1em;
+}
+.question_info{
+	display: inline-block;
+	float: right;
+	margin-right: 0.5em;
+	color: rgba(93, 209, 209, 0.92);
+}
+.correct-answer{
+	margin-left: 0.7em;
+}
+.correct-answer input[type=text]{
+	margin-left: 4px;
+	width: 2em;
 }
