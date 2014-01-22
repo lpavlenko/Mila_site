@@ -3,7 +3,6 @@
 	transition: 0.3s;
 }
 body{
-	/*background: linear-gradient(to bottom right, #2266FF, #3322AA, #2266FF);*/
 	background: radial-gradient(#224499, #221188, #224499);
 }
 label{
@@ -18,7 +17,7 @@ fieldset{
 	margin: 2px 0px;
 }
 legend{
-	font-size: 1.3em;
+	font-size: 1.2em;
 	color: #EEDDFF;
 	margin-left: 1em;
 }
@@ -27,7 +26,7 @@ div>label{
 	line-height: 1.7em;
 }
 input, textarea{
-	background: rgba(255, 255, 255, 0.8);
+	background: rgba(255, 255, 255, 0.75);
 }
 
 textarea{min-height: 4em;}
@@ -38,11 +37,20 @@ input, textarea, div, .grouped{
 	border-radius: 5px;
 }
 
+.divider{
+	clear: both;
+	min-height: 1em;
+	margin-bottom: 4px;
+	border-radius: 0px;
+	box-shadow: 0px 4px 6px -3px rgba(255, 255, 255, 0.1);
+}
 .grouped{
 	margin: 1px 1px;
 	padding: 0px 4px 1px;
 	display: inline-block;
 }
+div.grouped{float: left;}
+
 .alert{
 	box-shadow: 0px 0px 8px 2px red;
 	margin-left: auto;
@@ -53,15 +61,11 @@ input, textarea, div, .grouped{
 	padding: auto 8px;
 }
 
-div.grouped{float: left;}
+:focus,
+input:checked	{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
+.selected	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
 
-.selected,
-input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
-:focus		{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
-
-.left-right{
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));
-}
+.left-right	{background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));}
 
 .exam_section{
 	display: block;
@@ -85,21 +89,22 @@ input:checked	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
 .exam_section input, .exam_section textarea{
 	width: 80%;
 }
-fieldset.answers{
-	border-top: none;
-	border-left: none;
+
+textarea.tall{height: 8em;}
+.answers textarea, #questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
+	width: 100%;
 }
+
 .answers>div{
 	float: left;
 	width: 25%;
 	border: none;
 	padding: 1px 0;
 }
-
-.answers textarea, #questions>div>textarea, .grouped.wide, .grouped.wide>textarea{
-	width: 100%;
+fieldset.answers{
+	border-top: none;
+	border-left: none;
 }
-textarea.tall{height: 8em;}
 
 fieldset[id*="jar_"]{
 	margin: 0px;
@@ -123,20 +128,11 @@ fieldset[id*=jar_]>fieldset{
 #jar_exam_sections	{width: 25%;}
 #jar_questions		{width: 73%;}
 
-#jar_db_list{
-	max-height: 15em;
-}
 #db_list{
 	max-height: 12em;
 }
-#jar_exams_list{
-	max-height: 5em;
-}
 #exams_list{
 	max-height: 2em;
-}
-#jar_exam_sections, #jar_questions{
-	max-height: 38em;
 }
 #exam_sections, #questions{
 	max-height: 35em;
@@ -171,11 +167,35 @@ fieldset[id*=jar_]>fieldset{
 .question_info{
 	display: inline-block;
 	float: right;
-	margin-right: 0.5em;
+	margin-right: 0.4em;
 	color: rgba(93, 209, 209, 0.92);
 }
+
+textarea.question-text{
+}
+textarea.answer-list{
+}
+.feedback{
+	margin-left: 0.4em;
+}
+.feedback textarea{
+	width: 2em;
+	min-height: 1.7em;
+	height: 1.7em;
+	top: 4px;
+	margin-left: 0.4em;
+}
+.feedback textarea:focus{
+	width: 16em;
+	height: 6em;
+	position: absolute;
+	left: -1em;
+	top: 0px;
+	background: #EFFFFF;
+	z-index: 10;
+}
+
 .correct-answer{
-	margin-left: 0.7em;
 }
 .correct-answer input[type=text]{
 	margin-left: 4px;

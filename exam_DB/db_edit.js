@@ -10,6 +10,9 @@ var strings = {
 	},
 	eq: {
 		text: "Question's text. You can use HTML here"
+	},
+	qa: {
+		text: "Feedback's text. You can use HTML here"
 	}
 };
 var DBs = {};
@@ -246,10 +249,13 @@ $(document).ready(function(){
 				$(qJar).find("fieldset.answers").css( {"display": "none"} );
 			}
 		})
-		.delegate(".question textarea", "change", function(){
+		.delegate(".question textarea.question-text", "change", function(){
 			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
-		.delegate(".answers textarea", "keyup", function(){
+		.delegate(".question textarea.feedback", "change", function(){
+			locateJarUpTheChain(this, "answerSet").answerSet.setFeedback(this.value);
+		})
+		.delegate(".answers textarea.answer-list", "keyup", function(){
 			locateJarUpTheChain(this, "answerSet").answerSet.setList(this.value, "\n");
 			addAnswerIfNeeded(locateJarUpTheChain(this, "question"));
 		})
@@ -367,7 +373,7 @@ function genDomQuestion(_q, _idx){
 				.appendRadioWithLabel(b_id + "_type_text", r_name, "Text")
 		)
 		.append( $("<span>").addClass("question_info").text("Question#: " + (_idx + 1)) )
-		.append( $("<textarea>").val( _q.getText() || strings.eq.text ) )
+		.append( $("<textarea>").addClass("question-text").val( _q.getText() || strings.eq.text ) )
 		.append( genDomAnswers(_q) );
 
 	$jar.find("#" + b_id + "_type_" + _q.getType()).prop("checked", true);
@@ -385,13 +391,20 @@ function genDomAnswers(_q){
 	return $jar;
 }
 function genDomOneAnswerSet(_idx, _as){
-	var $inset = $("<span>")
-		.addClass("grouped left-right correct-answer")
-		.appendTextInputWithLabel("", "Correct answer:", _as.getCorrectAnswer());
-
 	var $answer = $("<div>")
 		.addClass("left-right")
-		.appendLabelWithTextarea("", String.fromCharCode(65 + _idx) + ")", _as.getList().join("\n"), "", $inset);
+		.append( $("<label>").text(String.fromCharCode(65 + _idx) + ")") )
+		.append(
+			$("<span>")
+				.addClass("grouped left-right feedback")
+				.appendLabelWithTextarea("", "Feedback:", _as.getFeedback() || strings.qa.text, "")
+		)
+		.append(
+			$("<span>")
+				.addClass("grouped left-right correct-answer")
+				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer())
+		)
+		.append( $("<textarea>").addClass("answer-list").text( _as.getList().join("\n") ) );
 
 	$answer[0].answerSet = _as;
 	return $answer;
@@ -422,9 +435,8 @@ $.prototype.appendTextInputWithLabel = function(_id, _label, _value){
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
 		.append( $("<input>").attr( {"id": _id, "type": "text"} ).val(_value) );
 }
-$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _class, _$inset){
+$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _class){
 	return this
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
-		.append( _$inset )
 		.append( $("<textarea>").attr( {"id": _id} ).addClass(_class || "").text(_value) );
 }

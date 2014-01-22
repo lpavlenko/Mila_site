@@ -228,6 +228,7 @@ ExamQuestion.prototype.getAnswers = function(){
 function ExamQuestionAnswerSet(){
 	this.list = [];
 	this.correct = "";	// index to the correct asnwer
+	this.feedback = "";	// text (HTML) to show if the answer is incorrect
 	
 	return this;
 }
@@ -237,13 +238,19 @@ ExamQuestionAnswerSet.prototype.getList = function(){
 }
 ExamQuestionAnswerSet.prototype.setList = function(_str, _delim){
 	this.list = _str.split(_delim);
-	numericArray(this.list);
 	return this;
 }
-ExamQuestionAnswerSet.prototype.getCorrectAnswer = function(_idx){
+ExamQuestionAnswerSet.prototype.getCorrectAnswer = function(){
 	return this.correct;
 }
 ExamQuestionAnswerSet.prototype.setCorrectAnswer = function(_idx){
 	this.correct = _idx;
+	return this;
+}
+ExamQuestionAnswerSet.prototype.getFeedback = function(){
+	return this.feedback;
+}
+ExamQuestionAnswerSet.prototype.setFeedback = function(_fb){
+	this.feedback = _fb;
 	return this;
 }
