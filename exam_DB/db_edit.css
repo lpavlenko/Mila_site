@@ -121,30 +121,36 @@ fieldset.answers{
 textarea.tall{
 	height: 8em;
 }
-#db_list, #exam_attributes, #exams_list{
-	margin-left: 0px;
-	margin-right: 0px;
+#jar_db_list, #jar_exam_attributes, #jar_exams_list{
+	margin: 0px;
+	padding: 0px;
 }
-#db_list, #exam_attributes{
+#jar_db_list, #jar_exam_attributes{
 	float: left;
-	width: 72%;
+	width: 73%;
 }
-#db_list{
-	max-height: 4em;
+#jar_db_list{
+	max-height: 5em;
 }
-#exams_list{
+#exam_attributes{
+/*	max-height: 5em;*/
+}
+#jar_exams_list{
 	float: right;
-	width: 23%;
+	width: 25%;
 	min-height: 12em;
-	max-height: 14em;
+	max-height: 15em;
 }
 #db_list>div, #exams_list>div{
 	float: left;
-	min-width: 14em;
+	min-width: 13em;
 	margin: 1px 2px 1px;
 }
-#db_list>div input[type=text], #exams_list>div input[type=text]{
-	width: 14em;
+#db_list>div input[type=text]{
+	width: 12em;
+}
+#exams_list>div input[type=text]{
+	width: 15em;
 }
 #jar_exam_sections, #jar_questions{
 	padding: 0px;
@@ -161,11 +167,19 @@ textarea.tall{
 	width: 73%;
 	/*background: radial-gradient(rgba(0, 255, 255, 0.1), rgba(155, 155, 200, 0.2));*/
 }
-#exam_sections, #questions{
+#exam_sections, #questions, #exams_list, #db_list, #exam_attributes{
 	border: none;
 	overflow-y: auto;
-	max-height: 35em;
 	margin: 0px 0px 10px;
+}
+#db_list{
+	max-height: 2em;
+}
+#exams_list{
+	max-height: 12em;
+}
+#exam_sections, #questions{
+	max-height: 35em;
 }
 .question{
 	padding: 4px;
