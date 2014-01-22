@@ -110,31 +110,36 @@ fieldset[id*=jar_]>fieldset{
 	overflow-y: auto;
 	margin: 0px 0px 10px;
 }
-#jar_db_list, #jar_exam_attributes, #jar_exam_sections{
+#jar_db_list, #jar_exam_sections{
 	float: left;
 }
-#jar_exams_list, #jar_questions
+#jar_exams_list, #jar_exam_attributes, #jar_questions
 {
 	float: right;
 }
-#jar_db_list,
+#jar_db_list		{width: 25%;}
+#jar_exams_list		{width: 73%;}
 #jar_exam_attributes{width: 73%;}
 #jar_exam_sections	{width: 25%;}
 #jar_questions		{width: 73%;}
-#jar_exams_list		{width: 25%;}
 
 #jar_db_list{
-	max-height: 5em;
-}
-#db_list{
-	max-height: 2em;
-}
-#jar_exams_list{
-	min-height: 12em;
 	max-height: 15em;
 }
-#exams_list{
+#db_list{
 	max-height: 12em;
+}
+#jar_exams_list{
+	max-height: 5em;
+}
+#exams_list{
+	max-height: 2em;
+}
+#jar_exam_sections, #jar_questions{
+	max-height: 38em;
+}
+#exam_sections, #questions{
+	max-height: 35em;
 }
 
 #exam_title{
@@ -144,15 +149,7 @@ fieldset[id*=jar_]>fieldset{
 	width: 26em;
 }
 
-#jar_exam_sections, #jar_questions{
-	min-height: 5em;
-	max-height: 38em;
-}
-#exam_sections, #questions{
-	max-height: 35em;
-}
-
-#db_list>div, #exams_list>div{
+[id$=list]>div{
 	float: left;
 	min-width: 13em;
 	margin: 1px 2px 1px;
@@ -163,12 +160,12 @@ fieldset[id*=jar_]>fieldset{
 .question{
 	padding: 4px;
 	margin-top: 4px;
-	margin-bottom: 14px;
+	margin-bottom: 8px;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(115, 115, 115, 0.2));
 	border-radius: 12px;
 	/*box-shadow: 3px 0px 1px -1px rgba(0, 255, 255, 0.3);*/
 }
-.question>span>input[type=checkbox]{
+.question input[type=checkbox][id^=q_]{
 	margin-left: 1em;
 }
 .question_info{
