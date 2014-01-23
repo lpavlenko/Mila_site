@@ -2,6 +2,33 @@
 	Exam object (version 2.0 of the exam rendering and logic code)
 */
 
+// check if this (and all sub-objects) have no data to speak of
+function isEmpty(_obj){
+	if( _obj === undefined || _obj === null )
+		return true;
+	switch(typeof _obj)
+	{
+		case null: return true;
+		case "undefined": return true;
+		case "function": return true;
+		case "string": return _obj.length === 0;
+		case "boolean": return _obj === undefined;
+		case "number": return _obj === undefined;
+		case "object":
+			for(var i in _obj){
+				if( i === "db" )
+					continue;	// very special case for avoiding circular references
+				if( ! isEmpty(_obj[i]) )
+					return false;
+			}
+			return true;	// didn't find anything, so this must be truly empty then?
+			break;
+		default:
+			console.log(typeof _obj);
+			return true;
+	}
+}
+
 function numericArray(_arr){
 	for(var i = 0; i < _arr.length; ++i){
 		_arr[i] = +_arr[i];
@@ -13,7 +40,7 @@ function numericArray(_arr){
 ***************************************************************/
 function ExamDB(_fname){
 	this.fname = _fname || "";	// the ".edb" suffix is NOT part of this field!
-	this.list = [];				// list of exams in this DB
+	this.exams = [];			// list of exams in this DB
 	this.questions = [];		// a pool of all the questions for this set of exams
 	
 	this.addExam();
@@ -23,6 +50,66 @@ function ExamDB(_fname){
 }
 
 ExamDB.suffix = ".ebd";
+
+// build this object from a template (loaded from JSON)
+ExamDB.prototype.build = function(_obj){
+	var i;
+	var objList;
+	var lastAddedObj;
+	this.exams = [];
+	this.questions = [];
+
+	objList = _obj.exams;
+	for(i = 0; i < objList.length; ++i){
+		lastAddedObj = this.addExam().build(objList[i]);
+	}
+	if( lastAddedObj === undefined || ! isEmpty(lastAddedObj))
+		this.addExam();
+
+	lastAddedObj = undefined;
+	objList = _obj.questions;
+	for(i = 0; i < objList.length; ++i){
+		lastAddedObj = this.addQuestion().build(objList[i]);
+	}
+	if( lastAddedObj === undefined || ! isEmpty(lastAddedObj))
+		this.addQuestion();
+	return this;
+}
+
+ExamDB.prototype.save = function(){
+	if( ! this.fname )
+		throw "No filename specified";
+
+	var i;
+	// temporarily break up the circular references to allow for JSON's stringification
+	for(i = 0; i < this.exams.length; ++i)
+		delete this.exams[i].db;
+	var str = JSON.stringify(this);
+	// re-introduce the circular references back in the hierarchy
+	for(i = 0; i < this.exams.length; ++i)
+		this.exams[i].db = this;
+	return str;	// just for now, while debugging
+	// TODO: implement the actual writing to disk file
+	return this;
+}
+// load from either a file or a JSON string
+ExamDB.prototype.load = function(_str){
+	if( this.fname ){
+		// TODO: implement
+		//_str = read_from_file();
+	}
+	
+	if( _str ){
+		var obj = JSON.parse(_str);
+		this.build(obj);
+/*		// re-introduce the circular references back in the hierarchy
+		for(i = 0; i < this.exams.length; ++i)
+			this.exams[i].db = this;*/
+		return this;
+	}else{
+		throw "No filename or JSON string";
+	}
+}
 
 ExamDB.prototype.getFname = function(){
 	return this.fname;
@@ -34,12 +121,12 @@ ExamDB.prototype.getQuestions = function(){
 
 ExamDB.prototype.addExam = function(){
 	var exam = new Exam(this);
-	this.list.push(exam);
+	this.exams.push(exam);
 	return exam;
 }
 
 ExamDB.prototype.getExams = function(){
-	return this.list;
+	return this.exams;
 }
 ExamDB.prototype.addQuestion = function(){
 	var eq = new ExamQuestion;
@@ -56,7 +143,7 @@ ExamDB.prototype.changeFname = function(_fname){
 }
 
 ExamDB.prototype.getExams = function(){
-	return this.list;
+	return this.exams;
 }
 
 /**************************************************************
@@ -74,6 +161,24 @@ function Exam(_db){
 
 	this.addSection();
 	
+	return this;
+}
+
+// build this object from a template (loaded from JSON)
+Exam.prototype.build = function(_obj){
+	this.title = _obj.title;
+	this.misc = _obj.misc;
+	this.mock = _obj.mock;
+	this.descr = _obj.descr;
+	this.sections = [];
+	var objList = _obj.sections;
+	var i;
+	var lastAddedObj;
+	for(i = 0; i < objList.length; ++i){
+		lastAddedObj = this.addSection().build(objList[i]);
+	}
+	if( lastAddedObj === undefined || ! isEmpty(lastAddedObj))
+		this.addSection();
 	return this;
 }
 
@@ -144,6 +249,14 @@ function ExamSection(){
 	return this;
 }
 
+// build this object from a template (loaded from JSON)
+ExamSection.prototype.build = function(_obj){
+	this.title = _obj.title;
+	this.descr = _obj.descr;
+	this.list = _obj.list;
+	return this;
+}
+
 ExamSection.prototype.getTitle = function(){
 	return this.title;
 }
@@ -186,10 +299,23 @@ ExamSection.prototype.setDescr = function(_str){
 	Exam Questions could be used more than in one exam
 ***************************************************************/
 function ExamQuestion(){
-	this.mc = false;	// multi-choice (if true) or plain text (if false)
+	this.mc = undefined;	// multi-choice (if true) or plain text (if false)
 	this.text = "";
 	this.answers = [];
 	
+	return this;
+}
+
+// build this object from a template (loaded from JSON)
+ExamQuestion.prototype.build = function(_obj){
+	this.mc = _obj.mc;
+	this.text = _obj.text;
+	this.answers = [];
+	var objList = _obj.answers;
+	var i;
+	for(i = 0; i < objList.length; ++i){
+		this.addAnswer().build(objList[i]);
+	}
 	return this;
 }
 
@@ -206,16 +332,14 @@ ExamQuestion.prototype.addAnswer = function(){
 	return eqa;
 }
 ExamQuestion.prototype.getType = function(){
-	return this.mc ? "mc" : "text";
+	switch(this.mc){
+		case true: return "mc";
+		case false: return "text";
+	}
+	return "";
 }
 ExamQuestion.prototype.setMC = function(_b){
 	this.mc = _b;
-	// this causes TWO answers to be added when switching from TEXT to MC
-	/*
-	if(this.mc && this.answers.length < 1){
-		this.addAnswer();
-	}
-	*/
 	return this;
 }
 ExamQuestion.prototype.getAnswers = function(){
@@ -229,6 +353,15 @@ function ExamQuestionAnswerSet(){
 	this.list = [];
 	this.correct = "";	// index to the correct asnwer
 	this.feedback = "";	// text (HTML) to show if the answer is incorrect
+	
+	return this;
+}
+
+// build this object from a template (loaded from JSON)
+ExamQuestionAnswerSet.prototype.build = function(_obj){
+	this.list = _obj.list;
+	this.correct = _obj.correct;
+	this.feedback = _obj.feedback;
 	
 	return this;
 }

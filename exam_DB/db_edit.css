@@ -37,6 +37,10 @@ input, textarea, div, .grouped{
 	border-radius: 5px;
 }
 
+button{
+	border-radius: 16px;
+}
+
 .divider{
 	clear: both;
 	min-height: 1em;
@@ -57,7 +61,6 @@ div.grouped{float: left;}
 	margin-right: auto;
 	display: block;
 	font-weight: bold;
-	border-radius: 16px;
 	padding: auto 8px;
 }
 
@@ -175,22 +178,19 @@ textarea.question-text{
 }
 textarea.answer-list{
 }
-.feedback{
+button.feedback{
 	margin-left: 0.4em;
 }
-.feedback textarea{
-	width: 2em;
-	min-height: 1.7em;
-	height: 1.7em;
-	top: 4px;
-	margin-left: 0.4em;
-}
-.feedback textarea:focus{
-	width: 16em;
-	height: 6em;
+textarea.feedback{
+	display: none;
 	position: absolute;
-	left: -1em;
-	top: 0px;
+}
+textarea.feedback.active{
+	display: initial;
+	width: 110%;
+	height: 11em;
+	left: -2em;
+	top: -6.5em;
 	background: #EFFFFF;
 	z-index: 10;
 }

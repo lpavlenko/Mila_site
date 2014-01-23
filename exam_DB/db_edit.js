@@ -1,3 +1,9 @@
+function validate(){
+	var str1 = DBs["q"].save(),
+		str2 = DBs["q"].load(str1).save();
+	renderDB(DBs["q"]);
+	return (str1 === str2) + "\n" + str1 + "\n" + str2;
+}
 var strings = {
 	exam: {
 		title: "Enter new title",
@@ -252,6 +258,16 @@ $(document).ready(function(){
 		.delegate(".question textarea.question-text", "change", function(){
 			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
+		.delegate(".question button.feedback", "mouseover", function(){
+			var $ta = $(this).siblings("textarea.feedback");
+			$ta.addClass("active").focus();
+			if( locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5 )
+				$ta.select();
+		})
+		.delegate(".question textarea.feedback", "mouseleave", function(){
+			$(this).removeClass("active");
+			$(this).next().focus();
+		})
 		.delegate(".question textarea.feedback", "change", function(){
 			locateJarUpTheChain(this, "answerSet").answerSet.setFeedback(this.value);
 		})
@@ -386,8 +402,14 @@ function genDomAnswers(_q){
 	for(var i = 0; i < list.length; ++i){
 		$jar.append( genDomOneAnswerSet( i, list[i]) );
 	}
-	if( _q.getType() === "text" )
-		$jar.css( {"display": "none"} );
+	switch( _q.getType() ){
+		case "mc":
+			$jar.css( {"display": ""} );
+			break;
+		case "text":
+		default:
+			$jar.css( {"display": "none"} );
+	}
 	return $jar;
 }
 function genDomOneAnswerSet(_idx, _as){
@@ -396,14 +418,11 @@ function genDomOneAnswerSet(_idx, _as){
 		.append( $("<label>").text(String.fromCharCode(65 + _idx) + ")") )
 		.append(
 			$("<span>")
-				.addClass("grouped left-right feedback")
-				.appendLabelWithTextarea("", "Feedback:", _as.getFeedback() || strings.qa.text, "")
-		)
-		.append(
-			$("<span>")
 				.addClass("grouped left-right correct-answer")
 				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer())
 		)
+		.append( $("<button>").addClass("feedback").text("Feedback...") )
+		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback() || strings.qa.text) )
 		.append( $("<textarea>").addClass("answer-list").text( _as.getList().join("\n") ) );
 
 	$answer[0].answerSet = _as;
