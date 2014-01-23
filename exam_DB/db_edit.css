@@ -112,6 +112,7 @@ fieldset.answers{
 fieldset[id*="jar_"]{
 	margin: 0px;
 	padding: 0px;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
 }
 fieldset[id*=jar_]>fieldset{
 	border: none;
