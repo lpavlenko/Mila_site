@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<HTA:application applicationName="HTA PG" windowState="normal"></HTA:application>
+<meta name="AUTHOR" content="YePhIcK">
+<title>HTA playground</title>
+
+<style>
+*{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  position: relative;
+}
+textarea{
+  display: block;
+}
+textarea.code{
+  height: 60%;
+  background: rgba(0, 255, 255, 0.1);
+}
+textarea.result{
+  float: left;
+  width: 60%;
+  height: 10%;
+  background: rgba(0, 0, 0, 0.1);
+}
+textarea.exception{
+  float: left;
+  width: 60%;
+  height: 30%;
+  background: rgba(255, 0, 0, 0.1);
+}
+textarea.log{
+  float: right;
+  width: 40%;
+  height: 40%;
+  background: rgba(0, 255, 0, 0.1);
+}
+body>div:first-of-type{
+	position: absolute;
+	display: none;
+	z-index: 10;
+	background: rgba(255, 0, 0, 0.1);
+	left: 0px;
+	top: 0px;
+}
+body>div:first-of-type.busy{
+	display: block;
+}
+</style>
+<script>
+var deferredExe = null;
+var lastRequest = new Date();
+function log(_msg){
+	document.querySelector("textarea.log").value += _msg + "\n";
+}
+function init(){
+	window.resizeTo(900, 900);
+	document.querySelector("textarea.code").value = "(\n" + sample.toString() + "\n)();"
+	launchExe();
+}
+function scheduleExe(){
+	if(deferredExe){
+		window.clearTimeout( deferredExe );
+	}
+	deferredExe = window.setTimeout(launchExe, 3000);
+}
+function launchExe(){
+	document.body.style.cursor='wait';
+	document.querySelector("body>div:first-of-type").className = "busy";
+	deferredExe = window.setTimeout(exe, 2);
+}
+function exe(){
+	deferredExe = null;
+	document.querySelector("textarea.log").value = "";
+	document.querySelector("textarea.result").value = "";
+	document.querySelector("textarea.exception").value = "";
+
+	var text = document.querySelector("textarea.code").value;
+	try{
+		var res = eval(text);
+		document.querySelector("textarea.result").value = res;
+	}
+	catch(_e){
+		document.querySelector("textarea.result").value = _e.name + "\n" + _e.message;
+		document.querySelector("textarea.exception").value = _e.stack;
+	}
+	window.setTimeout(function(){
+		document.body.style.cursor='auto';
+		document.querySelector("body>div:first-of-type").className = "";
+	}, 2);
+}
+var sample = function(){
+  // see http://msdn.microsoft.com/en-us/library/hww8txat(v=vs.84).aspx for API reference
+  var ready = false,
+    shell = undefined,
+    fso = undefined;
+  try{
+    shell = new ActiveXObject("WScript.Shell");
+    fso = new ActiveXObject("Scripting.FileSystemObject");
+    if( ! shell || ! fso)
+      throw "No ActiveX support here (running in browser?)";
+  }catch(_e){
+    // oops! Probably we are in a browser, not in an HTA
+    throw _e;
+  }
+
+  var path = "../exam_DB/";
+  var folder = fso.getFolder(path);
+
+  var files = new Enumerator(folder.files);
+
+  for(; !files.atEnd(); files.moveNext()){
+    var fname = fso.getBaseName(files.item());
+    var ext = fso.getExtensionName(files.item());
+    if( ext === "edb"){
+      var file = fso.getFile(path + files.item().name);
+      var txtStream = fso.openTextFile(path + fname + "." + ext, 1/*Reading*/, 0/*ASCII*/);
+      log(txtStream.readAll());
+    }
+  }
+
+  return true;
+}
+</script>
+
+</head>
+<body onload="init();" onkeyup="scheduleExe();">
+	<div></div>
+	<textarea class="code"></textarea>
+	<textarea class="log"></textarea>
+	<textarea class="result"></textarea>
+	<textarea class="exception"></textarea>
+</body>
+</html>
