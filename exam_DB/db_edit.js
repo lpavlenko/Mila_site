@@ -1,9 +1,3 @@
-function validate(){
-	var str1 = DBs["q"].save(),
-		str2 = DBs["q"].load(str1).save();
-	renderDB(DBs["q"]);
-	return (str1 === str2) + "\n" + str1 + "\n" + str2;
-}
 var strings = {
 	exam: {
 		title: "Enter new title",
@@ -86,7 +80,6 @@ function locateJarUpTheChain(_curr, _prop_name){
 }
 // get the DB that is currently selected with a radio button (via it's ID in a form of "<fname>_db")
 function getCurrDB(){
-	TRACE("getCurrDB");
 	return DBs[ $("#db_list input[type=radio]:checked").attr("id").match(/(.*?)_db/)[1] ];
 }
 // get currently selected Exam (via radio button's ID in a form of "exam_title_<idx>")
@@ -110,9 +103,9 @@ function addDBIfNeeded(){
 			return;
 	}
 	// if we are here then that means there are no empty slots left - need to create a new one
-	var DB = new ExamDB();
-	var fname = DB.getFname();
-	DBs[fname] = DB;
+	var db = new ExamDB();
+	var fname = db.getFname();
+	DBs[ makeSafeFname(fname) ] = db;
 	$("#db_list").append( genDomDB(fname) );
 }
 function addExamIfNeeded(){
@@ -143,20 +136,19 @@ function addAnswerIfNeeded(_jar){
 	Non-trivial data updates
 ***************************************************************/
 function updateCurrDBFname(_new_fname){
-	TRACE("updateCurrDBFname");
 	var db = getCurrDB();
 	var old_fname = db.getFname();
-	if(DBs[_new_fname]){
+	if(DBs[ makeSafeFname(_new_fname) ]){
 		alert("That file name already exists, can't use it twice");
-		$("#" + old_fname + "_db").siblings("input[type=text]").val(old_fname);
+		$("#" + makeSafeFname(old_fname) + "_db").siblings("input[type=text]").val(old_fname);
 		return;
 	}
 	db.changeFname(_new_fname);
-	$("#" + old_fname + "_db")
-		.attr("id", _new_fname + "_db")
+	$("#" + makeSafeFname(old_fname) + "_db")
+		.attr("id", makeSafeFname(_new_fname) + "_db")
 		.siblings("input[type=text]").val(_new_fname);
-	DBs[_new_fname] = db;
-	delete DBs[old_fname];
+	DBs[ makeSafeFname(_new_fname) ] = db;
+	delete DBs[ makeSafeFname(old_fname) ];
 	addDBIfNeeded();
 }
 function updateCurrExamTitle(_new_title){
@@ -165,6 +157,9 @@ function updateCurrExamTitle(_new_title){
 	addExamIfNeeded();
 }
 
+function makeSafeFname(_fname){
+	return encodeURIComponent(_fname);
+}
 /**************************************************************
 	Main init function
 ***************************************************************/
@@ -172,14 +167,15 @@ $(document).ready(function(){
 	var dbList = listDBs();
 	for(var i in dbList){
 		var db = new ExamDB(dbList[i]);
-		if(db.getFname())
+		var fname = db.getFname();
+		if(fname)
 			db.load();
-		DBs[db.getFname()] = db;
-		$("#db_list").append( genDomDB( db.getFname() ) );
+		DBs[ makeSafeFname(fname) ] = db;
+		$("#db_list").append( genDomDB( fname ) );
 	}
 	$("#db_list input[type=radio]:first").prop("checked", true);
 
-	renderDB( DBs[ dbList[0] ] );
+	renderDB( DBs[ makeSafeFname(dbList[0]) ] );
 
 	$("body")
 		.delegate("input, select, textarea, button", "change", scheduleSaveExam);
@@ -362,7 +358,7 @@ function renderSections(_exam){
 function genDomDB(_fname){
 	return $("<div>")
 			.addClass("left-right")
-			.appendRadioWithTextInput(_fname + "_db", "db_list", _fname)
+			.appendRadioWithTextInput( makeSafeFname(_fname) + "_db", "db_list", _fname)
 			.append( $("<button>").text("...")
 			.append( $("<input>").attr( {"type": "file" } ) ) );
 }
