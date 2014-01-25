@@ -16,15 +16,13 @@
 		.pretext {
 			border: 2px solid;
 			width: auto;
-			background: linear-gradient(to right, #3333AD, #000066, #3333AD, #000066, #3333AD);
+			background: linear-gradient(to right, grey, #CCCCCC, grey, 	#CCCCCC, grey, 	#CCCCCC, grey);
 			margin: 1em 1 px auto;
 			padding: 1em 1em 1em 1em;
 			text-align: center;
-			color: grey;
+			color: #3333AD;
 			font-weight: 600;
 			font-size: 1.3em;
-		}
-		.basic{
 		}
 		
 		.menu{
@@ -41,7 +39,6 @@
 		.hmenu li {
 			display: inline;
 			padding: 0.4em;
-			width: 98%;
 			
 		}
 		.menu a{ 
@@ -49,10 +46,16 @@
 			background-color: inherit;
 			text-decoration: none;
 		}
-		/*li:hover {
-			background-color:#40E0D0;
-			color: #004D4D;
-			}*/
+		.left{
+			float: left;
+			width: 300px;
+			padding: 10px 20px;
+			color: white;
+			font-size:90%;
+			font-family:Times New Roman;
+			margin-left: 200px;
+			/*border: 1px solid;*/
+		}
 		.vmenu li {
 			padding: 0.5em;
 			display: block;
@@ -62,14 +65,12 @@
 		}
 		.footer{
 			margin:auto;
-			border: 1px solid;
-			color: #3333AD;
+			border: 2px solid;
 			background: linear-gradient(grey, white, grey);
 			color: #3333AD;
 			text-align: right;
 			font-weight: 600;
 			font-size: 1.3em;
-			width: 98%;
 			}
 		
 		li {
@@ -84,7 +85,7 @@
 			<div class="pretext">
 				this is a menu navigation
 			</div>
-			<div class="basic">
+				<div>
 					<ul class="menu hmenu">
 						<li><a href = "#">упражнения</a></li>
 						<li><a href = "#">грамматика</a></li>
@@ -92,17 +93,24 @@
 						<li><a href = "#">подсказки</a></li>
 						<li><a href = "#">контакты</a></li>
 					</ul>
-				<span>
+				</div>
+				<div class="left">
+					<h> О сайте </h>
+						<p>
+							На этом сайте вы можете подготовиться к сдаче вступительного экзамена по английскому языку в самые знаменитые чешские вузы. На сайте собрано в общей сложности около 20 тестов прошлых лет и 60 тренировочных упражнений для успешной сдачи вступительного экзамена в выбрнный вуз.
+						</p>
+				</div>	
+				<div>
 					<ul class="menu vmenu">
-						<li><a href = "#">Vysoká škola ekonomická</a></li>
-						<li><a href = "#">Univerzita Karlova</a></li>
-						<li><a href = "#">České vysoké učení technické</a></li>
-						<li><a href = "#">Česká zemědělská univerzita</a></li>
-						<li><a href = "#">Metropolitní univerzita Praha</a></li>
-						<li><a href = "#">Vysoké učení technické v Brně</a></li>
+						<li><a href = "#">Пражский экономический университет VŠE</a></li>
+						<li><a href = "#">Карлов университет в Праге UK</a></li>
+						<li><a href = "#">Чешский технический университет ČVÚT</a></li>
+						<li><a href = "#">Чешский аграрный университет ČZU </a></li>
+						<li><a href = "#">Технический университет в Брно VUT</a></li>
+						<li><a href = "#">Столичный университет MUP</a></li>
 					</ul>
-				</span>			
-			</div>
+				</div>			
+				
 			<div class="footer">
 				hjklo
 			</div>
