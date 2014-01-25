@@ -133,7 +133,7 @@ function addQuestionIfNeeded(_jar){
 	}
 }
 function addAnswerIfNeeded(_jar){
-	var $list = $(_jar).find(".answers div textarea");
+	var $list = $(_jar).find(".answers div textarea.answer-list");
 	if( $list.length < 1 || $list.last().val().length > 0 ){
 		$(_jar).find(".answers").append( genDomOneAnswerSet( $list.length, _jar.question.addAnswer()) );
 	}
