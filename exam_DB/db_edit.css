@@ -196,13 +196,13 @@ textarea.feedback{
 	position: absolute;
 }
 textarea.feedback.active{
-	display: initial;
+	display: block;
 	width: 110%;
 	height: 11em;
 	left: -2em;
 	top: -6.5em;
 	background: #EFFFFF;
-	z-index: 10;
+	z-index: 1;
 }
 
 .correct-answer{
