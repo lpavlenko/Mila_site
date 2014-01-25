@@ -33,9 +33,10 @@ function extractFname(_path){
 }
 
 function listDBs(){
-	TRACE("listDBs");
-	// TODO: implement an actual read from disk (current dir only)
-	return [""];	// one extra for new (blank) exam
+	var list = ExamDB.list();
+	if(list[ list.length - 1 ].length > 0)
+		list.push("");
+	return list;
 }
 
 var saveScheduled = null;
@@ -44,7 +45,7 @@ function scheduleSaveExam(){
 		window.clearTimeout(saveScheduled);
 	}
 	$("#busy_indicator").addClass("scheduled");
-	saveScheduled = window.setTimeout(launchSaveExam, 3 * 1000);
+	saveScheduled = window.setTimeout(launchSaveExam, 5 * 1000);
 }
 function launchSaveExam(){
 	saveScheduled = null;
@@ -52,11 +53,11 @@ function launchSaveExam(){
 
 	// perform the actual saving of DBs
 	window.setTimeout(function(){
-		for(var i = 0; i < DBs.length; ++i){
+		for(i in DBs){
 			DBs[i].save();	// TODO: don't ignore the return value
 		}
 		$("#busy_indicator").removeClass("busy");
-	}, 1000);
+	}, 1);
 }
 
 /**************************************************************
@@ -171,6 +172,8 @@ $(document).ready(function(){
 	var dbList = listDBs();
 	for(var i in dbList){
 		var db = new ExamDB(dbList[i]);
+		if(db.getFname())
+			db.load();
 		DBs[db.getFname()] = db;
 		$("#db_list").append( genDomDB( db.getFname() ) );
 	}
@@ -276,12 +279,9 @@ $(document).ready(function(){
 		})
 		.delegate(".question button.feedback", "mouseover", function(){
 			var $ta = $(this).siblings("textarea.feedback");
-			$ta.addClass("active");
-			var doSelect = locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5;
-
-			$ta.focus();
-			if( doSelect ){
-				$ta.select(); // TODO: breaks in HTA. WTF?
+			$ta.addClass("active").focus();
+			if( locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5 ){
+				$ta.select();
 			}
 		})
 		.delegate(".question textarea.feedback", "mouseout", function(){

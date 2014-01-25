@@ -111,7 +111,36 @@ function ExamDB(_fname){
 	return this;
 }
 
-ExamDB.suffix = ".ebd";
+ExamDB.suffix = "edb";
+ExamDB.defaultName = "---noname---";
+// read directory and return list of DBs in it
+ExamDB.list = function(){
+	var rez = [];
+	try{
+		var fso = new ActiveXObject("Scripting.FileSystemObject");
+		var path = "./";
+		var folder = fso.getFolder(path);
+		var files = new Enumerator(folder.files);
+		for(; !files.atEnd(); files.moveNext()){
+			var ext = fso.getExtensionName(files.item());
+			if(ext === ExamDB.suffix){
+				var fname = fso.getBaseName(files.item());
+				rez.push( fname );
+			}
+		}
+		rez = rez.sort();
+		if(rez.length < 1)
+			throw "No DB files found";
+	}catch(_e){
+		alert(_e);
+		rez.push(ExamDB.defaultName);
+	}
+	return rez;
+}
+
+ExamDB.prototype.makeFullFName = function(){
+	return "./" + this.fname + "." + ExamDB.suffix;
+}
 
 // build this object from a template (loaded from JSON)
 ExamDB.prototype.build = function(_obj){
@@ -138,10 +167,7 @@ ExamDB.prototype.build = function(_obj){
 	return this;
 }
 
-ExamDB.prototype.save = function(){
-	if( ! this.fname )
-		throw "No filename specified";
-
+ExamDB.prototype.toString = function(){
 	var i;
 	// temporarily break up the circular references to allow for JSON's stringification
 	for(i = 0; i < this.exams.length; ++i)
@@ -151,30 +177,54 @@ ExamDB.prototype.save = function(){
 	for(i = 0; i < this.exams.length; ++i)
 		this.exams[i].db = this;
 
+	var data = LZW.compress(str);
+
+	return data;
+}
+
+ExamDB.prototype.save = function(){
 	try{
-		var data = LZW.compress(str);
+		if( ! this.fname )
+			return false;
+
+		var data = this.toString();
+		var fname = this.makeFullFName();
 		var fso = new ActiveXObject("Scripting.FileSystemObject");
+		var fileOut = fso.openTextFile(fname, 2, true, 0);
+		fileOut.write(data);
+		fileOut.close();
+		delete fileOut;
 		return true;
 	}catch(_e){
+		alert(_e);
 	}
 	return false;
 }
 // load from either a file or a JSON string
 ExamDB.prototype.load = function(_str){
-	if( this.fname ){
-		// TODO: implement
-		//_str = read_from_file();
+	if( ! _str ){
+		if(this.fname){
+			try{
+				var fname = this.makeFullFName();
+				var fso = new ActiveXObject("Scripting.FileSystemObject");
+				var fileIn = fso.openTextFile(fname, 1, false, 0);
+				_str = LZW.decompress( fileIn.readAll() );
+				fileIn.close();
+				delete fileIn;
+			}catch(_e){
+				alert(_e);
+				_str = "";
+			}
+		}else{
+			alert("Filename is empty, cannot load DB from disk");
+			return this;
+		}
 	}
 	
 	if( _str ){
-		var obj = JSON.parse(_str);
-		this.build(obj);
-/*		// re-introduce the circular references back in the hierarchy
-		for(i = 0; i < this.exams.length; ++i)
-			this.exams[i].db = this;*/
-		return this;
+		return this.build(JSON.parse(_str));
 	}else{
-		throw "No filename or JSON string";
+		//alert("DB is empty");
 	}
 }
 
@@ -202,10 +252,14 @@ ExamDB.prototype.addQuestion = function(){
 }
 
 ExamDB.prototype.changeFname = function(_fname){
-	var oldName = this.fname;
+	//var oldName = this.fname;
 	this.fname = _fname;
-	// TODO: save under new file name
-	// TODO: remove old file from disk
+/*	if( oldName === ExamDB.defaultName ){
+		this.load();
+	}else{
+		this.save();
+	}*/
+	this.save();
 	return this;
 }
 
