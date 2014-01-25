@@ -4,6 +4,14 @@
 }
 body{
 	background: radial-gradient(#224499, #221188, #224499);
+	height: 100%;
+	margin: 0px 8px;
+	padding: 0px;
+}
+html{
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 }
 label{
 	color: #FF9900;
@@ -178,6 +186,7 @@ fieldset[id*=jar_]>fieldset{
 textarea.question-text{
 }
 textarea.answer-list{
+	padding: 0px;
 }
 button.feedback{
 	margin-left: 0.4em;
@@ -201,4 +210,23 @@ textarea.feedback.active{
 .correct-answer input[type=text]{
 	margin-left: 4px;
 	width: 2em;
+}
+
+#busy_indicator{
+	position: absolute;
+	display: none;
+	z-index: 100;
+	right: -7px;
+	bottom: 1px;
+	width: 30px;
+	height: 30px;
+	background: rgba(255, 0, 0, 0.9);
+}
+#busy_indicator.scheduled{
+	display: block;
+	background: rgba(127, 127, 0, 0.9);
+}
+#busy_indicator.busy{
+	display: block;
+	background: rgba(255, 0, 0, 0.9);
 }

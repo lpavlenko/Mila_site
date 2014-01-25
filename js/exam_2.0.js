@@ -154,9 +154,10 @@ ExamDB.prototype.save = function(){
 	try{
 		var data = LZW.compress(str);
 		var fso = new ActiveXObject("Scripting.FileSystemObject");
+		return true;
 	}catch(_e){
 	}
-	return this;
+	return false;
 }
 // load from either a file or a JSON string
 ExamDB.prototype.load = function(_str){

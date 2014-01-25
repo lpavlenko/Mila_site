@@ -40,15 +40,23 @@ function listDBs(){
 
 var saveScheduled = null;
 function scheduleSaveExam(){
-	// TODO: implement
 	if( saveScheduled != null ){
 		window.clearTimeout(saveScheduled);
 	}
-	saveScheduled = window.setTimeout(launchSaveExam, 15 * 1000);
+	$("#busy_indicator").addClass("scheduled");
+	saveScheduled = window.setTimeout(launchSaveExam, 3 * 1000);
 }
 function launchSaveExam(){
 	saveScheduled = null;
-	// TODO: implement
+	$("#busy_indicator").removeClass("scheduled").addClass("busy");
+
+	// perform the actual saving of DBs
+	window.setTimeout(function(){
+		for(var i = 0; i < DBs.length; ++i){
+			DBs[i].save();	// TODO: don't ignore the return value
+		}
+		$("#busy_indicator").removeClass("busy");
+	}, 1000);
 }
 
 /**************************************************************
@@ -268,11 +276,15 @@ $(document).ready(function(){
 		})
 		.delegate(".question button.feedback", "mouseover", function(){
 			var $ta = $(this).siblings("textarea.feedback");
-			$ta.addClass("active").focus();
-			if( locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5 )
-				$ta.select();
+			$ta.addClass("active");
+			var doSelect = locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5;
+
+			$ta.focus();
+			if( doSelect ){
+				$ta.select(); // TODO: breaks in HTA. WTF?
+			}
 		})
-		.delegate(".question textarea.feedback", "mouseleave", function(){
+		.delegate(".question textarea.feedback", "mouseout", function(){
 			$(this).removeClass("active");
 			$(this).next().focus();
 		})
