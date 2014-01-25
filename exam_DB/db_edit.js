@@ -437,11 +437,11 @@ function genDomOneAnswerSet(_idx, _as){
 		.append(
 			$("<span>")
 				.addClass("grouped left-right correct-answer")
-				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer(), "One answer per line")
+				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer(), "A")
 		)
 		.append( $("<span>").addClass("feedback left-right").append("Feedback...") )
 		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback()).attr("placeholder", strings.qa.text) )
-		.append( $("<textarea>").addClass("answer-list").text( _as.getList().join("\n") ) );
+		.append( $("<textarea>").addClass("answer-list").attr("placeholder", "One answer per line").val( _as.getList().join("\n") ) );
 
 	$answer[0].answerSet = _as;
 	return $answer;
@@ -475,5 +475,5 @@ $.prototype.appendTextInputWithLabel = function(_id, _label, _value, _ph){
 $.prototype.appendLabelWithTextarea = function(_id, _label, _value, _ph, _class){
 	return this
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
-		.append( $("<textarea>").attr( {"id": _id, "placeholder": _ph} ).addClass(_class || "").text(_value) );
+		.append( $("<textarea>").attr( {"id": _id, "placeholder": _ph} ).addClass(_class || "").val(_value) );
 }

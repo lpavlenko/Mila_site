@@ -23,6 +23,7 @@ var LZW = {
         var i, c, wc, w = "", dictionary = {}, result = [], dictSize = 256;
         for(i = 0; i < 256; ++i) {dictionary[String.fromCharCode(i)] = i;}
  
+		uncompressed = encodeURIComponent(uncompressed);
         for(i = 0; i < uncompressed.length; ++i){
             c = uncompressed.charAt(i);
             wc = w + c;
@@ -57,7 +58,7 @@ var LZW = {
             dictionary[dictSize++] = w + entry.charAt(0);
             w = entry;
         }
-        return result;
+        return decodeURIComponent(result);
     }
 }, // For Test Purposes
     comp = LZW.compress("TOBEORNOTTOBEORTOBEORNOT"),
