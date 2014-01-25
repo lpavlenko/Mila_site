@@ -95,6 +95,16 @@ function exe(){
 	}, 2);
 }
 var sample = function(){
+  arr2B64 = function(_arr){
+    for(rez = "", i = 0; i < _arr.length; ++i) {rez += String.fromCharCode(_arr[i]);}
+    return window.btoa(unescape(encodeURIComponent( rez )));
+  }
+  b642Arr = function(_str){
+    _str = decodeURIComponent(escape(window.atob( _str )));
+    for(rez = [], i = 0; i < _str.length; ++i) {rez.push(_str.charCodeAt(i));}
+    return rez;
+  }
+
 var LZW = {
     compress: function (uncompressed){
         "use strict";
@@ -113,11 +123,12 @@ var LZW = {
             }
         }
         if(w !== "") {result.push(dictionary[w]);}
-        return result;
+        return arr2B64( result );
     },
  
     decompress: function (compressed){
         "use strict";
+		compressed = b642Arr( compressed );
         var i, w, result, k, entry = "", dictionary = [], dictSize = 256;
         for(i = 0; i < 256; i += 1) {dictionary[i] = String.fromCharCode(i);}
  
@@ -139,18 +150,6 @@ var LZW = {
 }, // For Test Purposes
     comp = LZW.compress("TOBEORNOTTOBEORTOBEORNOT"),
     decomp = LZW.decompress(comp);
-
-  function utf8_to_b64(_str){return window.btoa(unescape(encodeURIComponent( _str )));}
-  function b64_to_utf8(_str){return decodeURIComponent(escape(window.atob( _str )));}
-
-  arr2B64 = function(_arr){
-    for(rez = "", i = 0; i < _arr.length; ++i) {rez += String.fromCharCode(_arr[i]);}
-    return utf8_to_b64(rez);
-  }
-  b642Arr = function(_str){
-    for(_str = b64_to_utf8(_str), rez = [], i = 0; i < _str.length; ++i) {rez.push(_str.charCodeAt(i));}
-    return rez;
-  }
 
   // see http://msdn.microsoft.com/en-us/library/hww8txat(v=vs.84).aspx for API reference
   var ready = false, shell = undefined, fso = undefined;
@@ -181,19 +180,19 @@ var LZW = {
       fileIn.close();
       delete fileIn;
 	  try{
-        fullText = LZW.decompress( b642Arr( bin ) );
+        fullText = LZW.decompress( bin );
       }catch(_e){
         log("Failed to decompress, so it must have been plain text data");
         fullText = bin;
       }
-      bin = arr2B64( LZW.compress(fullText) );
+      bin = LZW.compress(fullText);
       log("compressed bin is " + bin.length + " bytes");
       fileOut = fso.openTextFile(fullFName, 2, true, 0);
       log("file OUT is " + !! fileIn);
       fileOut.write(bin);
       fileOut.close();
       delete fileOut;
-      fullText = LZW.decompress(b642Arr(bin));
+      fullText = LZW.decompress( bin );
       log(fullText.substr(0, 200));
     }
   }

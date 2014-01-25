@@ -38,8 +38,16 @@ function listDBs(){
 	return [""];	// one extra for new (blank) exam
 }
 
-function saveExam(){
-	TRACE("saveExam");
+var saveScheduled = null;
+function scheduleSaveExam(){
+	// TODO: implement
+	if( saveScheduled != null ){
+		window.clearTimeout(saveScheduled);
+	}
+	saveScheduled = window.setTimeout(launchSaveExam, 15 * 1000);
+}
+function launchSaveExam(){
+	saveScheduled = null;
 	// TODO: implement
 }
 
@@ -163,7 +171,7 @@ $(document).ready(function(){
 	renderDB( DBs[ dbList[0] ] );
 
 	$("body")
-		.delegate("input, select, textarea, button", "change", saveExam);
+		.delegate("input, select, textarea, button", "change", scheduleSaveExam);
 
 	$("#db_list")
 		.delegate("input[type=radio]", "change", function(){

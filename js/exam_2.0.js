@@ -2,6 +2,68 @@
 	Exam object (version 2.0 of the exam rendering and logic code)
 */
 
+/*
+	Some common-code utilities. Specifically:
+	- LZW compression/decompression
+*/
+
+arr2B64 = function(_arr){
+	for(rez = "", i = 0; i < _arr.length; ++i) {rez += String.fromCharCode(_arr[i]);}
+	return window.btoa(unescape(encodeURIComponent( rez )));
+}
+b642Arr = function(_str){
+	_str = decodeURIComponent(escape(window.atob( _str )));
+	for(rez = [], i = 0; i < _str.length; ++i) {rez.push(_str.charCodeAt(i));}
+	return rez;
+}
+
+var LZW = {
+    compress: function (uncompressed){
+        "use strict";
+        var i, c, wc, w = "", dictionary = {}, result = [], dictSize = 256;
+        for(i = 0; i < 256; ++i) {dictionary[String.fromCharCode(i)] = i;}
+ 
+        for(i = 0; i < uncompressed.length; ++i){
+            c = uncompressed.charAt(i);
+            wc = w + c;
+            if (dictionary.hasOwnProperty(wc)){
+                w = wc;
+            }else{
+                result.push(dictionary[w]);
+                dictionary[wc] = dictSize++;
+                w = String(c);
+            }
+        }
+        if(w !== "") {result.push(dictionary[w]);}
+        return arr2B64( result );
+    },
+ 
+    decompress: function (compressed){
+        "use strict";
+		compressed = b642Arr( compressed );
+        var i, w, result, k, entry = "", dictionary = [], dictSize = 256;
+        for(i = 0; i < 256; i += 1) {dictionary[i] = String.fromCharCode(i);}
+ 
+        w = String.fromCharCode(compressed[0]);
+        result = w;
+        for(i = 1; i < compressed.length; i += 1){
+            k = compressed[i];
+            if(dictionary[k]){entry = dictionary[k];}
+            else{
+                if(k === dictSize) {entry = w + w.charAt(0);}
+                else {return null;}
+            }
+            result += entry;
+            dictionary[dictSize++] = w + entry.charAt(0);
+            w = entry;
+        }
+        return result;
+    }
+}, // For Test Purposes
+    comp = LZW.compress("TOBEORNOTTOBEORTOBEORNOT"),
+    decomp = LZW.decompress(comp);
+
+
 // check if this (and all sub-objects) have no data to speak of
 function isEmpty(_obj){
 	if( _obj === undefined || _obj === null )
@@ -88,8 +150,12 @@ ExamDB.prototype.save = function(){
 	// re-introduce the circular references back in the hierarchy
 	for(i = 0; i < this.exams.length; ++i)
 		this.exams[i].db = this;
-	return str;	// just for now, while debugging
-	// TODO: implement the actual writing to disk file
+
+	try{
+		var data = LZW.compress(str);
+		var fso = new ActiveXObject("Scripting.FileSystemObject");
+	}catch(_e){
+	}
 	return this;
 }
 // load from either a file or a JSON string
