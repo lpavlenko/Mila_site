@@ -30,14 +30,12 @@ function scheduleSaveExam(){
 	var dbIdx = makeSafeFname( getCurrDB().getFname() );
 	if( saveExamScheduledJob != null ){
 		window.clearTimeout(saveExamScheduledJob);
-		var idx = saveExamScheduledList.indexOf(dbIdx);
-		if(idx > -1){
-			saveExamScheduledList.splice(idx, 1);
-		}
 	}
 	$("#" + dbIdx + "_db").siblings(".file-status").addClass("scheduled");
 	saveExamScheduledJob = window.setTimeout(launchSaveExam, 5 * 1000);
-	saveExamScheduledList.push(dbIdx);
+	if(saveExamScheduledList.indexOf(dbIdx) === -1){
+		saveExamScheduledList.push(dbIdx);
+	}
 }
 function launchSaveExam(){
 	saveExamScheduledJob = null;
@@ -338,9 +336,9 @@ function renderDB(_db){
 function renderExam(_exam){
 	$("#exam_type_mock, #exam_type_exe").prop("checked", false);
 	$("#exam_type_" + _exam.getType()).prop("checked", true);
-	$("#exam_title").val( _exam.getTitle() || strings.exam.title );
-	$("#exam_misc") .val( _exam.getMisc()  || strings.exam.misc  );
-	$("#exam_descr").val( _exam.getDescr() || strings.exam.descr );
+	$("#exam_title").val( _exam.getTitle() ).attr("placeholder", strings.exam.title);
+	$("#exam_misc") .val( _exam.getMisc()  ).attr("placeholder", strings.exam.misc);
+	$("#exam_descr").val( _exam.getDescr() ).attr("placeholder", strings.exam.descr);
 	
 	renderSections(_exam);
 }
@@ -363,17 +361,13 @@ function genDomDB(_fname){
 	var safeName = makeSafeFname(_fname);
 	return $("<div>")
 			.addClass("left-right")
-			.appendRadioWithTextInput( safeName + "_db", "db_list", _fname)
-			/*.append(
-				$("<button>").text("...")
-				.append( $("<input>").attr( {"type": "file" } ) )
-			)*/
+			.appendRadioWithTextInput( safeName + "_db", "db_list", _fname, "new DB filename")
 			.append($("<div>").addClass("file-status").attr("id", safeName).append("&nbsp;"));
 }
 function genDomExam(_exam){
 	var $jar = $("<div>")
 			.addClass("left-right")
-			.appendRadioWithTextInput("", "exam_list", _exam.getTitle() || strings.exam.title);
+			.appendRadioWithTextInput("", "exam_list", _exam.getTitle(), strings.exam.title);
 
 	$jar[0].exam = _exam;
 	return $jar;
@@ -383,15 +377,15 @@ function genDomSection(_s, _delete_button){
 	var $jar = $("<div>").addClass("exam_section left-right")
 		.append(
 			$("<div>")
-				.appendTextInputWithLabel(es_id + "_title", "Title:", _s.getTitle() || strings.es.title)
+				.appendTextInputWithLabel(es_id + "_title", "Title:", _s.getTitle(), strings.es.title)
 		)
 		.append(
 			$("<div>")
-				.appendLabelWithTextarea(es_id + "_descr", "Descr.:", _s.getDescr() || strings.es.descr, "tall")
+				.appendLabelWithTextarea(es_id + "_descr", "Descr.:", _s.getDescr(), strings.es.descr, "tall")
 		)
 		.append(
 			$("<div>")
-				.appendLabelWithTextarea(es_id + "_list", "List:", _s.getList().join(", "), "")
+				.appendLabelWithTextarea(es_id + "_list", "List:", _s.getList().join(", "), "List of questions in this section", "")
 		);
 	if( _delete_button ){
 		$jar.append( $("<button>").text("Delete this exam section").addClass("alert") );
@@ -413,7 +407,7 @@ function genDomQuestion(_q, _idx){
 				.appendRadioWithLabel(b_id + "_type_text", r_name, "Text")
 		)
 		.append( $("<span>").addClass("question_info").text("Question#: " + (_idx + 1)) )
-		.append( $("<textarea>").addClass("question-text").val( _q.getText() || strings.eq.text ) )
+		.append( $("<textarea>").addClass("question-text").val( _q.getText() ).attr("placeholder", strings.eq.text) )
 		.append( genDomAnswers(_q) );
 
 	$jar.find("#" + b_id + "_type_" + _q.getType()).prop("checked", true);
@@ -443,10 +437,10 @@ function genDomOneAnswerSet(_idx, _as){
 		.append(
 			$("<span>")
 				.addClass("grouped left-right correct-answer")
-				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer())
+				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer(), "One answer per line")
 		)
 		.append( $("<span>").addClass("feedback left-right").append("Feedback...") )
-		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback() || strings.qa.text) )
+		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback()).attr("placeholder", strings.qa.text) )
 		.append( $("<textarea>").addClass("answer-list").text( _as.getList().join("\n") ) );
 
 	$answer[0].answerSet = _as;
@@ -456,15 +450,15 @@ function genDomOneAnswerSet(_idx, _as){
 /**************************************************************
 	generators of DOM - helper functions to reduce repetitivness
 ***************************************************************/
-$.prototype.appendRadioWithLabel = function(_id, _name, _label){
+$.prototype.appendRadioWithLabel = function(_id, _name, _label, _ph){
 	return this
 		.append( $("<input>").attr( {"id": _id, "type": "radio", "name": _name} ) )
 		.append( $("<label>").attr( {"for": _id} ).text(_label) );
 }
-$.prototype.appendRadioWithTextInput = function(_id, _name, _value){
+$.prototype.appendRadioWithTextInput = function(_id, _name, _value, _ph){
 	return this
 		.append( $("<input>").attr( {"id": _id, "type": "radio", "name": _name} ) )
-		.append( $("<input>").attr( {"type": "text", "value": _value} ) );
+		.append( $("<input>").attr( {"type": "text", "value": _value, "placeholder": _ph} ) );
 }
 
 $.prototype.appendCheckboxWithLabel = function(_id, _label){
@@ -473,13 +467,13 @@ $.prototype.appendCheckboxWithLabel = function(_id, _label){
 		.append( $("<label>").attr( {"for": _id} ).text(_label) );
 }
 
-$.prototype.appendTextInputWithLabel = function(_id, _label, _value){
+$.prototype.appendTextInputWithLabel = function(_id, _label, _value, _ph){
 	return this
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
-		.append( $("<input>").attr( {"id": _id, "type": "text"} ).val(_value) );
+		.append( $("<input>").attr( {"id": _id, "type": "text", "placeholder": _ph} ).val(_value) );
 }
-$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _class){
+$.prototype.appendLabelWithTextarea = function(_id, _label, _value, _ph, _class){
 	return this
 		.append( $("<label>").attr( {"for": _id} ).text(_label) )
-		.append( $("<textarea>").attr( {"id": _id} ).addClass(_class || "").text(_value) );
+		.append( $("<textarea>").attr( {"id": _id, "placeholder": _ph} ).addClass(_class || "").text(_value) );
 }
