@@ -37,7 +37,10 @@ input, textarea{
 	background: rgba(255, 255, 255, 0.75);
 }
 
-textarea{min-height: 4em;}
+textarea{
+	min-height: 4em;
+	overflow-y: auto;
+}
 
 input[type=file]{display: none;}
 
