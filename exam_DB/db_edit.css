@@ -172,6 +172,9 @@ fieldset[id^=jar_]>fieldset{
 .question input[type=checkbox][id^=q_]{
 	margin-left: 1em;
 }
+.question span.grouped input:first-of-type[type=radio][id^=q_]{
+	margin-left: 3em;
+}
 .question_info{
 	display: inline-block;
 	float: right;
