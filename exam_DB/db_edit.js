@@ -67,9 +67,9 @@ function launchSaveExam(){
 function correctAnswer2Idx(_str){
 	var c = _str.charCodeAt(_str.length - 1);
 	if( c > 0x60 )
-		return c - 0x61;
+		return c - 0x60;
 	else if( c > 0x40 )
-		return c - 0x41;
+		return c - 0x40;
 	else
 		return c - 0x30;
 }
