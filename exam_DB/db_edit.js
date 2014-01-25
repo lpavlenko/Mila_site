@@ -17,15 +17,6 @@ var strings = {
 };
 var DBs = {};
 
-function TRACE(_fn){
-	//console.log(_fn.name);
-}
-
-function extractFname(_path){
-	TRACE("extractFname");
-	return (_path.split("\\").pop() || _path.split("/").pop()).split(".")[0];
-}
-
 function listDBs(){
 	var list = ExamDB.list();
 	if(list[ list.length - 1 ].length > 0)
@@ -33,24 +24,40 @@ function listDBs(){
 	return list;
 }
 
-var saveScheduled = null;
+var saveExamScheduledJob = null;
+var saveExamScheduledList = [];	// list of exams scheduled to be saved
 function scheduleSaveExam(){
-	if( saveScheduled != null ){
-		window.clearTimeout(saveScheduled);
+	var dbIdx = makeSafeFname( getCurrDB().getFname() );
+	if( saveExamScheduledJob != null ){
+		window.clearTimeout(saveExamScheduledJob);
+		var idx = saveExamScheduledList.indexOf(dbIdx);
+		if(idx > -1){
+			saveExamScheduledList.splice(idx, 1);
+		}
 	}
-	$("#busy_indicator").addClass("scheduled");
-	saveScheduled = window.setTimeout(launchSaveExam, 5 * 1000);
+	$("#" + dbIdx + "_db").siblings(".file-status").addClass("scheduled");
+	saveExamScheduledJob = window.setTimeout(launchSaveExam, 5 * 1000);
+	saveExamScheduledList.push(dbIdx);
 }
 function launchSaveExam(){
-	saveScheduled = null;
-	$("#busy_indicator").removeClass("scheduled").addClass("busy");
+	saveExamScheduledJob = null;
 
 	// perform the actual saving of DBs
 	window.setTimeout(function(){
-		for(i in DBs){
-			DBs[i].save();	// TODO: don't ignore the return value
+		saveExamScheduledList = saveExamScheduledList.sort();
+		for(i in saveExamScheduledList){
+			var dbIdx = saveExamScheduledList[i];
+			$("#" + dbIdx + "_db").siblings(".file-status").removeClass("scheduled").addClass("busy");
+			if( DBs[ dbIdx ].save() ){
+				saveExamScheduledList[i] = null;
+				$("#" + dbIdx + "_db").siblings(".file-status").removeClass("busy");
+			}
 		}
-		$("#busy_indicator").removeClass("busy");
+		saveExamScheduledList = saveExamScheduledList.sort();
+		var idxOfNull = saveExamScheduledList.indexOf(null);
+		if( idxOfNull > -1 ){
+			saveExamScheduledList.splice( idxOfNull );
+		}
 	}, 1);
 }
 
@@ -197,9 +204,6 @@ $(document).ready(function(){
 		.delegate("button", "click", function(){
 			$(this).find("input[type=file]")[0].click();
 		})
-		.delegate("input[type=file]", "change", function(){
-			updateCurrDBFname( extractFname( extractFname(this.value).trim() ) );
-		})
 		.delegate("input[type=text]", "change", function(){
 			this.value = this.value.trim();
 			updateCurrDBFname(this.value);
@@ -273,7 +277,7 @@ $(document).ready(function(){
 		.delegate(".question textarea.question-text", "change", function(){
 			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
-		.delegate(".question button.feedback", "mouseover", function(){
+		.delegate(".question span.feedback", "mouseover", function(){
 			var $ta = $(this).siblings("textarea.feedback");
 			$ta.addClass("active").focus();
 			if( locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5 ){
@@ -356,11 +360,15 @@ function renderSections(_exam){
 	generators of DOM structures that represent data
 ***************************************************************/
 function genDomDB(_fname){
+	var safeName = makeSafeFname(_fname);
 	return $("<div>")
 			.addClass("left-right")
-			.appendRadioWithTextInput( makeSafeFname(_fname) + "_db", "db_list", _fname)
-			.append( $("<button>").text("...")
-			.append( $("<input>").attr( {"type": "file" } ) ) );
+			.appendRadioWithTextInput( safeName + "_db", "db_list", _fname)
+			/*.append(
+				$("<button>").text("...")
+				.append( $("<input>").attr( {"type": "file" } ) )
+			)*/
+			.append($("<div>").addClass("file-status").attr("id", safeName).append("&nbsp;"));
 }
 function genDomExam(_exam){
 	var $jar = $("<div>")
@@ -437,7 +445,7 @@ function genDomOneAnswerSet(_idx, _as){
 				.addClass("grouped left-right correct-answer")
 				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer())
 		)
-		.append( $("<button>").addClass("feedback").text("Feedback...") )
+		.append( $("<span>").addClass("feedback left-right").append("Feedback...") )
 		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback() || strings.qa.text) )
 		.append( $("<textarea>").addClass("answer-list").text( _as.getList().join("\n") ) );
 

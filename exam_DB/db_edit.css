@@ -117,12 +117,12 @@ fieldset.answers{
 	border-left: none;
 }
 
-fieldset[id*="jar_"]{
+fieldset[id^=jar_]{
 	margin: 0px;
 	padding: 0px;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
 }
-fieldset[id*=jar_]>fieldset{
+fieldset[id^=jar_]>fieldset{
 	border: none;
 	overflow-y: auto;
 	margin: 0px 0px 10px;
@@ -140,22 +140,13 @@ fieldset[id*=jar_]>fieldset{
 #jar_exam_sections	{width: 25%;}
 #jar_questions		{width: 73%;}
 
-#db_list{
-	max-height: 12em;
-}
-#exams_list{
-	max-height: 2em;
-}
-#exam_sections, #questions{
-	max-height: 35em;
-}
+#db_list	{max-height: 12em;}
+#exams_list	{max-height: 2em;}
+#exam_sections,
+#questions	{max-height: 35em;}
 
-#exam_title{
-	width: 20em;
-}
-#exam_misc{
-	width: 26em;
-}
+#exam_title	{width: 20em;}
+#exam_misc	{width: 26em;}
 
 [id$=list]>div{
 	float: left;
@@ -183,13 +174,10 @@ fieldset[id*=jar_]>fieldset{
 	color: rgba(93, 209, 209, 0.92);
 }
 
-textarea.question-text{
-}
-textarea.answer-list{
-	padding: 0px;
-}
-button.feedback{
+textarea.answer-list	{padding: 0px;}
+span.feedback{
 	margin-left: 0.4em;
+	color: #EEDDFF;
 }
 textarea.feedback{
 	display: none;
@@ -205,28 +193,22 @@ textarea.feedback.active{
 	z-index: 1;
 }
 
-.correct-answer{
-}
 .correct-answer input[type=text]{
 	margin-left: 4px;
 	width: 2em;
 }
 
-#busy_indicator{
-	position: absolute;
-	display: none;
-	z-index: 100;
-	right: -7px;
-	bottom: 1px;
-	width: 30px;
-	height: 30px;
-	background: rgba(255, 0, 0, 0.9);
+.file-status{
+	margin-left: 4px;
+	margin-right: 4px;
+	width: 20px;
+	height: 100%;
+	background: rgba(0, 255, 0, 0.2);
+	display: inline-block;
 }
-#busy_indicator.scheduled{
-	display: block;
-	background: rgba(127, 127, 0, 0.9);
+.file-status.scheduled{
+	background: rgba(255, 255, 0, 0.4);
 }
-#busy_indicator.busy{
-	display: block;
-	background: rgba(255, 0, 0, 0.9);
+.file-status.busy{
+	background: rgba(255, 0, 0, 0.8);
 }
