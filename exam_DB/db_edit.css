@@ -1,7 +1,7 @@
 *{
-	border-radius: .75em;
+	/*border-radius: .75em;*/
 	position: relative;
-	transition: 0.3s;
+	/*transition: 0.3s;*/
 }
 body{
 	background: radial-gradient(#224499, #221188, #224499);
@@ -34,7 +34,7 @@ div>label{
 	line-height: 1.7em;
 }
 input, textarea{
-	background: rgba(255, 255, 255, 0.75);
+	/*background: rgba(255, 255, 255, 0.75);*/
 }
 
 textarea{
@@ -42,15 +42,13 @@ textarea{
 	overflow-y: auto;
 }
 
-input[type=file]{display: none;}
-
-input, textarea, div, .grouped{
+/*input, textarea, div, .grouped{
 	border-radius: 5px;
-}
+}*/
 
-button{
+/*button{
 	border-radius: 16px;
-}
+}*/
 
 .divider{
 	clear: both;
@@ -67,7 +65,7 @@ button{
 div.grouped{float: left;}
 
 .alert{
-	box-shadow: 0px 0px 8px 2px red;
+	/*box-shadow: 0px 0px 8px 2px red;*/
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
@@ -75,22 +73,22 @@ div.grouped{float: left;}
 	padding: auto 8px;
 }
 
-:focus,
+/*:focus,
 input:checked	{box-shadow: 0px 0px 8px  1px rgba(0, 180, 180, 1);}
-.selected	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}
+.selected	{box-shadow: 0px 0px 18px 4px rgba(0, 180, 180, 1);}*/
 
-.left-right	{background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));}
+/*.left-right	{background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(115, 115, 115, 0.2));}*/
 
 .exam_section{
 	display: block;
 	min-height: 5em;
-	border-radius: 20px;
+	/*border-radius: 20px;*/
 	padding: 8px;
 }
 .exam_section.selected{
 	border-style: double;
 	border-width: 3px;
-	border-color: rgba(0, 127, 127, 0.8);
+	/*border-color: rgba(0, 127, 127, 0.8);*/
 	margin-top: 8px;
 	margin-bottom: 12px;
 }
@@ -125,7 +123,7 @@ fieldset.answers{
 fieldset[id^=jar_]{
 	margin: 0px;
 	padding: 0px;
-	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+	/*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));*/
 }
 fieldset[id^=jar_]>fieldset{
 	border: none;
@@ -165,8 +163,8 @@ fieldset[id^=jar_]>fieldset{
 	padding: 4px;
 	margin-top: 4px;
 	margin-bottom: 8px;
-	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(115, 115, 115, 0.2));
-	border-radius: 12px;
+	/*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(115, 115, 115, 0.2));*/
+	/*border-radius: 12px;*/
 	/*box-shadow: 3px 0px 1px -1px rgba(0, 255, 255, 0.3);*/
 }
 .question input[type=checkbox][id^=q_]{
@@ -179,7 +177,7 @@ fieldset[id^=jar_]>fieldset{
 	display: inline-block;
 	float: right;
 	margin-right: 0.4em;
-	color: rgba(93, 209, 209, 0.92);
+	/*color: rgba(93, 209, 209, 0.92);*/
 }
 
 textarea.answer-list	{padding: 0px;}
@@ -211,12 +209,12 @@ textarea.feedback.active{
 	margin-right: 4px;
 	width: 20px;
 	height: 100%;
-	background: rgba(0, 255, 0, 0.2);
+	/*background: rgba(0, 255, 0, 0.2);*/
 	display: inline-block;
 }
 .file-status.scheduled{
-	background: rgba(255, 255, 0, 0.4);
+	/*background: rgba(255, 255, 0, 0.4);*/
 }
 .file-status.busy{
-	background: rgba(255, 0, 0, 0.8);
+	/*background: rgba(255, 0, 0, 0.8);*/
 }

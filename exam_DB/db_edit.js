@@ -199,9 +199,6 @@ $(document).ready(function(){
 			if( $(this).find("input[type=radio]").prop("checked") !== true )
 				$(this).find("input[type=radio]").prop("checked", true).change();
 		})
-		.delegate("button", "click", function(){
-			$(this).find("input[type=file]")[0].click();
-		})
 		.delegate("input[type=text]", "change", function(){
 			this.value = this.value.trim();
 			updateCurrDBFname(this.value);
