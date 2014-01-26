@@ -183,7 +183,7 @@ $(document).ready(function(){
 	renderDB( DBs[ makeSafeFname(dbList[0]) ] );
 
 	$("body")
-		.delegate("input, select, textarea, button", "change", scheduleSaveExam);
+		.delegate("input, select, textarea", "keyup", scheduleSaveExam);
 
 	$("#db_list")
 		.delegate("input[type=radio]", "change", function(){
@@ -213,17 +213,17 @@ $(document).ready(function(){
 			// as a nice side-effect this causes the redraw even if we click on the selected exam
 			renderExam( getCurrExam() );
 		})
-		.delegate("input[type=text]", "change", function(){
+		.delegate("input[type=text]", "keyup", function(){
 			updateCurrExamTitle(this.value);
 		});
 
-	$("#exam_misc") .change(function(){getCurrExam().setMisc (this.value);});
-	$("#exam_descr").change(function(){getCurrExam().setDescr(this.value);});
-	$("#exam_title").change(function(){updateCurrExamTitle(this.value);});
+	$("#exam_misc") .on("keyup", function(){getCurrExam().setMisc (this.value);});
+	$("#exam_descr").on("keyup", function(){getCurrExam().setDescr(this.value);});
+	$("#exam_title").on("keyup", function(){updateCurrExamTitle(this.value);});
 	$("[id^=exam_type]").click(function(){getCurrExam().setMock( !! this.id.match(/mock/) );});
 
 	$("#exam_sections")
-		.delegate("input, textarea", "change", function(){
+		.delegate("input, textarea", "keyup", function(){
 			var jar = locateJarUpTheChain(this, "examSection");
 			var es = jar.examSection;
 			if(this.id.match(/title/)){
@@ -249,10 +249,10 @@ $(document).ready(function(){
 		});
 
 	$("#questions")
-		.delegate("input, textarea", "change", function(){
+		.delegate("input, textarea", "keyup", function(){
 			addQuestionIfNeeded( locateJarUpTheChain(this, "question") );
 		})
-		.delegate("input[type=checkbox]", "change", function(){
+		.delegate("input[type=checkbox]", "keyup", function(){
 			var es = getCurrSection();
 			var idx = getCurrDB().getQuestions().indexOf( locateJarUpTheChain(this, "question").question );
 			if(this.checked)
@@ -261,7 +261,7 @@ $(document).ready(function(){
 				es.removeFromList(idx);
 			$("#exam_sections .selected textarea:last").val( es.getList().join(",") );
 		})
-		.delegate("input[id*=_type_][type=radio]", "change", function(){
+		.delegate("input[id*=_type_][type=radio]", "keyup", function(){
 			var qJar = locateJarUpTheChain(this, "question");
 			var mc = !! this.id.match(/_mc/);
 			qJar.question.setMC( mc );
@@ -272,7 +272,7 @@ $(document).ready(function(){
 				$(qJar).find("fieldset.answers").css( {"display": "none"} );
 			}
 		})
-		.delegate(".question textarea.question-text", "change", function(){
+		.delegate(".question textarea.question-text", "keyup", function(){
 			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
 		.delegate(".question span.feedback", "mouseover", function(){
@@ -286,7 +286,7 @@ $(document).ready(function(){
 			$(this).removeClass("active");
 			$(this).next().focus();
 		})
-		.delegate(".question textarea.feedback", "change", function(){
+		.delegate(".question textarea.feedback", "keyup", function(){
 			locateJarUpTheChain(this, "answerSet").answerSet.setFeedback(this.value);
 		})
 		.delegate(".answers textarea.answer-list", "keyup", function(){
