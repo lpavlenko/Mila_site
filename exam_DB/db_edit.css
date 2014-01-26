@@ -181,22 +181,21 @@ fieldset[id^=jar_]>fieldset{
 }
 
 textarea.answer-list	{padding: 0px;}
-span.feedback{
-	margin-left: 0.4em;
-	color: #EEDDFF;
-}
 textarea.feedback{
-	display: none;
 	position: absolute;
+	z-index: 1;
+	width: 7em;
+	top: 3px;
+	min-height: 1em;
+	height: 1.3em;
+	left: 9em;
 }
 textarea.feedback.active{
-	display: block;
 	width: 110%;
 	height: 11em;
-	left: -2em;
 	top: -6.5em;
+	left: 0px;
 	background: #EFFFFF;
-	z-index: 1;
 }
 
 .correct-answer input[type=text]{

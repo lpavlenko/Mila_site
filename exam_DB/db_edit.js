@@ -272,16 +272,11 @@ $(document).ready(function(){
 		.delegate(".question textarea.question-text", "keyup", function(){
 			locateJarUpTheChain(this, "question").question.setText(this.value);
 		})
-		.delegate(".question span.feedback", "mouseover", function(){
-			var $ta = $(this).siblings("textarea.feedback");
-			$ta.addClass("active").focus();
-			if( locateJarUpTheChain(this, "answerSet").answerSet.getFeedback().length < 5 ){
-				$ta.select();
-			}
+		.delegate(".question textarea.feedback", "focusin", function(){
+			$(this).addClass("active");
 		})
-		.delegate(".question textarea.feedback", "mouseout", function(){
+		.delegate(".question textarea.feedback", "focusout", function(){
 			$(this).removeClass("active");
-			$(this).next().focus();
 		})
 		.delegate(".question textarea.feedback", "keyup", function(){
 			locateJarUpTheChain(this, "answerSet").answerSet.setFeedback(this.value);
@@ -436,8 +431,7 @@ function genDomOneAnswerSet(_idx, _as){
 				.addClass("grouped left-right correct-answer")
 				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer(), "A")
 		)
-		.append( $("<span>").addClass("feedback left-right").append("Feedback...") )
-		.append( $("<textarea>").addClass("feedback").val(_as.getFeedback()).attr("placeholder", strings.qa.text) )
+		.append( $("<textarea>").addClass("feedback").attr("placeholder", strings.qa.text).val(_as.getFeedback()) )
 		.append( $("<textarea>").addClass("answer-list").attr("placeholder", "One answer per line").val( _as.getList().join("\n") ) );
 
 	$answer[0].answerSet = _as;
