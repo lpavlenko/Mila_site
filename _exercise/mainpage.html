@@ -1,71 +1,97 @@
-<html>
+﻿<html>
 <head>
-<meta http-equiv="refresh" content="1">
+
 <style>
 	body{
-		background: rgb(52, 64, 150);
+		background: linear-gradient(to right, #CCCCCC, grey, #CCCCCC, grey, 	#CCCCCC, grey, 	#CCCCCC, grey, #CCCCCC);
+		border: 3px #3333AD solid;
 	}
 	.header{
 		height: 200px;
-		background: rgba(0, 0, 0, 0.4);
+		background: linear-gradient(to right, #3333AD, #000066, #3333AD, #000066, #3333AD);
 	}
+	
 	.main{
 		height: 45em;
-		background: rgba(65, 0, 0, 0.4);
+		background: #000066;
+		text-align: centre;
+		font-weight: 600;
+		font-size: 1.3em;
+		color: white
 	}
+	
 	.footer{
 		height: 60px;
-		background: rgba(0, 150, 0, 0.4);
+		background: linear-gradient(grey, white, grey);
 	}
 	.ad{
 		height: 200px;
-		background: rgba(0, 150, 150, 0.4);
+		background: linear-gradient(to right, #3333AD, #000066, #3333AD, #000066, #3333AD);
 	}
 	.logo{
 		float: left;
 		width: 20%;
 		height: 200px;
-		background: rgba(60, 150, 200, 0.4);
+		background: linear-gradient(grey, white, grey);
 	}
 	.jar-image-stripe{
 		float: left;
 		width: 80%;
 		height: 200px;
-		background: rgba(60, 150, 0, 0.4);
+		
 	}
 	.image-stripe{
 		height: 150px;
-		background: rgba(60, 50, 90, 0.4);
+		/*background: linear-gradient(to right, #3333AD, #000066, #3333AD, #000066, #3333AD);*/
 	}
-	.h-menu{
-		height: 50px;
-		background: rgba(0, 150, 90, 0.4);
+	
+	.menu{
+		-webkit-padding-start: 1px;
 	}
+	.menu li {
+		background: linear-gradient(grey, white, grey);
+		color: #3333AD;
+		padding: 0 0.3em;
+		border: 2px solid;
+	}
+	.hmenu li{
+		display: inline;
+		padding: 0.5em;
+		width:192px;
+		float: left;
+	}
+	
 	.main1{
 		float: left;
 		width: 20%;
 		height: 100%;
-		background: rgba(0, 250, 90, 0.4);
+		background: linear-gradient(to right,#000066, #3333AD, #000066);
 	}
+	.vmenu li {
+		padding: 0.5em;
+		display: block;
+	}
+	
 	.main2{
 		float: left;
 		width: 50%;
 		height: 100%;
-		background: rgba(0, 150, 190, 0.4);
+		background: radial-gradient(#3333AD, #000066);
 	}
 	.main3{
 		float: left;
 		width: 30%;
 		height: 100%;
-		background: rgba(200, 150, 90, 0.4);
+		
 	}
 	.content1{
 		height: 50%;
-		background: rgba(200, 150, 190, 0.4);
+		background: radial-gradient(#3333AD, #000066);
 	}
 	.content2{
 		height: 50%;
-		background: rgba(20, 150, 90, 0.4);
+		background: radial-gradient(#3333AD, #000066);
+		
 	}
 </style>
 </head>
@@ -74,15 +100,47 @@
 		<div class="logo"></div>
 		<div class="jar-image-stripe">
 			<div class="image-stripe"></div>
-			<div class="h-menu"></div>
+			
+			<div class="hmenu">
+				<ul class="menu hmenu">
+					<li><a href = "#">упражнения</a></li>
+					<li><a href = "#">грамматика</a></li>
+					<li><a href = "#">лексика</a></li>
+					<li><a href = "#">подсказки</a></li>
+					<li><a href = "#">контакты</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
-	<div class="main">
-		<div class="main1"></div>
-		<div class="main2"></div>
+		<div class="main">
+			<div class="main1">
+				<ul class="menu vmenu">
+					<li><a href = "#">Пражский экономический университет VŠE</a></li>
+					<li><a href = "#">Карлов университет в Праге UK</a></li>
+					<li><a href = "#">Чешский технический университет ČVÚT</a></li>
+					<li><a href = "#">Чешский аграрный университет ČZU </a></li>
+					<li><a href = "#">Технический университет в Брно VUT</a></li>
+					<li><a href = "#">Столичный университет MUP</a></li>
+				</ul>
+			</div>
+			<div class="main2">
+				<h> О сайте </h>
+					<p>
+					На этом сайте вы можете подготовиться к сдаче вступительного экзамена по английскому языку в самые знаменитые чешские вузы. На сайте собрано в общей сложности около 20 тестов прошлых лет и 60 тренировочных упражнений для успешной сдачи вступительного экзамена в выбрнный вуз.
+					</p>
+		</div>
 		<div class="main3">
-			<div class="content1"></div>
-			<div class="content2"></div>
+			<div class="content1">
+					<h> О сайте</h>
+				<p>
+					На этом сайте вы можете подготовиться к сдаче вступительного экзамена по английскому языку в самые знаменитые чешские вузы. На сайте собрано в общей сложности около 20 тестов прошлых лет и 60 тренировочных упражнений для успешной сдачи вступительного экзамена в выбрнный вуз.
+				</p>
+			</div>
+			<div class="content2">
+				<p>
+					На этом сайте вы можете подготовиться к сдаче вступительного экзамена по английскому языку в самые знаменитые чешские вузы. На сайте собрано в общей сложности около 20 тестов прошлых лет и 60 тренировочных упражнений для успешной сдачи вступительного экзамена в выбрнный вуз.
+				</p>
+			</div>
 		</div>
 	</div>
 	<div class="footer"></div>
