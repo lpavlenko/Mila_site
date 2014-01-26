@@ -258,7 +258,7 @@ $(document).ready(function(){
 				es.removeFromList(idx);
 			$("#exam_sections .selected textarea:last").val( es.getList().join(",") );
 		})
-		.delegate("input[id*=_type_][type=radio]", "keyup", function(){
+		.delegate("input[id*=_type_][type=radio]", "change", function(){
 			var qJar = locateJarUpTheChain(this, "question");
 			var mc = !! this.id.match(/_mc/);
 			qJar.question.setMC( mc );
