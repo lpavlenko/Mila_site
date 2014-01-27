@@ -210,7 +210,7 @@ $(document).ready(function(){
 			// as a nice side-effect this causes the redraw even if we click on the selected exam
 			renderExam( getCurrExam() );
 		})
-		.delegate("input[type=text]", "keyup", function(){
+		.delegate("input[type=text]", "change", function(){
 			updateCurrExamTitle(this.value);
 		});
 
@@ -246,10 +246,10 @@ $(document).ready(function(){
 		});
 
 	$("#questions")
-		.delegate("input, textarea", "keyup", function(){
+		.delegate("input, textarea", "change", function(){
 			addQuestionIfNeeded( locateJarUpTheChain(this, "question") );
 		})
-		.delegate("input[type=checkbox]", "keyup", function(){
+		.delegate("input[type=checkbox]", "change", function(){
 			var es = getCurrSection();
 			var idx = getCurrDB().getQuestions().indexOf( locateJarUpTheChain(this, "question").question );
 			if(this.checked)
