@@ -183,7 +183,7 @@ $(document).ready(function(){
 	renderDB( DBs[ makeSafeFname(dbList[0]) ] );
 
 	$("body")
-		.delegate("input, select, textarea", "keyup", scheduleSaveExam);
+		.delegate("input, select, textarea", "keyup, change", scheduleSaveExam);
 
 	$("#db_list")
 		.delegate("input[type=radio]", "change", function(){
