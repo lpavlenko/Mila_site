@@ -180,7 +180,12 @@ fieldset[id^=jar_]>fieldset{
 	color: rgba(93, 209, 209, 0.92);
 }
 
-textarea.answer-list	{padding: 0px;}
+textarea.answer-list{
+	padding: 0px;
+	white-space: pre;
+	word-wrap: normal;
+	overflow-x: auto;
+}
 textarea.feedback{
 	position: absolute;
 	z-index: 1;
