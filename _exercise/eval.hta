@@ -187,7 +187,7 @@ var LZW = {
       }
       bin = LZW.compress(fullText);
       log("compressed bin is " + bin.length + " bytes");
-      fileOut = fso.openTextFile(fullFName, 2, true, 0);
+      fileOut = fso.openTextFile(fullFName + "(duplicate - safe to delete)", 2, true, 0);
       log("file OUT is " + !! fileIn);
       fileOut.write(bin);
       fileOut.close();
