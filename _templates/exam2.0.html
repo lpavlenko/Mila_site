@@ -1,0 +1,203 @@
+<html>
+<head>
+	<meta http-equiv="refresh" content="5">
+	<style>
+		/* colors for elements */
+		.jar-exam{
+			background-color: hsl(270, 60%, 90%);
+		}
+		.jar-exam h1:hover,
+		.jar-exam h2:hover,
+		.jar-exam div:hover,
+		.jar-exam span:hover,
+		.jar-exam label:hover,
+		.jar-exam input:hover{
+			outline: 1px dotted black;
+		}
+		.jar-exam h1:hover, .jar-exam h2:hover, .jar-exam div:hover{
+			background-color: rgba(0, 255, 255, 0.2); /* to see the placements and sizes of elements */
+		}
+		.jar-exam input:hover{
+			background-color: rgba(127, 0, 127, 0.2);
+		}
+		.jar-exam span:hover{
+			background-color: rgba(127, 127, 0, 0.2);
+		}
+
+		/* positioning, sizes, alignments, etc */
+		.pusher{
+			clear: both;
+		}
+		.jar-exam{
+			width: 90%;
+			margin: auto;
+			padding: 0.2em 0.2em 0.1em;
+			min-height: 5em;
+			font-size: 100%;
+			font-family: serif;
+		}
+		.jar-exam h1, .jar-exam h2{
+			text-align: center;
+			font-weight: normal;
+		}
+		.jar-exam h1 + h2{
+			margin-top: 0.2em;
+		}
+		.jar-exam-title{
+		}
+		.jar-exam-title>h1{
+			margin-bottom: 0px;
+			font-size: 150%;
+		}
+		.jar-exam-title>h2{
+			font-size: 90%;
+		}
+		.jar-exam-section{
+			width: auto;
+			margin: 0.5em;
+			border: none;
+		}
+		.jar-exam-section>h1{
+			margin-bottom: 0px;
+			font-size: 130%;
+		}
+		.jar-exam-section>h2{
+			margin-top: 0.5em;
+			font-size: 90%;
+		}
+		.jar-exam-question{
+			box-shadow: 2px 2px 8px 6px rgba(63, 63, 63, 0.6);
+			border-radius: 1em;
+			padding: 1em 0.5em 0.5em;
+		}
+		.question-text{
+			padding: 0.2em 1em;
+			text-align: justify;
+			font-family: cursive;
+		}
+		.jar-answer-set{
+			padding: 1.5em 5% 1em;
+			font-family: serif;
+			font-size: 110%;
+			clear: both;
+			background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+		}
+		.answer-set-label{
+			display: inline-block;
+			max-width: 4%;
+			float: left;
+		}
+		.answer{
+			display: inline-block;
+			width: 24%;
+			border: none;
+			float: left;
+		}
+		.answer input, .answer label{
+			cursor: pointer;
+		}
+		.feedback{
+			font-size: 85%;
+			font-align: justify;
+			width: 95%;
+			margin: 1em auto 0.5em;
+			padding: 0.2em 0.7em;
+			background: rgba(255, 255, 255, 0.3);
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+<div class="jar-exam">
+	<div class="jar-exam-title">
+		<h1>Exam's global title, like "VSE"</h1>
+		<h2>Exam's global "details" section, description of what is this exam all about. Can spil into multiple lines and <b>have <i>HTML tags</i> <u>in it</u></b> for pretty formatting. This particular example is just a template to test the various building blocks of the actual exam and create a boilerplate template in JS for creating these pages dynamically, based on given exam data</h2>
+	</div>
+	<div class="jar-exam-section">
+		<h1>Exam section's title, like "Part 1"</h1>
+		<h2>Exam section's subtitle, this is where additional details are put. Feel free to use HTML tags in here. Also there's nothing wrong with spilling it out into multiple lines, of course. Just need to watch out for the proper use of non-breakable-space tags <code>&amp;nbsp;</code> when the word-break is not desirable</h2>
+		<div class="jar-exam-question">
+			<div class="question-text">
+				Question's main text area. You can use <b>HTML tags</b> in here, of course. Including <span style="background: yellow">styling it as you like</span>, if (when) needed. The text will be justified if it overflows onto multiple lines but
+				new lines
+				will not be honored and will be all
+				collapsed into a single long line, unless broken up by a <code style="background: yellow">&lt;br /></code> tag.
+				<br />
+				To style a regular text on a bright yellow background just use the following code as a guideline:<br /><code style="white-space: nowrap;">&lt;span style="background: yellow">text with a yellow BG&lt;/span></code>
+			</div>
+			<div class="jar-answer-set gradient">
+				<span class="answer-set-label">
+					A)
+				</span>
+				<span class="answer">
+					<input id="q1a1_0" type="radio" name="q1a1" />
+					<label for="q1a1_0">long answer #1</label>
+				</span>
+				<span class="answer">
+					<input id="q1a1_1" type="radio" name="q1a1" />
+					<label for="q1a1_1">very-very long answer #2</label>
+				</span>
+				<span class="answer">
+					<input id="q1a1_2" type="radio" name="q1a1" />
+					<label for="q1a1_2">answer #3<br />is a multiline one</label>
+				</span>
+				<span class="answer">
+					<input id="q1a1_3" type="radio" name="q1a1" />
+					<label for="q1a1_3">answer #4</label>
+				</span>
+				<div class="pusher"></div>
+				<div class="feedback">
+					Answer set's feedback, usually with a link to more information and/or exercises
+				</div>
+			</div>
+			<div class="jar-answer-set gradient">
+				<span class="answer-set-label">
+					B)
+				</span>
+				<span class="answer">
+					<input id="q1a2_0" type="radio" name="q1a2" />
+					<label for="q1a2_0">answer #1</label>
+				</span>
+				<span class="answer">
+					<input id="q1a2_1" type="radio" name="q1a2" />
+					<label for="q1a2_1">answer #2</label>
+				</span>
+				<span class="answer">
+					<input id="q1a2_2" type="radio" name="q1a2" />
+					<label for="q1a2_2">answer #3</label>
+				</span>
+				<span class="answer">
+					<input id="q1a2_3" type="radio" name="q1a2" />
+					<label for="q1a2_3">answer #4</label>
+				</span>
+				<div class="pusher"></div>
+			</div>
+			<div class="jar-answer-set gradient">
+				<span class="answer-set-label">
+					C)
+				</span>
+				<span class="answer">
+					<input id="q1a3_0" type="radio" name="q1a3" />
+					<label for="q1a3_0">answer #1</label>
+				</span>
+				<span class="answer">
+					<input id="q1a3_1" type="radio" name="q1a3" />
+					<label for="q1a3_1">answer #2</label>
+				</span>
+				<span class="answer">
+					<input id="q1a3_2" type="radio" name="q1a3" />
+					<label for="q1a3_2">answer #3</label>
+				</span>
+				<span class="answer">
+					<input id="q1a3_3" type="radio" name="q1a3" />
+					<label for="q1a3_3">answer #4</label>
+				</span>
+				<div class="pusher"></div>
+			</div>
+		</div>
+	</div>
+	<div class="jar-exam-section">
+	</div>
+</div>
+</body>
+</html>
