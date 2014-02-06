@@ -435,6 +435,17 @@ ExamSection.prototype.setDescr = function(_str){
 	return this;
 }
 
+ExamSection.prototype.dom = function(_qs){
+	var $jar = $("<div>").addClass("jar-exam-section");
+	$jar.append( $("<h1>").append( EOL2BR(this.getTitle()) ) );
+	$jar.append( $("<h2>").append( EOL2BR(this.getDescr()) ) );
+	for(var i in this.list){
+		var q = _qs[ this.list[i] ];
+		$jar.append( q.dom(i) );
+	}
+	return $jar;
+}
+
 /**************************************************************
 	Exam Questions could be used more than in one exam
 ***************************************************************/
@@ -485,6 +496,17 @@ ExamQuestion.prototype.setMC = function(_b){
 ExamQuestion.prototype.getAnswers = function(){
 	return this.answers;
 }
+ExamQuestion.prototype.dom = function(_idx){
+	var $jar = $("<div>").addClass("jar-exam-question");
+	$jar.append( $("<div>").addClass("question-text").html("#" + (+_idx+1) + ": " + this.text) );
+	if(this.mc){
+		for(var i in this.answers){
+			if(this.answers[i].getList().length)
+				$jar.append( this.answers[i].dom(i) );
+		}
+	}
+	return $jar;
+}
 
 /**************************************************************
 	List of possible answers to a question
@@ -526,6 +548,24 @@ ExamQuestionAnswerSet.prototype.getFeedback = function(){
 ExamQuestionAnswerSet.prototype.setFeedback = function(_fb){
 	this.feedback = _fb;
 	return this;
+}
+ExamQuestionAnswerSet.prototype.dom = function(_label){
+	var $jar = $("<div>").addClass("jar-answer-set");
+	$jar.append( $("<span>").addClass("answer-set-label").append((+_label+1)+")") );
+	var name = "qas_" + Math.random();
+	for(var i in this.list){
+		var $a = $("<span>").addClass("answer");
+		$a.append( $("<input>").attr({
+			"id": name + i,
+			"type": "radio",
+			"name": name
+		})
+		)
+		.append( $("<label>").attr("for", name + i).text(this.list[i]) );
+		$jar.append( $a );
+	}
+	$jar.append( $("<div>").addClass("pusher") );
+	return $jar;
 }
 
 /**************************************************************

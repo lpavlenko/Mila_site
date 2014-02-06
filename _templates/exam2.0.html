@@ -8,6 +8,10 @@
 		.jar-exam{
 			background-color: hsl(270, 60%, 90%);
 		}
+		.jar-exam-title{
+			background-color: rgba(255, 255, 255, 0.2);
+		}
+		/*
 		.jar-exam h1:hover,
 		.jar-exam h2:hover,
 		.jar-exam div:hover,
@@ -17,7 +21,7 @@
 			outline: 1px dotted black;
 		}
 		.jar-exam h1:hover, .jar-exam h2:hover, .jar-exam div:hover{
-			background-color: rgba(0, 255, 255, 0.2); /* to see the placements and sizes of elements */
+			background-color: rgba(0, 255, 255, 0.2);
 		}
 		.jar-exam input:hover{
 			background-color: rgba(127, 0, 127, 0.2);
@@ -25,6 +29,7 @@
 		.jar-exam span:hover{
 			background-color: rgba(127, 127, 0, 0.2);
 		}
+		*/
 
 		/* positioning, sizes, alignments, etc */
 		.pusher{
@@ -47,6 +52,7 @@
 			margin-top: 0.2em;
 		}
 		.jar-exam-title{
+			padding: 0.5em;
 		}
 		.jar-exam-title>h1{
 			margin-bottom: 0px;
@@ -72,6 +78,7 @@
 			box-shadow: 2px 2px 8px 6px rgba(63, 63, 63, 0.6);
 			border-radius: 1em;
 			padding: 1em 0.5em 0.5em;
+			margin: 1em auto;
 		}
 		.question-text{
 			padding: 0.2em 1em;
@@ -128,7 +135,14 @@
 				$jar.empty();
 				$jar.addClass("jar-exam");
 				if(val >= 0){
-					$jar.append(gDB.getExams()[val].domHeader());
+					var exam = gDB.getExams()[val];
+					$jar.append(exam.domHeader());
+					var questions = gDB.getQuestions();
+					var sections = exam.getSections();
+					for(var i in sections){
+						var $section = sections[i].dom(questions);
+						$jar.append( $section );
+					}
 				}
 			});
 
@@ -188,7 +202,7 @@
 				<br />
 				To style a regular text on a bright yellow background just use the following code as a guideline:<br /><code style="white-space: nowrap;">&lt;span style="background: yellow">text with a yellow BG&lt;/span></code>
 			</div>
-			<div class="jar-answer-set gradient">
+			<div class="jar-answer-set">
 				<span class="answer-set-label">
 					A)
 				</span>
@@ -213,7 +227,7 @@
 					Answer set's feedback, usually with a link to more information and/or exercises
 				</div>
 			</div>
-			<div class="jar-answer-set gradient">
+			<div class="jar-answer-set">
 				<span class="answer-set-label">
 					B)
 				</span>
@@ -235,7 +249,7 @@
 				</span>
 				<div class="pusher"></div>
 			</div>
-			<div class="jar-answer-set gradient">
+			<div class="jar-answer-set">
 				<span class="answer-set-label">
 					C)
 				</span>
