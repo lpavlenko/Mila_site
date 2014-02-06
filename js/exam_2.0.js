@@ -6,18 +6,17 @@
 	Some common-code utilities. Specifically:
 	- LZW compression/decompression
 */
-
-arr2B64 = function(_arr){
-	for(rez = "", i = 0; i < _arr.length; ++i) {rez += String.fromCharCode(_arr[i]);}
-	return window.btoa(unescape(encodeURIComponent( rez )));
-}
-b642Arr = function(_str){
-	_str = decodeURIComponent(escape(window.atob( _str )));
-	for(rez = [], i = 0; i < _str.length; ++i) {rez.push(_str.charCodeAt(i));}
-	return rez;
-}
-
 var LZW = {
+	arr2Str: function(_arr){
+		for(var rez = "", i = 0; i < _arr.length; ++i) {rez += String.fromCharCode(_arr[i]);}
+		return window.btoa(unescape(encodeURIComponent( rez )));
+	},
+	str2Arr: function(_str){
+		_str = decodeURIComponent(escape(window.atob( _str )));
+		for(rez = [], i = 0; i < _str.length; ++i) {rez.push(_str.charCodeAt(i));}
+		return rez;
+	},
+
     compress: function (uncompressed){
         "use strict";
         var i, c, wc, w = "", dictionary = {}, result = [], dictSize = 256;
@@ -36,12 +35,12 @@ var LZW = {
             }
         }
         if(w !== "") {result.push(dictionary[w]);}
-        return arr2B64( result );
+        return this.arr2Str( result );
     },
  
     decompress: function (compressed){
         "use strict";
-		compressed = b642Arr( compressed );
+		compressed = this.str2Arr( compressed );
         var i, w, result, k, entry = "", dictionary = [], dictSize = 256;
         for(i = 0; i < 256; i += 1) {dictionary[i] = String.fromCharCode(i);}
  
@@ -98,6 +97,23 @@ function numericArray(_arr){
 	}
 }
 
+function loadExamDB(_uri, _success){
+	if($ === undefined)
+		return;
+
+	var jqxhr = $.get(_uri, function(_data, _textStatus, _jqXHR){
+		var db = new ExamDB(_uri);
+		db.load( LZW.decompress(_data) );
+		if( _success && typeof _success === 'function'){
+			_success(db);
+		}
+	})
+	.fail(function(){alert("Error loading exam DB. Most probable cause is that you are running the HTML file from local file system. This will no longer work - you HAVE to run it in a real web server.");})
+	.always(function(){});
+
+//	jqxhr.done(function(){alert("Success loading exam DB");});
+}
+
 /**************************************************************
 	ExamDB is a file with all the exams for one DB
 ***************************************************************/
@@ -119,19 +135,16 @@ ExamDB.list = function(){
 	var rez = [];
 	try{
 		var fso = new ActiveXObject("Scripting.FileSystemObject");
-		var path = "./";
-		var folder = fso.getFolder(path);
-		var files = new Enumerator(folder.files);
+		var files = new Enumerator( fso.getFolder("./").files );
 		for(; !files.atEnd(); files.moveNext()){
-			var ext = fso.getExtensionName(files.item());
-			if(ext === ExamDB.suffix){
-				var fname = fso.getBaseName(files.item());
-				rez.push( fname );
+			var file = files.item();
+			if(fso.getExtensionName(file) === ExamDB.suffix){
+				rez.push( fso.getBaseName(file) );
 			}
 		}
-		rez = rez.sort();
 		if(rez.length < 1)
 			throw "No DB files found";
+		rez = rez.sort();
 	}catch(_e){
 		alert(_e);
 		rez.push(ExamDB.defaultName);
@@ -173,14 +186,14 @@ ExamDB.prototype.toString = function(){
 	// temporarily break up the circular references to allow for JSON's stringification
 	for(i = 0; i < this.exams.length; ++i)
 		delete this.exams[i].db;
-	var str = JSON.stringify(this);
-	// re-introduce the circular references back in the hierarchy
+
+	var str = LZW.compress( JSON.stringify(this) );
+
+	// re-introduce the circular references back into the hierarchy
 	for(i = 0; i < this.exams.length; ++i)
 		this.exams[i].db = this;
 
-	var data = LZW.compress(str);
-
-	return data;
+	return str;
 }
 
 ExamDB.prototype.save = function(){
@@ -188,11 +201,9 @@ ExamDB.prototype.save = function(){
 		if( ! this.fname )
 			return false;
 
-		var data = this.toString();
-		var fname = this.makeFullFName();
 		var fso = new ActiveXObject("Scripting.FileSystemObject");
-		var fileOut = fso.openTextFile(fname, 2, true, 0);
-		fileOut.write(data);
+		var fileOut = fso.openTextFile(this.makeFullFName(), 2, true, 0);
+		fileOut.write( this.toString() );
 		fileOut.close();
 		delete fileOut;
 		return true;
@@ -262,10 +273,6 @@ ExamDB.prototype.changeFname = function(_fname){
 	}*/
 	this.save();
 	return this;
-}
-
-ExamDB.prototype.getExams = function(){
-	return this.exams;
 }
 
 /**************************************************************
@@ -474,7 +481,7 @@ ExamQuestion.prototype.getAnswers = function(){
 function ExamQuestionAnswerSet(){
 	this.list = [];
 	this.correct = "";	// index to the correct asnwer
-	this.feedback = "";	// text (HTML) to show if the answer is incorrect
+	this.feedback = "";	// text (HTML) to show when the answer is incorrect
 	
 	return this;
 }
@@ -509,3 +516,8 @@ ExamQuestionAnswerSet.prototype.setFeedback = function(_fb){
 	this.feedback = _fb;
 	return this;
 }
+
+/**************************************************************
+	Generators of HTML elements representing the exam
+***************************************************************/
+var Exam;

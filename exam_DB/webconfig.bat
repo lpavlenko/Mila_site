@@ -1,0 +1,1 @@
+%windir%\system32\inetsrv\appcmd set config /section:staticContent /+"[fileExtension='.edb',mimeType='text/plain']"

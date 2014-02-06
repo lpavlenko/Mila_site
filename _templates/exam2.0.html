@@ -1,6 +1,8 @@
 <html>
 <head>
-	<meta http-equiv="refresh" content="5">
+	<!--meta http-equiv="refresh" content="5"-->
+	<script src="../js/jquery-2.0.3.min.js"></script>
+	<script src="../js/exam_2.0.js"></script>
 	<style>
 		/* colors for elements */
 		.jar-exam{
@@ -106,6 +108,54 @@
 			clear: both;
 		}
 	</style>
+
+	<script>
+		var dbPath = "../exam_DB/";
+		var promptText = "Select one";
+		var DBs = [promptText, "_test", "exercise", "Univerzita_Karlova", "VSE0", "VUT_v_Brne"];
+		var gDB = {"qwer": "ty"};
+		$(document).ready(function(){
+			$("#DBs").change(function(){
+				var val = $(this).val();
+				if(val === promptText)
+					return;
+				loadExamDB(dbPath + val + "." + ExamDB.suffix, loadedNewDB);
+			});
+			$("#exams").change(function(){
+				var val = $(this).val();
+				//var $jar = $("#generated");
+				//var $dom = gDB.genDom();
+			});
+
+			populateDBList();
+		});
+		function loadedNewDB(_db){
+			delete gDB;
+			gDB = _db;
+			populateExamList();
+		}
+		function populateDBList(){
+			var $sel = $("#DBs");
+			for(var i in DBs){
+				$sel.append( $("<option>").append(DBs[i]) );
+			}
+		}
+		function addExamToList(_idx, _title){
+			$("#exams").append( $("<option>").val(_idx).append(_title) );
+		}
+		function populateExamList(){
+			var $sel = $("#exams");
+			$sel.empty();
+			addExamToList(-1, promptText);
+			var exams = gDB.getExams();
+			for(var i in exams){
+				var title = exams[i].getTitle();
+				if(title){
+					addExamToList(i, title);
+				}
+			}
+		}
+	</script>
 </head>
 <body>
 <div class="jar-exam">
@@ -198,6 +248,12 @@
 	</div>
 	<div class="jar-exam-section">
 	</div>
+</div>
+<label for="DBs">load DB:</label>
+<select id="DBs"></select>
+<label for="exams">exam:</label>
+<select id="exams"></select>
+<div id="generated">
 </div>
 </body>
 </html>
