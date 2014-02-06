@@ -63,6 +63,10 @@ var LZW = {
     comp = LZW.compress("TOBEORNOTTOBEORTOBEORNOT"),
     decomp = LZW.decompress(comp);
 
+// replace new-line characters with <br /> HTML tags
+function EOL2BR(_str){
+	return _str.replace(/\n/g, "<br />");
+}
 
 // check if this (and all sub-objects) have no data to speak of
 function isEmpty(_obj){
@@ -363,6 +367,13 @@ Exam.prototype.setMisc = function(_str){
 
 Exam.prototype.setDescr = function(_str){
 	return this.descr = _str;
+}
+
+Exam.prototype.domHeader = function(){
+	var $jar = $("<div>").addClass("jar-exam-title");
+	$jar.append( $("<h1>").append( EOL2BR(this.getTitle()) ) );
+	$jar.append( $("<h2>").append( EOL2BR(this.getDescr()) ) );
+	return $jar;
 }
 
 /**************************************************************

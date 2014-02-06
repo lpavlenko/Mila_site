@@ -39,6 +39,7 @@
 			font-family: serif;
 		}
 		.jar-exam h1, .jar-exam h2{
+			/*white-space: pre;*/
 			text-align: center;
 			font-weight: normal;
 		}
@@ -123,8 +124,12 @@
 			});
 			$("#exams").change(function(){
 				var val = $(this).val();
-				//var $jar = $("#generated");
-				//var $dom = gDB.genDom();
+				var $jar = $("#generated");
+				$jar.empty();
+				$jar.addClass("jar-exam");
+				if(val >= 0){
+					$jar.append(gDB.getExams()[val].domHeader());
+				}
 			});
 
 			populateDBList();
@@ -154,10 +159,18 @@
 					addExamToList(i, title);
 				}
 			}
+			$sel.trigger("change");
 		}
 	</script>
 </head>
 <body>
+<label for="DBs">load DB:</label>
+<select id="DBs"></select>
+<label for="exams">exam:</label>
+<select id="exams"></select>
+<div id="generated">
+</div>
+<hr />
 <div class="jar-exam">
 	<div class="jar-exam-title">
 		<h1>Exam's global title, like "VSE"</h1>
@@ -248,12 +261,6 @@
 	</div>
 	<div class="jar-exam-section">
 	</div>
-</div>
-<label for="DBs">load DB:</label>
-<select id="DBs"></select>
-<label for="exams">exam:</label>
-<select id="exams"></select>
-<div id="generated">
 </div>
 </body>
 </html>
