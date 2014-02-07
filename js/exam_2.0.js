@@ -376,6 +376,18 @@ Exam.prototype.domHeader = function(){
 	return $jar;
 }
 
+Exam.prototype.runCheck = function( _$jar ){
+	var $sections = _$jar.find(".jar-exam-section");
+	var correctCount = 0;
+	var totalCount = 0;
+	for(var i = 0; i < $sections.length; ++i){
+		var dom = $sections[i];
+		correctCount += dom.examSection.runCheck( dom );
+		totalCount += dom.examSection.getList().length;
+	}
+	return {correct: correctCount, total: totalCount};
+}
+
 /**************************************************************
 	One exam can have multiple sections, each with it's
 	title/description and a lsit of questions (from general
@@ -443,7 +455,20 @@ ExamSection.prototype.dom = function(_qs){
 		var q = _qs[ this.list[i] ];
 		$jar.append( q.dom(i) );
 	}
+	$jar[0].examSection = this;
 	return $jar;
+}
+
+ExamSection.prototype.runCheck = function( _jar ){
+	var $questions = $(_jar).find(".jar-exam-question");
+	var correctCount = 0;
+	for(var i = 0; i < $questions.length; ++i){
+		var dom = $questions[i];
+		if( dom.examQuestion.runCheck( dom ) ){
+			++correctCount
+		}
+	}
+	return correctCount;
 }
 
 /**************************************************************
@@ -501,11 +526,22 @@ ExamQuestion.prototype.dom = function(_idx){
 	$jar.append( $("<div>").addClass("question-text").html("#" + (+_idx+1) + ": " + this.text) );
 	if(this.mc){
 		for(var i in this.answers){
-			if(this.answers[i].getList().length)
+			if( ! isEmpty(this.answers[i]) )
 				$jar.append( this.answers[i].dom(i) );
 		}
 	}
+	$jar[0].examQuestion = this;
 	return $jar;
+}
+
+ExamQuestion.prototype.runCheck = function( _jar ){
+	var $as = $(_jar).find(".jar-answer-set");
+	var allCorrect = true;
+	for(var i = 0; i < $as.length; ++i){
+		var dom = $as[i];
+		allCorrect &= dom.examAnswerSet.runCheck( dom );
+	}
+	return allCorrect;
 }
 
 /**************************************************************
@@ -554,18 +590,51 @@ ExamQuestionAnswerSet.prototype.dom = function(_label){
 	$jar.append( $("<span>").addClass("answer-set-label").append((+_label+1)+")") );
 	var name = "qas_" + Math.random();
 	for(var i in this.list){
+		if( ! this.list[i] ){
+			continue;	// skip empty answers
+		}
 		var $a = $("<span>").addClass("answer");
-		$a.append( $("<input>").attr({
-			"id": name + i,
-			"type": "radio",
-			"name": name
-		})
-		)
-		.append( $("<label>").attr("for", name + i).text(this.list[i]) );
-		$jar.append( $a );
+		var $t = $("<table>");
+		var $radio = $("<input>").attr({
+							"id": name + i,
+							"type": "radio",
+							"name": name
+						});
+		$radio[0].examAnswerIdx = +i + 1;
+		$t.append(
+			$("<tr>")
+				.append( $("<td>").append( $radio ) )
+				.append(
+					$("<td>")
+						.append(
+							$("<label>")
+							.attr("for", name + i)
+							.text(this.list[i])
+						)
+				)
+		);
+		$jar.append( $a.append( $t ) );
 	}
 	$jar.append( $("<div>").addClass("pusher") );
+	if( this.feedback ){
+		$jar.append( $("<div>").addClass("feedback").html(this.feedback) );
+	}
+	$jar[0].examAnswerSet = this;
+	$jar[0].rbName = name;	// so that later on we can find our radiobuttons :)
 	return $jar;
+}
+
+// check the answer and return true/false - the result of the check
+ExamQuestionAnswerSet.prototype.runCheck = function( _jar ){
+	var rbName = _jar.rbName;
+	var $selected = $(_jar).find("input[type=radio]:checked");
+	var idx = $selected[0] && $selected[0].examAnswerIdx || -1;
+	var correct = ( idx === +this.correct );
+	var $feedback = $(_jar).find(".feedback");
+	$feedback.css("display", (correct ? "none" : "block") );
+	$(_jar).removeClass("correct wrong");
+	$(_jar).addClass( correct ? "correct" : "wrong" );
+	return correct;
 }
 
 /**************************************************************

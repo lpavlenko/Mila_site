@@ -53,6 +53,8 @@
 		}
 		.jar-exam-title{
 			padding: 0.5em;
+			border-radius: 1.7em;
+			box-shadow: 0 0 2em -0.5em black inset;
 		}
 		.jar-exam-title>h1{
 			margin-bottom: 0px;
@@ -75,8 +77,9 @@
 			font-size: 90%;
 		}
 		.jar-exam-question{
-			box-shadow: 2px 2px 8px 6px rgba(63, 63, 63, 0.6);
-			border-radius: 1em;
+			/*box-shadow: 2px 2px 8px 6px rgba(63, 63, 63, 0.6);*/
+			box-shadow: 0 0 3em -1em rgba(63, 63, 63, 0.6) inset;
+			/*border-radius: 1em;*/
 			padding: 1em 0.5em 0.5em;
 			margin: 1em auto;
 		}
@@ -86,11 +89,18 @@
 			font-family: cursive;
 		}
 		.jar-answer-set{
-			padding: 1.5em 5% 1em;
+			padding: 0.5em 5% 1em;
+			margin-top: 1em;
 			font-family: serif;
 			font-size: 110%;
 			clear: both;
 			background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+		}
+		.jar-answer-set.wrong{
+			outline: 1px solid red;
+		}
+		.jar-answer-set.correct{
+			outline: 1px solid green;
 		}
 		.answer-set-label{
 			display: inline-block;
@@ -102,18 +112,23 @@
 			width: 24%;
 			border: none;
 			float: left;
+			background: linear-gradient(to right, rgba(127, 127, 127, 0.1), rgba(0, 0, 0, 0.1));
 		}
 		.answer input, .answer label{
 			cursor: pointer;
 		}
+		.answer td{
+			vertical-align: top;
+		}
 		.feedback{
 			font-size: 85%;
-			font-align: justify;
+			text-align: justify;
 			width: 95%;
 			margin: 1em auto 0.5em;
 			padding: 0.2em 0.7em;
 			background: rgba(255, 255, 255, 0.3);
 			clear: both;
+			display: none;
 		}
 	</style>
 
@@ -140,8 +155,21 @@
 					var questions = gDB.getQuestions();
 					var sections = exam.getSections();
 					for(var i in sections){
-						var $section = sections[i].dom(questions);
-						$jar.append( $section );
+						if( ! isEmpty( sections[i] ) ){
+							var $section = sections[i].dom(questions);
+							$jar.append( $section );
+						}
+					}
+					{
+						var $b = $("<button>");
+						var $stats = $("<span>");
+						$b.click(function(){
+							var stats = exam.runCheck( $jar );
+							var msg = stats.correct + "/" + stats.total;
+							$stats.text(msg);
+						});
+						$b.append("Check answers");
+						$jar.append( $b ).append( $stats );
 					}
 				}
 			});
