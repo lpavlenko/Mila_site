@@ -595,25 +595,25 @@ ExamQuestionAnswerSet.prototype.dom = function(_label){
 		}
 		var $a = $("<span>").addClass("answer");
 		var $t = $("<table>");
-		var $radio = $("<input>").attr({
-							"id": name + i,
-							"type": "radio",
-							"name": name
-						});
+		var $radio = $("<input>").attr({"id": name + i, "type": "radio", "name": name});
+		var $label = $("<label>").attr("for", name + i);//.text( this.list[i] );
 		$radio[0].examAnswerIdx = +i + 1;
-		$t.append(
+/*		$t.append(
 			$("<tr>")
 				.append( $("<td>").append( $radio ) )
-				.append(
-					$("<td>")
-						.append(
-							$("<label>")
-							.attr("for", name + i)
-							.text(this.list[i])
-						)
-				)
+				.append( $("<td>").append( $label ) )
 		);
-		$jar.append( $a.append( $t ) );
+		$jar.append( $a.append( $t ) );*/
+		$jar.append( $a.append(
+			$label.append(
+				$t.append(
+					$("<tr>")
+						.append( $("<td>").append( $radio ) )
+						.append( $("<td>").text( this.list[i] ) )
+					)
+				)
+			)
+		);
 	}
 	$jar.append( $("<div>").addClass("pusher") );
 	if( this.feedback ){
