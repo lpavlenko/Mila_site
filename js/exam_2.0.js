@@ -574,6 +574,9 @@ ExamQuestionAnswerSet.prototype.setList = function(_str, _delim){
 ExamQuestionAnswerSet.prototype.getCorrectAnswer = function(){
 	return this.correct;
 }
+ExamQuestionAnswerSet.prototype.getCorrectAnswerAsChar = function(){
+	return this.correct !== "" ? String.fromCharCode(64 + this.correct) : "";
+}
 ExamQuestionAnswerSet.prototype.setCorrectAnswer = function(_idx){
 	this.correct = _idx;
 	return this;

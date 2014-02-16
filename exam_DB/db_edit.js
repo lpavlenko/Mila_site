@@ -429,7 +429,7 @@ function genDomOneAnswerSet(_idx, _as){
 		.append(
 			$("<span>")
 				.addClass("grouped left-right correct-answer")
-				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswer(), "A")
+				.appendTextInputWithLabel("", "Correct#:", _as.getCorrectAnswerAsChar(), "A")
 		)
 		.append( $("<textarea>").addClass("feedback").attr("placeholder", strings.qa.text).val(_as.getFeedback()) )
 		.append( $("<textarea>").addClass("answer-list").attr("placeholder", "One answer per line").val( _as.getList().join("\n") ) );
